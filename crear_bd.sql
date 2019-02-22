@@ -19,7 +19,7 @@ CREATE TABLE IF NOT EXISTS `tbl_usuario` (
 	`apellido_usuario` varchar(255) DEFAULT NULL,
 	`grupo_usuario` enum('usuario','administrador') DEFAULT NULL,
 PRIMARY KEY (`id_usuario`)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 
 -- --------------------------------------------------------
