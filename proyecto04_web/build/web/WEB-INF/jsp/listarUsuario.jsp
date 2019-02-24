@@ -7,18 +7,19 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<!DOCTYPE html>
-<jsp:include page="/WEB-INF/jsp/head.jsp" />
 
-    <body>
-        <jsp:include page="/WEB-INF/jsp/nav.jsp" />
-        
-        <h1>Lista de usuarios</h1>
-        
-        <table>
+<jsp:include page="/WEB-INF/jsp/proc/head.jsp" />
+
+<div class="container">
+    <h1>Lista de usuarios</h1>
+    <button type="button" class="btn btn-success">
+        <a href="insertarUsuario"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span>Agregar</a>
+    </button>
+    <div class="table-responsive">
+        <table class="table table-bordered">
             <thead>
                 <tr>
-                    <th>Id</th>
+                    <th scope="col">Id</th>
                     <th>Nombre</th>
                     <th>Apellido</th>
                     <th>Email</th>
@@ -30,16 +31,21 @@
             <tbody>
                 <c:forEach var="per" items="${listaUsuario}">
                     <tr>
-                        <td>${per.id_usuario}</td>
+                        <th scope="row">${per.id_usuario}</th>
                         <td>${per.nombre_usuario}</td>
                         <td>${per.apellido_usuario}</td>
                         <td>${per.email_usuario}</td>
                         <td>${per.password_usuario}</td>
-                        <td><a href="eliminar?id=${per.id_usuario}">Eliminar</a></td>
-                        <td><a href="modificar?id=${per.id_usuario}">Modificar</a></td>
+                        <td><a href="eliminarUsuario?id=${per.id_usuario}"><span class="glyphicon glyphicon-trash"></span></a></td>
+                        <td><a href="modificarUsuario?id=${per.id_usuario}"><span class="glyphicon glyphicon-pencil"></span></a></td>
+                        
                     </tr>
                 </c:forEach>
             </tbody>
         </table>
-    </body>
-</html>
+    </div>
+</div>
+
+<jsp:include page="/WEB-INF/jsp/proc/footer.jsp" />
+
+
