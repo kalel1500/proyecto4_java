@@ -23,8 +23,8 @@
                     <th>Foto</th>
                     <th>Nombre</th>
                     <th>Precio</th>
-                    <th>Descuento</th>
                     <th>Descripcion</th>
+                    <th>Descuento</th>
                     <th>Serie</th>
                     <th>Categoria</th>
                     <th>Ver Producto</th>

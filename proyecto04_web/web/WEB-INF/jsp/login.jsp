@@ -16,18 +16,28 @@
 
 <div class="container">
     <h1>Login</h1>
-    <form:form modelAttribute="usu" action="login" method="POST">
-        Email:
-        <form:input path="email_usuario"/>
-        <span class="error_email"></span>
-        <br/>
+    <form:form class="form-horizontal" modelAttribute="usu" action="login" method="POST">
+        <div class="form-group">
+            <label class="control-label col-sm-2" for="nombre_usuario">Email:</label>
+            <div class="col-sm-10">
+                <form:input path="email_usuario" class="form-control"/>
+                <span class="error_email"></span>
+            </div>
+        </div>
 
-        Password:
-        <form:password path="password_usuario"/>
-        <span class="error_password"></span>
-        <br/>
+        <div class="form-group">
+            <label class="control-label col-sm-2" for="nombre_usuario">Password:</label>
+            <div class="col-sm-10">
+                <form:input type="password" path="password_usuario" class="form-control"/>
+                <span class="error_password"></span>
+            </div>
+        </div>
 
-        <input type="submit" value="Enviar"/>
+        <div class="form-group">        
+            <div class="col-sm-offset-2 col-sm-10">
+                <input type="submit" class="btn btn-default" value="Enviar"/>
+            </div>
+        </div>
 
     </form:form>
 </div>

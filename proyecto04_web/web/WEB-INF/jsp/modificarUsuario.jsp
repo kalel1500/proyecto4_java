@@ -12,18 +12,42 @@
 
 <div class="container">
     <h1>Modificar usuario</h1>
-    <form:form modelAttribute="usuario" action="modificarUsuario" method="POST">
-        Nombre:
-        <form:input path="nombre_usuario"/> <br/>
-        Apellido:
-        <form:input path="apellido_usuario"/> <br/>
-        Password:
-        <form:input path="password_usuario"/> <br/>
-        Email:
-        <form:input path="email_usuario"/> <br/>
-
+    <form:form class="form-horizontal" modelAttribute="usuario" action="modificarUsuario" method="POST">
+        <div class="form-group">
+            <label class="control-label col-sm-2" for="nombre_usuario">Nombre:</label>
+            <div class="col-sm-10">
+                <form:input path="nombre_usuario" class="form-control"/>
+            </div>
+        </div>
+            
+        <div class="form-group">
+            <label class="control-label col-sm-2" for="apellido_usuario">Apellido:</label>
+            <div class="col-sm-10">
+                <form:input path="apellido_usuario" class="form-control"/>
+            </div>
+        </div>
+        
+        <div class="form-group">
+            <label class="control-label col-sm-2" for="email_usuario">Email:</label>
+            <div class="col-sm-10">
+                <form:input path="email_usuario" class="form-control"/>
+            </div>
+        </div>
+        
+        <div class="form-group">
+            <label class="control-label col-sm-2" for="password_usuario">Password:</label>
+            <div class="col-sm-10">
+                <form:input path="password_usuario" class="form-control"/>
+            </div>
+        </div>
+        
         <form:hidden path="id_usuario" />
-        <input type="submit" value="Enviar"/>
+        
+        <div class="form-group">        
+            <div class="col-sm-offset-2 col-sm-10">
+                <input type="submit" class="btn btn-default" value="Enviar"/>
+            </div>
+        </div>
     </form:form>
 </div>
 

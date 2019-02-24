@@ -146,6 +146,14 @@ public class Controller {
         return "listarProducto";
     }
     
+    // Detalle productos
+    @RequestMapping(value = "detalleProducto", method = RequestMethod.GET)
+    public String detalleProductoController(@RequestParam("id") int id, Model model) {     
+        Producto producto = pdao.recuperarProducto(id);
+        model.addAttribute("producto", producto);
+        return "detalleProducto";
+    }
+    
     // Eliminar productos
     @RequestMapping(value = "eliminarProducto", method = RequestMethod.GET)
     public RedirectView eliminarProductoController(@RequestParam("id") int id) {     

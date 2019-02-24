@@ -118,7 +118,7 @@ public class ProductoDAO {
     // recupera producto
     public Producto recuperarProducto(int id) {
         Producto producto = new Producto();
-        sql = "SELECT * FROM tbl_producte INNER JOIN tbl_serie ON tbl_producte.serie_id = tbl_serie.serie_id INNER JOIN tbl_categoria ON tbl_serie.categoria_id = tbl_categoria.categoria_id WHERE `tbl_producto`.`producte_id` = " + id;
+        sql = "SELECT * FROM tbl_producte INNER JOIN tbl_serie ON tbl_producte.serie_id = tbl_serie.serie_id INNER JOIN tbl_categoria ON tbl_serie.categoria_id = tbl_categoria.categoria_id WHERE `tbl_producte`.`producte_id` = " + id;
         try {
             Statement st = cn.createStatement();
             ResultSet rs = st.executeQuery(sql);
