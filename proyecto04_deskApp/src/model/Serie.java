@@ -1,0 +1,73 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package model;
+
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import javax.swing.JOptionPane;
+
+/**
+ *
+ * @author msi
+ */
+public class Serie {
+    
+    private String sql="";
+    private Conexion conn=new Conexion();
+    private Connection cn=conn.conectar();
+    int serie_id;
+    String serie_nom;
+    int categoria_id;
+
+    public Serie() {
+    }
+
+    public Serie(int serie_id, String serie_nom, int categoria_id) {
+        this.serie_id = serie_id;
+        this.serie_nom = serie_nom;
+        this.categoria_id = categoria_id;
+    }
+
+    public int getSerie_id() {
+        return serie_id;
+    }
+
+    public String getSerie_nom() {
+        return serie_nom;
+    }
+
+    public int getCategoria_id() {
+        return categoria_id;
+    }
+
+    public void setSerie_id(int serie_id) {
+        this.serie_id = serie_id;
+    }
+
+    public void setSerie_nom(String serie_nom) {
+        this.serie_nom = serie_nom;
+    }
+
+    public void setCategoria_id(int categoria_id) {
+        this.categoria_id = categoria_id;
+    }
+    
+    public Serie nomSerie(int i){
+        Serie serie = new Serie();
+        sql = "SELECT serie_nom FROM tbl_serie INNER JOIN tbl_producte ON tbl_producte.serie_id = tbl_serie.serie_id WHERE tbl_producte.serie_id ='"+i+"'";
+        try {
+            Statement st = cn.createStatement();
+            ResultSet rs = st.executeQuery(sql);
+            rs.next();
+            serie.setSerie_nom(rs.getString("serie_nom"));
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, ex);
+        }
+        return serie;
+    }
+}
