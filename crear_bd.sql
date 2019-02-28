@@ -21,7 +21,6 @@ CREATE TABLE IF NOT EXISTS `tbl_usuario` (
 PRIMARY KEY (`id_usuario`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
-
 -- --------------------------------------------------------
 -- Estructura de tabla para la tabla `tbl_lloc`
 
