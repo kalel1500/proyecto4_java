@@ -12,7 +12,7 @@
 
 <div class="container">
     <h1>Modificar usuario</h1>
-    <form:form class="form-horizontal" modelAttribute="usuario" action="modificarUsuario" method="POST">
+    <form:form class="form-horizontal form-con-fondo" modelAttribute="usuario" action="modificarUsuario" method="POST">
         <div class="form-group">
             <label class="control-label col-sm-2" for="nombre_usuario">Nombre:</label>
             <div class="col-sm-10">

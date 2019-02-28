@@ -15,47 +15,98 @@
     <button type="button" class="btn btn-success">
         <a href="insertarProducto"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span>Agregar</a>
     </button>
-    <div class="table-responsive">
-        <table class="table">
-            <thead>
-                <tr>
-                    <th scope="col">Id</th>
-                    <th>Foto</th>
-                    <th>Nombre</th>
-                    <th>Precio</th>
-                    <th>Descripcion</th>
-                    <th>Descuento</th>
-                    <th>Serie</th>
-                    <th>Categoria</th>
-                    <th>Ver Producto</th>
-                    <th>Eliminar</th>
-                    <th>Modificar</th>
-                </tr>
-            </thead>
-            <tbody>
-                <c:forEach var="per" items="${listaProducto}">
-                    <tr>
 
-                        <th scope="row">${per.producte_id}</th>
-                        <td><img src="${per.producte_fotoRuta}${per.producte_fotoNom}${per.producte_fotoExt}"></td>
-                        <td><a href="detalleProducto?id=${per.producte_id}">${per.producte_nom}</a></td>
-                        <td><a href="detalleProducto?id=${per.producte_id}">${per.producte_preu}</a></td>
-                        <td><a href="detalleProducto?id=${per.producte_id}">${per.producte_descripcio}</a></td>
-                        <td><a href="detalleProducto?id=${per.producte_id}">${per.producte_descompte}</a></td>
-                        <td><a href="detalleProducto?id=${per.producte_id}">${per.serie_nom}</a></td>
-                        <td><a href="detalleProducto?id=${per.producte_id}">${per.categoria_nom}</a></td>
+    <div class="container div-contenedor-buscador">
+        <!--        <div class="row">-->
+        <form:form class="form-horizontal col-sm-12" modelAttribute="producto" action="filtrarProducto" method="POST">
+            <div class="form-group col-sm-3">
+                <label class="control-label col-sm-3" for="producte_nom">Buscar:</label>
+                <div class="col-sm-9">
+                    <form:input path="producte_nom" class="form-control"/>
+                </div>
+            </div>
 
-                        <td><a href="detalleProducto?id=${per.producte_id}"><span class="glyphicon glyphicon-eye-open"></span></a></td>
-                        <td><a href="eliminarProducto?id=${per.producte_id}"><span class="glyphicon glyphicon-trash"></span></a></td>
-                        <td><a href="modificarProducto?id=${per.producte_id}"><span class="glyphicon glyphicon-pencil"></span></a></td>
+            <%-- <div class="form-group col-sm-3">
+                <label class="control-label col-sm-3" for="producte_nom">Serie:</label>
+                <div class="col-sm-9" id="cargar-select-serie">
+                    <form:select path="serie_id" class="form-control">
+                        <form:option value="0">-Selecciona-</form:option>
+                        <c:forEach var="ser" items="${listaSerie}">
+                            <form:option value="${ser.serie_id}">${ser.serie_nom}</form:option>
+                        </c:forEach>
+                    </form:select>
+                </div>
+            </div> --%>
 
-                    </tr>
-                </c:forEach>
-            </tbody>
-        </table>
+            <div class="form-group col-sm-4">
+                <label class="control-label col-sm-3" for="producte_nom">Categoria:</label>
+                <div class="col-sm-9">
+                    <form:select path="categoria_id" class="form-control">
+                        <form:option value="0">-Selecciona-</form:option>
+                        <c:forEach var="cat" items="${listaCategoria}">
+                            <form:option value="${cat.categoria_id}">${cat.categoria_nom}</form:option>
+                        </c:forEach>
+                    </form:select>
+                </div>
+            </div>
+
+            <div class="form-group col-sm-1">
+                <input class="btn btn-info" type="submit" value="Filtrar" />
+
+            </div>
+        </form:form>
+        <!--        </div>-->
+    </div>
+
+
+    <div class="container lista-prod">
+        <c:forEach var="per" items="${listaProducto}">
+            <div class="row fila-lista-prod">
+
+                <div class="col-md-1">${per.producte_id}</div>
+                <div class="col-md-2">
+                    <a href="detalleProducto?id=${per.producte_id}">
+                        <img class="img-lista-prod" src="${per.producte_fotoRuta}${per.producte_fotoNom}${per.producte_fotoExt}">
+                    </a>
+                </div>
+                <div class="col-md-9">
+                    <div class="col-md-12 nombre-lista-prod"><a href="detalleProducto?id=${per.producte_id}">${per.producte_nom}</a></div>
+
+                    <div class="col-md-3 precio-lista-prod"><span class="negrita">Precio:</span> €${per.producte_preu}</div>
+                    <div class="col-md-3 descuento-lista-prod"><span class="negrita">Descuento:</span> ${per.producte_descompte}%</div>
+                    <div class="col-md-3 serie-lista-prod"><span class="negrita">Serie:</span> ${per.serie_nom}</div>
+                    <div class="col-md-3 categoria-lista-prod"><span class="negrita">Categoria:</span> ${per.categoria_nom}</div>
+
+                    <div class="col-md-12 descripcion-lista-prod">${per.producte_descripcio}</div>
+
+                    <div class="col-md-1">
+                        <a href="detalleProducto?id=${per.producte_id}"><span class="glyphicon glyphicon-eye-open"></span></a>
+                    </div>
+                    <div class="col-md-1">
+                        <a href="eliminarProducto?id=${per.producte_id}"><span class="glyphicon glyphicon-trash"></span></a>
+                    </div>
+                    <div class="col-md-1">
+                        <a href="modificarProducto?id=${per.producte_id}"><span class="glyphicon glyphicon-pencil"></span></a>
+                    </div>
+                </div>
+
+
+
+            </div>
+        </c:forEach>
+
     </div>
 </div>
 
+<script type="text/javascript">
+    $('#categoria_id').change(
+            function () {
+                $('#cargar-select-serie').load('cargarSelectSerie',
+                        "categoria_id=" + $('#categoria_id').val());
+
+            }
+    );
+</script>
 <jsp:include page="/WEB-INF/jsp/proc/footer.jsp" />
 
 

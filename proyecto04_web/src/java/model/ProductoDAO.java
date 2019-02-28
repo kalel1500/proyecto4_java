@@ -161,4 +161,32 @@ public class ProductoDAO {
             Logger.getLogger(ProductoDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+    
+    // filtrar producto
+    public void getListaProductosFiltrados(ArrayList<Producto> listaProducto, Producto prod) {
+        String nom = prod.getProducte_nom();
+        int id = prod.getCategoria_id();
+        sql = "SELECT `producte_nom` FROM tbl_producte INNER JOIN tbl_serie ON tbl_producte.serie_id = tbl_serie.serie_id INNER JOIN tbl_categoria ON tbl_serie.categoria_id = tbl_categoria.categoria_id WHERE `producte_nom` LIKE '%%' AND tbl_categoria.`categoria_id` LIKE '%%'";
+        try {
+            Statement st = cn.createStatement();
+            ResultSet rs = st.executeQuery(sql);
+            listaProducto.clear();
+            while (rs.next()) {
+                Producto producto = new Producto();
+                producto.setProducte_id(rs.getInt("producte_id"));
+                producto.setProducte_nom(rs.getString("producte_nom"));
+                producto.setProducte_fotoRuta(rs.getString("producte_fotoRuta"));
+                producto.setProducte_fotoNom(rs.getString("producte_fotoNom"));
+                producto.setProducte_fotoExt(rs.getString("producte_fotoExt"));
+                producto.setProducte_preu(rs.getDouble("producte_preu"));
+                producto.setProducte_descripcio(rs.getString("producte_descripcio"));
+                producto.setProducte_descompte(rs.getInt("producte_descompte"));
+                producto.setSerie_nom(rs.getString("serie_nom"));
+                producto.setCategoria_nom(rs.getString("categoria_nom"));
+                listaProducto.add(producto);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(ProductoDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
 }

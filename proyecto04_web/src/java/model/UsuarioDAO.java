@@ -41,6 +41,7 @@ public class UsuarioDAO {
             ResultSet rs = st.executeQuery(sql);
             if(rs.next()) {
                 //JOptionPane.showMessageDialog(null, "exito");
+                usuario.setId_usuario(rs.getInt("id_usuario"));
                 usuario.setNombre_usuario(rs.getString("nombre_usuario"));
                 usuario.setApellido_usuario(rs.getString("apellido_usuario"));
                 return "correcto";

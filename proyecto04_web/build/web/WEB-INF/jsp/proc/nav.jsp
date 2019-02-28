@@ -10,7 +10,7 @@
 <!DOCTYPE html>
 
 <nav class="navbar navbar-inverse navbar-fixed-top">
-    <div class="container-fluid">
+    <div class="container">
         <div class="navbar-header">
             <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
                 <span class="icon-bar"></span>
@@ -21,20 +21,25 @@
             <a class="navbar-brand  minav-caja-logo" href="index.php"><img class="minav-logo" src="./assets/imagenes/logo/logo.png">Tactil</a>
 
         </div>
+        <% String title = (String) request.getAttribute("title"); %>
+        
+        
         <div class="collapse navbar-collapse" id="myNavbar">
             <ul class="nav navbar-nav">
-                <li><a href="index">index</a></li>
-                <li><a href="listarProducto">Productos</a></li>
-                <li><a href="listarUsuario">Usuarios</a></li>
+                <li <% out.println((title.equals("Inicio"))?"class=active":""); %>><a href="index">index</a></li>
+                <li <% out.println((title.equals("Productos"))?"class=active":""); %>><a href="listarProducto">Productos</a></li>
+                <li <% out.println((title.equals("Categorias"))?"class=active":""); %>><a href="listarCategoria">Categorias</a></li>
+                <li <% out.println((title.equals("Series"))?"class=active":""); %>><a href="listarSerie">Series</a></li>
+                <li <% out.println((title.equals("Usuarios"))?"class=active":""); %>><a href="listarUsuario">Usuarios</a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
                 <c:choose>
                     <c:when test="${sessionScope.us != null}">
-                        <li id="li-link-nombre-usuario"><a href="perfilUsuario"><span class="glyphicon glyphicon-user"></span> ${us.nombre_usuario}</a></li>
+                        <li <% out.println((title.equals("Perfil"))?"class=active":""); %> id="li-link-nombre-usuario"><a href="perfilUsuario"><span class="glyphicon glyphicon-user"></span> ${us.nombre_usuario}</a></li>
                         <li><a href="logout"><span class="glyphicon glyphicon-log-out"></span> Cerrar sesion</a></li>
                     </c:when>
                     <c:when test="${sessionScope.us == null}">
-                        <li><a href="login"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+                        <li <% out.println((title.equals("Login"))?"class=active":""); %>><a href="login"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
                     </c:when>
                     <c:otherwise>
 

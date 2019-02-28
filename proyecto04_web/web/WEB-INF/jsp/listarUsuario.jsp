@@ -19,7 +19,7 @@
         <table class="table table-bordered">
             <thead>
                 <tr>
-                    <th scope="col">Id</th>
+                    <th scope="col">Codigo</th>
                     <th>Nombre</th>
                     <th>Apellido</th>
                     <th>Email</th>
