@@ -44,11 +44,16 @@ public class Home extends javax.swing.JFrame {
     
     
     ArrayList<Producto> infoProducto = new ArrayList<Producto>();
+    ArrayList<Categoria> catArray = new ArrayList<Categoria>();
+    ArrayList<Serie> serArray = new ArrayList<Serie>();
     /**
      * Creates new form Home
      */
     public Home(String texto) {
         initComponents();
+        this.setLocationRelativeTo(null);
+        cat.getAllCategoria(catArray, jCatNom);
+        
        // uDAO.getInfoUsuario(infoUsuario);
        // pDAO.getInfoProducto(infoProducto);
         cargarTabla();
@@ -92,22 +97,34 @@ public class Home extends javax.swing.JFrame {
             }
         });
     }
+    private void openCategoria(){
+         java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                new Categorias().setVisible(true);
+            }
+        });
+    }
+//    public void rellenarCB(){
+//        for(Categoria a: catArray){
+//            jCatNom.addItem(a.getCategoria_nom());
+//        }
+//    }
     
     //Este boton recarga los registros de la BDD al hacer la accion
     public void refrescar(int i){
        Producto infoProducto =  pDAO.recuperarProducto(i);
        Estoc infoEstoc = eDAO.recuperarEstoc(i);
        Lloc infoLloc = lDAO.recuperarLloc(i);
-       Serie nomSerie = serie.nomSerie(i);
-       Categoria nomCat = cat.nomCategoria(i);
+     //  Serie nomSerie = serie.nomSerie(i);
        // this.jtfId.setText(String.valueOf(listapersona.get(i).getId_persona()));
         this.jProdNom.setText(String.valueOf(infoProducto.getProducte_nom()));
         this.jProdPreu.setText(String.valueOf(infoProducto.getProducte_preu()));
         this.jProdDescompte.setText(String.valueOf(infoProducto.getProducte_descompte()));
         this.jProdDescripcio.setText(String.valueOf(infoProducto.getProducte_descripcio()));
         
-        this.jSerieNom.setText(String.valueOf(nomSerie.getSerie_nom()));
-        this.jCatNom.setText(String.valueOf(nomCat.getCategoria_nom()));
+       // this.jSerieNom.setText(String.valueOf(nomSerie.getSerie_nom()));
+        
+       // this.jCatNom.setText(String.valueOf(nomCat.getCategoria_nom()));
         
         this.jStockActual.setText(String.valueOf(infoEstoc.getEstoc_quantitat()));
         this.jStockMax.setText(String.valueOf(infoEstoc.getEstoc_maxim()));
@@ -122,87 +139,125 @@ public class Home extends javax.swing.JFrame {
     
     //Bloquea los campos si n hay id seleccionado
     public void desactivarCamposProducto(){
-        if(Integer.parseInt(this.jProdIndex.getText()) == 0){
-            //JOptionPane.showMessageDialog(null, "Neo esatamos dentro");
-            //JOptionPane.showMessageDialog(null, Integer.parseInt(this.jProdIndex.getText()) );
-            this.jProdNom.setEditable(false);
-            this.jProdPreu.setEditable(false);
-            this.jProdDescompte.setEditable(false);
-            this.jProdDescripcio.setEditable(false);
+        
+        //JOptionPane.showMessageDialog(null, "Neo esatamos dentro");
+        //JOptionPane.showMessageDialog(null, Integer.parseInt(this.jProdIndex.getText()) );
+        this.jProdNom.setEditable(false);
+        this.jProdPreu.setEditable(false);
+        this.jProdDescompte.setEditable(false);
+        this.jProdDescripcio.setEditable(false);
 
-            this.jSerieNom.setEditable(false);
-            this.jCatNom.setEditable(false);
-            
-            this.jLlocBloc.setEditable(false);
-            this.jLlocPassadis.setEditable(false);
-            this.jLlocLleixa.setEditable(false);
-            
-            this.jProdIndex.setEditable(false);
-            this.jProdNom.setBackground(Color.lightGray);
-            this.jProdPreu.setBackground(Color.lightGray);
-            this.jProdDescompte.setBackground(Color.lightGray);
-            this.jProdDescripcio.setBackground(Color.lightGray);
+        this.jSerNom.setEnabled(false);
+        //this.jCatNom.setEditable(false);
+        this.jCatNom.setEnabled(false);
 
-            this.jSerieNom.setBackground(Color.lightGray);
-            this.jCatNom.setBackground(Color.lightGray);
-            
-            this.jLlocBloc.setBackground(Color.lightGray);
-            this.jLlocPassadis.setBackground(Color.lightGray);
-            this.jLlocLleixa.setBackground(Color.lightGray);
-            
-            this.jProdIndex.setBackground(Color.gray);
-        }else{
-            this.jProdNom.setEditable(true);
-            this.jProdPreu.setEditable(true);
-            this.jProdDescompte.setEditable(true);
-            this.jProdDescripcio.setEditable(true);
+        this.jLlocBloc.setEditable(false);
+        this.jLlocPassadis.setEditable(false);
+        this.jLlocLleixa.setEditable(false);
 
-            this.jSerieNom.setEditable(true);
-            this.jCatNom.setEditable(true);
-            
-            this.jLlocBloc.setEditable(true);
-            this.jLlocPassadis.setEditable(true);
-            this.jLlocLleixa.setEditable(true);
-            
-            this.jProdNom.setBackground(Color.white);
-            this.jProdPreu.setBackground(Color.white);
-            this.jProdDescompte.setBackground(Color.white);
-            this.jProdDescripcio.setBackground(Color.white);
+        this.jProdIndex.setEditable(false);
+        this.jProdNom.setBackground(Color.lightGray);
+        this.jProdPreu.setBackground(Color.lightGray);
+        this.jProdDescompte.setBackground(Color.lightGray);
+        this.jProdDescripcio.setBackground(Color.lightGray);
 
-            this.jSerieNom.setBackground(Color.white);
-            this.jCatNom.setBackground(Color.white);
-            
-            this.jLlocBloc.setBackground(Color.white);
-            this.jLlocPassadis.setBackground(Color.white);
-            this.jLlocLleixa.setBackground(Color.white);
-            
-            this.jProdIndex.setBackground(Color.white);
-        }        
+        this.jSerNom.setBackground(Color.lightGray);
+        this.jCatNom.setBackground(Color.lightGray);
+
+        this.jLlocBloc.setBackground(Color.lightGray);
+        this.jLlocPassadis.setBackground(Color.lightGray);
+        this.jLlocLleixa.setBackground(Color.lightGray);
+
+        this.jProdIndex.setBackground(Color.gray);
+             
     }
     
     public void desactivarCamposStock(){
-        if(Integer.parseInt(this.jProdIndex.getText()) == 0){
-            this.jStockActual.setEditable(false);
-            this.jStockMax.setEditable(false);
-            this.jStockMin.setEditable(false);
-            this.jEstocNuevo.setEditable(false);
-            
-            this.jStockActual.setBackground(Color.lightGray);
-            this.jStockMax.setBackground(Color.lightGray);
-            this.jStockMin.setBackground(Color.lightGray);
-            this.jEstocNuevo.setBackground(Color.lightGray);
-        }else{
-           // this.jStockActual.setEditable(true);
-            this.jEstocNuevo.setEditable(true);
-            this.jStockMax.setEditable(true);
-            this.jStockMin.setEditable(true);
-            
-           // this.jStockActual.setBackground(Color.white);
-            this.jStockMax.setBackground(Color.white);
-            this.jStockMin.setBackground(Color.white);
-        }
+        this.jStockActual.setEditable(false);
+        this.jStockMax.setEditable(false);
+        this.jStockMin.setEditable(false);
+        this.jEstocNuevo.setEditable(false);
+
+        this.jStockActual.setBackground(Color.lightGray);
+        this.jStockMax.setBackground(Color.lightGray);
+        this.jStockMin.setBackground(Color.lightGray);
+        this.jEstocNuevo.setBackground(Color.lightGray);
     }
   
+    public void activarCamposStock(){
+        this.jStockMax.setEditable(true);
+        this.jStockMin.setEditable(true);
+
+       // this.jStockActual.setBackground(Color.white);
+        this.jStockMax.setBackground(Color.white);
+        this.jStockMin.setBackground(Color.white);
+    }
+    
+    public void activarCamposProducto(){
+        this.jProdNom.setEditable(true);
+        this.jProdPreu.setEditable(true);
+        this.jProdDescompte.setEditable(true);
+        this.jProdDescripcio.setEditable(true);
+
+        this.jSerNom.setEnabled(true);
+        this.jCatNom.setEnabled(true);
+
+        this.jLlocBloc.setEditable(true);
+        this.jLlocPassadis.setEditable(true);
+        this.jLlocLleixa.setEditable(true);
+
+        this.jProdNom.setBackground(Color.white);
+        this.jProdPreu.setBackground(Color.white);
+        this.jProdDescompte.setBackground(Color.white);
+        this.jProdDescripcio.setBackground(Color.white);
+
+        this.jSerNom.setBackground(Color.white);
+        this.jCatNom.setBackground(Color.white);
+
+        this.jLlocBloc.setBackground(Color.white);
+        this.jLlocPassadis.setBackground(Color.white);
+        this.jLlocLleixa.setBackground(Color.white);
+
+        this.jProdIndex.setBackground(Color.white);
+    }
+    
+    //Sumar Stock
+    private void sumarStock(int nuevo_stock){
+        //hacer logica aqui
+        //JOptionPane.showMessageDialog(null, num);
+        int stock_actual = Integer.parseInt(this.jStockActual.getText());
+        int stock_max = Integer.parseInt(this.jStockMax.getText());
+        if((stock_actual + nuevo_stock) > stock_max){
+            JOptionPane.showMessageDialog(null, "No caben tantas unidades!");
+        }else if( nuevo_stock < 0){
+            JOptionPane.showMessageDialog(null, "No sumes numeros negativos porfi, besis!");
+        }else{
+            // se hace la query
+            int id = Integer.parseInt(this.jProdIndex.getText());
+            eDAO.sumarStock((stock_actual + nuevo_stock), id);
+            refrescar(id);
+        }
+    }
+    
+    //Restar Stock
+    private void restarStock(int nuevo_stock){
+        //hacer logica aqui
+        int stock_actual = Integer.parseInt(this.jStockActual.getText());
+        int stock_min = Integer.parseInt(this.jStockMin.getText());
+        if((stock_actual - nuevo_stock) < 0){
+            JOptionPane.showMessageDialog(null, "No hay tantas unidades!");
+        }else if((stock_actual - nuevo_stock) > 0 && (stock_actual - nuevo_stock) < stock_min){
+            JOptionPane.showMessageDialog(null, "Has bajado del mínimo de unidades!");
+        }else if(nuevo_stock < 0){
+            JOptionPane.showMessageDialog(null, "No metas números negativos!");
+        }{
+            // se hace la query
+            int id = Integer.parseInt(this.jProdIndex.getText());
+            eDAO.restarStock((stock_actual - nuevo_stock), id);
+            refrescar(id);
+        }
+    }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -225,13 +280,10 @@ public class Home extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
-        jSerieNom = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
         jStockMax = new javax.swing.JTextField();
         jLabel6 = new javax.swing.JLabel();
-        jCatNom1 = new javax.swing.JTextField();
         jLabel7 = new javax.swing.JLabel();
-        jCatNom = new javax.swing.JTextField();
         jLabel8 = new javax.swing.JLabel();
         jStockActual = new javax.swing.JTextField();
         jStockMin = new javax.swing.JTextField();
@@ -257,6 +309,8 @@ public class Home extends javax.swing.JFrame {
         jBtnRestarStock = new javax.swing.JButton();
         jEstocNuevo = new javax.swing.JTextField();
         jBtnModificarCantidad = new javax.swing.JButton();
+        jCatNom = new javax.swing.JComboBox<>();
+        jSerNom = new javax.swing.JComboBox<>();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenuVerUsuarios = new javax.swing.JMenuItem();
@@ -323,12 +377,6 @@ public class Home extends javax.swing.JFrame {
         jLabel7.setFont(new java.awt.Font("Tw Cen MT", 1, 18)); // NOI18N
         jLabel7.setText("STOCK MAX:");
 
-        jCatNom.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jCatNomActionPerformed(evt);
-            }
-        });
-
         jLabel8.setFont(new java.awt.Font("Tw Cen MT", 1, 18)); // NOI18N
         jLabel8.setText("STOCK ACTUAL:");
 
@@ -377,6 +425,8 @@ public class Home extends javax.swing.JFrame {
 
         jLabel12.setFont(new java.awt.Font("Tw Cen MT", 1, 18)); // NOI18N
         jLabel12.setText("LLEIXA:");
+
+        jProdImagen.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
         jButton1.setText("Primero");
 
@@ -437,6 +487,12 @@ public class Home extends javax.swing.JFrame {
             }
         });
 
+        jCatNom.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jCatNomActionPerformed(evt);
+            }
+        });
+
         jMenu1.setText("Usuarios");
 
         jMenuVerUsuarios.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_M, java.awt.event.InputEvent.SHIFT_MASK));
@@ -470,6 +526,11 @@ public class Home extends javax.swing.JFrame {
         jMenu2.add(jMenuVerProductos);
 
         jMenuVerCategorias.setText("Buscar por Categoria");
+        jMenuVerCategorias.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuVerCategoriasActionPerformed(evt);
+            }
+        });
         jMenu2.add(jMenuVerCategorias);
 
         jMenuModificarCategoria.setText("Modificar Categoria");
@@ -549,9 +610,9 @@ public class Home extends javax.swing.JFrame {
                 .addComponent(jButton4)
                 .addGap(0, 0, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLlocBloc, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -570,25 +631,23 @@ public class Home extends javax.swing.JFrame {
                                 .addGap(539, 539, 539))
                             .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 671, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(20, 20, 20)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jSerieNom, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(71, 71, 71)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jCatNom1, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jCatNom, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(jProdPreu)
-                                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(jProdNom)
-                                .addComponent(jProdDescompte, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jProdPreu)
+                            .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jProdNom)
+                            .addComponent(jProdDescompte, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE)
+                            .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(22, 22, 22)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                                     .addComponent(jBtnGuardarProducto, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(jBtnModificarProducto, javax.swing.GroupLayout.Alignment.LEADING))))
+                                    .addComponent(jBtnModificarProducto, javax.swing.GroupLayout.Alignment.LEADING)))
+                            .addComponent(jCatNom, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jSerNom, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addGap(174, 174, 174)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
@@ -614,7 +673,7 @@ public class Home extends javax.swing.JFrame {
                                 .addComponent(jBtnSumarStock)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jProdImagen, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 109, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 46, Short.MAX_VALUE)
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 671, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(35, 35, 35))
         );
@@ -688,9 +747,7 @@ public class Home extends javax.swing.JFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jLabel3)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jSerieNom, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jCatNom1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(jSerNom, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel10)
@@ -720,17 +777,13 @@ public class Home extends javax.swing.JFrame {
 
         int i=tablaProducto.getSelectedRow()+1;
         refrescar(i);
-//        desactivarCamposProducto();
-//        desactivarCamposStock();
+        desactivarCamposProducto();
+        desactivarCamposStock();
     }//GEN-LAST:event_tablaProductoMouseClicked
 
     private void jStockMaxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jStockMaxActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jStockMaxActionPerformed
-
-    private void jCatNomActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCatNomActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jCatNomActionPerformed
 
     private void jStockActualActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jStockActualActionPerformed
         // TODO add your handling code here:
@@ -812,7 +865,10 @@ public class Home extends javax.swing.JFrame {
 
     private void jBtnStockActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnStockActionPerformed
         // TODO add your handling code here:
-        desactivarCamposStock();
+        //Ver como hacer para que el primer click desactive campos y el segundo haga el update
+        if(Integer.parseInt(this.jProdIndex.getText()) != 0){
+            activarCamposStock();
+        }
     }//GEN-LAST:event_jBtnStockActionPerformed
 
     private void jProdIndexActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jProdIndexActionPerformed
@@ -823,6 +879,8 @@ public class Home extends javax.swing.JFrame {
     private void jBtnModificarProductoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnModificarProductoActionPerformed
         // TODO add your handling code here:
         if(Integer.parseInt(this.jProdIndex.getText()) != 0){
+            activarCamposProducto();
+        }else{
             desactivarCamposProducto();
         }
     }//GEN-LAST:event_jBtnModificarProductoActionPerformed
@@ -830,7 +888,23 @@ public class Home extends javax.swing.JFrame {
     private void jBtnGuardarProductoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnGuardarProductoActionPerformed
         // TODO add your handling code here:
         // Guarda la informacion modificada
+        
         ModificarProducto modProd = new ModificarProducto();
+        modProd.setProducte_nom(this.jProdNom.getText());
+        modProd.setProducte_preu(Double.parseDouble(this.jProdPreu.getText()));
+        modProd.setProducte_descompte(Integer.parseInt(this.jProdDescompte.getText()));
+        //modProd.setCategoria_nom(this.jProd)
+//        this.jProdDescripcio.
+//
+//        this.jSerieNom.
+//        this.jCatNom.
+//
+//        this.jLlocBloc.
+//        this.jLlocPassadis.
+//        this.jLlocLleixa.
+        
+        JOptionPane.showMessageDialog(null, "Hacer query de modificar");
+        desactivarCamposProducto();
         //se ha creado la clase, falta hacer que categoria y serie sean desplegables porque no se 
         //tiene que poder modificar a mano, por si la categoria no existe y tal. 
                
@@ -848,15 +922,21 @@ public class Home extends javax.swing.JFrame {
                 control = false;
                 JOptionPane.showMessageDialog(null, "Por favor, introduce números válidos");
             }
+            
+            if(control){
+                //JOptionPane.showMessageDialog(null, "todo ok");
+                int id = Integer.parseInt(this.jProdIndex.getText());
+                eDAO.modificarStockMax(id, estoc_max);
+                eDAO.modificarStockMin(id, estoc_min);
+                desactivarCamposStock();
+                refrescar(id);
+                // se puede modificar la base de datos
+            }
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Has de introducir números!");
             control = false;
-        }
-                
-        if(control){
-            JOptionPane.showMessageDialog(null, "todo OK");
-            // se puede modificar la base de datos
-        }
+        }   
+        
     }//GEN-LAST:event_jBtnUpdateStockActionPerformed
 
     private void jBtnSumarStockActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnSumarStockActionPerformed
@@ -873,6 +953,9 @@ public class Home extends javax.swing.JFrame {
         if( nuevoStock != 0){
             //JOptionPane.showMessageDialog(null, "se hace la operacion");
             sumarStock(Integer.parseInt(this.jEstocNuevo.getText()));
+            this.jEstocNuevo.setEditable(false);
+            this.jEstocNuevo.setBackground(Color.lightGray);
+            this.jEstocNuevo.setText("0");
         }
         
     }//GEN-LAST:event_jBtnSumarStockActionPerformed
@@ -889,6 +972,9 @@ public class Home extends javax.swing.JFrame {
         if( nuevoStock != 0){
             //JOptionPane.showMessageDialog(null, "se hace la operacion");
             restarStock(Integer.parseInt(this.jEstocNuevo.getText()));
+            this.jEstocNuevo.setEditable(false);
+            this.jEstocNuevo.setBackground(Color.lightGray);
+            this.jEstocNuevo.setText("0");
         }
     }//GEN-LAST:event_jBtnRestarStockActionPerformed
 
@@ -897,50 +983,45 @@ public class Home extends javax.swing.JFrame {
         if(Integer.parseInt(this.jProdIndex.getText()) != 0){
             this.jEstocNuevo.setEditable(true);
             this.jEstocNuevo.setBackground(Color.white);
+            
         }else{
             this.jEstocNuevo.setEditable(false);
             this.jEstocNuevo.setBackground(Color.lightGray);
+            
         }
     }//GEN-LAST:event_jBtnModificarCantidadActionPerformed
 
-    //Sumar Stock
-    private void sumarStock(int nuevo_stock){
-        //hacer logica aqui
-        //JOptionPane.showMessageDialog(null, num);
-        int stock_actual = Integer.parseInt(this.jStockActual.getText());
-        int stock_max = Integer.parseInt(this.jStockMax.getText());
-        if((stock_actual + nuevo_stock) > stock_max){
-            JOptionPane.showMessageDialog(null, "No caben tantas unidades!");
-        }else if( nuevo_stock < 0){
-            JOptionPane.showMessageDialog(null, "No sumes numeros negativos porfi, besis!");
-        }else{
-            // se hace la query
-            int id = Integer.parseInt(this.jProdIndex.getText());
-            eDAO.sumarStock((stock_actual + nuevo_stock), id);
-            refrescar(id);
+    private void jMenuVerCategoriasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuVerCategoriasActionPerformed
+        // TODO add your handling code here:
+        openCategoria();
+        try {
+            cn.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(Vista.class.getName()).log(Level.SEVERE, null, ex);
         }
+        this.dispose();
+    }//GEN-LAST:event_jMenuVerCategoriasActionPerformed
+
+    private void jCatNomActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCatNomActionPerformed
+        // TODO add your handling code here:
+        //hacer el desplegable de categoria
+       //mirar por que siempre me da id 2
+       int i= this.jCatNom.getSelectedIndex();
+       setDesplegableSerie(i+1);
+       
+       
+    }//GEN-LAST:event_jCatNomActionPerformed
+
+    private void setDesplegableSerie(int id){
+       // catArray.clear();
+       serArray.clear();
+       
+      //borrar los antiguos registros del select
+      
+        jSerNom.removeAllItems();
+        serie.getAllSeries(serArray, jSerNom, id);
     }
-    
-    //Restar Stock
-    private void restarStock(int nuevo_stock){
-        //hacer logica aqui
-        int stock_actual = Integer.parseInt(this.jStockActual.getText());
-        int stock_min = Integer.parseInt(this.jStockMin.getText());
-        if((stock_actual - nuevo_stock) < 0){
-            JOptionPane.showMessageDialog(null, "No hay tantas unidades!");
-        }else if((stock_actual - nuevo_stock) > 0 && (stock_actual - nuevo_stock) < stock_min){
-            JOptionPane.showMessageDialog(null, "Has bajado del mínimo de unidades!");
-        }else if(nuevo_stock < 0){
-            JOptionPane.showMessageDialog(null, "No metas números negativos!");
-        }{
-            // se hace la query
-            int id = Integer.parseInt(this.jProdIndex.getText());
-            eDAO.restarStock((stock_actual - nuevo_stock), id);
-            refrescar(id);
-        }
-    }
-    
-    
+        
     /**
      * @param args the command line arguments
      */
@@ -986,8 +1067,7 @@ public class Home extends javax.swing.JFrame {
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
-    private javax.swing.JTextField jCatNom;
-    private javax.swing.JTextField jCatNom1;
+    private javax.swing.JComboBox<String> jCatNom;
     private javax.swing.JTextField jEstocNuevo;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
@@ -1028,7 +1108,7 @@ public class Home extends javax.swing.JFrame {
     private javax.swing.JTextField jProdPreu;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTextField jSerieNom;
+    private javax.swing.JComboBox<String> jSerNom;
     private javax.swing.JTextField jStockActual;
     private javax.swing.JTextField jStockMax;
     private javax.swing.JTextField jStockMin;

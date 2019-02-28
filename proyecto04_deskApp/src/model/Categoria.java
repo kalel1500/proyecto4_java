@@ -9,6 +9,9 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import javafx.scene.control.ComboBox;
+import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
 
 /**
@@ -46,6 +49,26 @@ public class Categoria {
         this.categoria_nom = categoria_nom;
     }
     
+    //sacar todos los nombres para el desplegable
+    public void getAllCategoria(ArrayList<Categoria> catArray, JComboBox cbCatNom){
+        Categoria cat = new Categoria();
+        sql = "SELECT categoria_id, categoria_nom FROM tbl_categoria";
+        try {
+            Statement st = cn.createStatement();
+            ResultSet rs = st.executeQuery(sql);
+            
+            while(rs.next()){
+                cat.setCategoria_id(rs.getInt("categoria_id"));
+                cat.setCategoria_nom(rs.getString("categoria_nom"));
+                //cat.setCategoria
+                catArray.add(cat);   
+                cbCatNom.addItem(cat.getCategoria_nom());
+            }
+        } catch (Exception e) {
+        }
+    }
+    
+    //sacar nombre de un id
     public Categoria nomCategoria(int i){
         Categoria cat = new Categoria();
         sql = "SELECT categoria_nom FROM tbl_categoria "

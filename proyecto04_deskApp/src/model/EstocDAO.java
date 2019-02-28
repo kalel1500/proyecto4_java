@@ -62,4 +62,27 @@ public class EstocDAO {
             JOptionPane.showMessageDialog(null, "no se hace la query sumarStock");
         }
     }
+    
+    //modificar cantidad máxima y mínima de stock
+    public void modificarStockMax(int id, int stock_max){
+        sql="UPDATE tbl_estoc SET estoc_maxim ='"+stock_max+"' WHERE producte_id='"+id+"'";
+        try {
+            Statement st = cn.createStatement();
+            int rs = st.executeUpdate(sql);
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, ex);
+            JOptionPane.showMessageDialog(null, "no se hace la query modificarStock");
+        }
+    }
+    
+    public void modificarStockMin(int id, int stock_min){
+        sql="UPDATE tbl_estoc SET estoc_minim ='"+stock_min+"' WHERE producte_id='"+id+"'";
+        try {
+            Statement st = cn.createStatement();
+            int rs = st.executeUpdate(sql);
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, ex);
+            JOptionPane.showMessageDialog(null, "no se hace la query modificarStockMin");
+        }
+    }
 }

@@ -9,6 +9,8 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
 
 /**
@@ -69,5 +71,24 @@ public class Serie {
             JOptionPane.showMessageDialog(null, ex);
         }
         return serie;
+    }
+    
+    public void getAllSeries(ArrayList<Serie> serArray, JComboBox cbSerNom, int id){
+        Serie ser = new Serie();
+        sql = "SELECT serie_id, serie_nom FROM tbl_serie WHERE categoria_id ='"+id+"'";
+        serArray.clear();
+        try {
+            Statement st = cn.createStatement();
+            ResultSet rs = st.executeQuery(sql);
+            
+            while(rs.next()){
+                ser.setSerie_id(rs.getInt("serie_id"));
+                ser.setSerie_nom(rs.getString("serie_nom"));
+                //cat.setCategoria
+                serArray.add(ser);   
+                cbSerNom.addItem(ser.getSerie_nom());
+            }
+        } catch (Exception e) {
+        }
     }
 }
