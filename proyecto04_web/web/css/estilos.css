@@ -1,0 +1,102 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 25-feb-2019, 16:15:09
+    Author     : Usuario
+*/
+
+body {
+    font-family: Roboto;
+}
+button a {
+    color: white;
+}
+button {
+    margin: 15px 5px !important;
+}
+.form-con-fondo {
+    width: 60%;
+    margin: auto;
+    padding: 20px;
+    background-color: #e6e6e6;
+    border-radius: 10px;
+}
+
+/*td a {
+    display: block;
+    color: #333;
+}
+td a:hover {
+    text-decoration: none;
+    color: #333;
+}*/
+tr:hover {
+    background-color: #e2e2e2;
+
+}
+.justify {
+    text-align: justify;
+}
+.negrita {
+    font-weight: 700;
+    color: #333;
+}
+
+/*lista productos*/
+.div-contenedor-buscador {
+    border-radius: 10px;
+    background-color: #dadada1f;
+    padding-top: 15px;
+    margin-bottom: 10px;
+}
+.lista-prod a {
+/*    display: block;*/
+    color: #333;
+}
+.lista-prod a:hover {
+    text-decoration: none;
+    color: #333;
+}
+.fila-lista-prod {
+    min-height: 180px;
+/*    background-color: #0686145c;*/
+    background-color: #e4e4e45c;
+    margin-bottom: 10px;
+}
+.fila-lista-prod:hover {
+    background-color: #e2e2e2;
+}
+.img-lista-prod {
+    width: 100%;
+}
+.nombre-lista-prod {
+    font-size: 2em;
+    font-weight: 400;
+    margin: 10px 0px;
+}
+.nombre-lista-prod a {
+    color: #0066c0;
+}
+.nombre-lista-prod a:hover {
+    color: #c45500;
+}
+.precio-lista-prod, .precio-detalle-prod {
+    color: #B12704;
+}
+.descripcion-lista-prod {
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    margin: 10px 0px;
+}
+/*detalle producto*/
+.div-img-detalle-prod {
+    width: 60%;
+    margin: auto;
+}
+.img-detalle-prod {
+    width: 100%;
+}
