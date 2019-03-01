@@ -15,7 +15,7 @@ import javax.swing.JOptionPane;
  *
  * @author msi
  */
-public class ModificarProducto {
+public class SuperProducto {
     
     private String sql="";
     private Conexion conn=new Conexion();
@@ -40,10 +40,10 @@ public class ModificarProducto {
     String num_passadis;
     String num_lleixa;
 
-    public ModificarProducto() {
+    public SuperProducto() {
     }
 
-    public ModificarProducto(int producte_id, String producte_nom, String producte_foto, Double producte_preu, String producte_descripcio, int producte_descompte, int serie_id, String serie_nom, int categoria_id, String categoria_nom, int estoc_id, int estoc_quantitat, int estoc_maxim, int estoc_minim, int lloc, String num_bloc, String num_passadis, String num_lleixa) {
+    public SuperProducto(int producte_id, String producte_nom, String producte_foto, Double producte_preu, String producte_descripcio, int producte_descompte, int serie_id, String serie_nom, int categoria_id, String categoria_nom, int estoc_id, int estoc_quantitat, int estoc_maxim, int estoc_minim, int lloc, String num_bloc, String num_passadis, String num_lleixa) {
         this.producte_id = producte_id;
         this.producte_nom = producte_nom;
         this.producte_foto = producte_foto;
@@ -225,7 +225,7 @@ public class ModificarProducto {
         return lloc_id;
     }
     
-    public void updateProd(ModificarProducto modProd){
+    public void updateProd(SuperProducto modProd){
         
         int producto_id = modProd.getProducte_id();
         String nombre = modProd.producte_nom;
@@ -266,6 +266,9 @@ public class ModificarProducto {
                JOptionPane.showMessageDialog(null, "se hace el rollback");
             }
         }
+    }
+    
+    public void crearProducto(SuperProducto crearProd){
         
     }
     //hacer get procute nom
