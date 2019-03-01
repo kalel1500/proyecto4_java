@@ -59,7 +59,7 @@ public class ProductoDAO {
             producto.setProducte_id(rs.getInt("producte_id"));
             producto.setProducte_nom(rs.getString("producte_nom"));
             producto.setProducte_foto(rs.getString("producte_foto"));
-            producto.setProducte_preu(rs.getInt("producte_preu"));
+            producto.setProducte_preu(rs.getDouble("producte_preu"));
             producto.setProducte_descripcio(rs.getString("producte_descripcio"));
             producto.setProducte_descompte(rs.getInt("producte_descompte"));
             producto.setProducte_descripcio(rs.getString("producte_descripcio"));

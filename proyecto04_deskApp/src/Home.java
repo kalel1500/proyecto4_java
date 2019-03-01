@@ -43,9 +43,11 @@ public class Home extends javax.swing.JFrame {
     Estoc estoc = new Estoc();
     
     
+    
     ArrayList<Producto> infoProducto = new ArrayList<Producto>();
     ArrayList<Categoria> catArray = new ArrayList<Categoria>();
     ArrayList<Serie> serArray = new ArrayList<Serie>();
+    ArrayList<Lloc> llocArray = new ArrayList<Lloc>();
     /**
      * Creates new form Home
      */
@@ -53,6 +55,7 @@ public class Home extends javax.swing.JFrame {
         initComponents();
         this.setLocationRelativeTo(null);
         cat.getAllCategoria(catArray, jCatNom);
+        //lDAO.getAllLlocs(llocArray, cbLlocBloc); se hardcodea
         
        // uDAO.getInfoUsuario(infoUsuario);
        // pDAO.getInfoProducto(infoProducto);
@@ -115,24 +118,30 @@ public class Home extends javax.swing.JFrame {
        Producto infoProducto =  pDAO.recuperarProducto(i);
        Estoc infoEstoc = eDAO.recuperarEstoc(i);
        Lloc infoLloc = lDAO.recuperarLloc(i);
-     //  Serie nomSerie = serie.nomSerie(i);
-       // this.jtfId.setText(String.valueOf(listapersona.get(i).getId_persona()));
+       Serie getSerieId = serie.getSerieId(i);
+       Categoria catNom = cat.nomCategoria(i);
+       Serie serieNom = serie.nomSerie(i);
+       
+       
         this.jProdNom.setText(String.valueOf(infoProducto.getProducte_nom()));
         this.jProdPreu.setText(String.valueOf(infoProducto.getProducte_preu()));
         this.jProdDescompte.setText(String.valueOf(infoProducto.getProducte_descompte()));
         this.jProdDescripcio.setText(String.valueOf(infoProducto.getProducte_descripcio()));
         
-       // this.jSerieNom.setText(String.valueOf(nomSerie.getSerie_nom()));
+               
+        this.jCatNom.setSelectedItem(catNom.getCategoria_nom());
+        this.jSerNom.setSelectedItem(serieNom.getSerie_nom());
         
-       // this.jCatNom.setText(String.valueOf(nomCat.getCategoria_nom()));
+        this.jLlocBloc.setSelectedItem(infoLloc.getNum_bloc());
+        this.jLlocPassadis.setSelectedItem(infoLloc.getNum_passadis());
+        this.jLlocLleixa.setSelectedItem(infoLloc.getNum_lleixa());
+        
         
         this.jStockActual.setText(String.valueOf(infoEstoc.getEstoc_quantitat()));
         this.jStockMax.setText(String.valueOf(infoEstoc.getEstoc_maxim()));
-        this.jStockMin.setText(String.valueOf(infoEstoc.getEstoc_minim()));        
+        this.jStockMin.setText(String.valueOf(infoEstoc.getEstoc_minim())); 
         
-        this.jLlocBloc.setText(String.valueOf(infoLloc.getNum_bloc()));
-        this.jLlocPassadis.setText(String.valueOf(infoLloc.getNum_passadis()));
-        this.jLlocLleixa.setText(String.valueOf(infoLloc.getNum_lleixa()));
+        
         
         this.jProdIndex.setText(String.valueOf(i));
     }
@@ -151,11 +160,13 @@ public class Home extends javax.swing.JFrame {
         //this.jCatNom.setEditable(false);
         this.jCatNom.setEnabled(false);
 
-        this.jLlocBloc.setEditable(false);
-        this.jLlocPassadis.setEditable(false);
-        this.jLlocLleixa.setEditable(false);
+        this.jLlocBloc.setEnabled(false);
+        this.jLlocPassadis.setEnabled(false);
+        this.jLlocLleixa.setEnabled(false);
 
         this.jProdIndex.setEditable(false);
+        
+        this.jBtnGuardarProducto.setEnabled(false);
         this.jProdNom.setBackground(Color.lightGray);
         this.jProdPreu.setBackground(Color.lightGray);
         this.jProdDescompte.setBackground(Color.lightGray);
@@ -202,10 +213,11 @@ public class Home extends javax.swing.JFrame {
         this.jSerNom.setEnabled(true);
         this.jCatNom.setEnabled(true);
 
-        this.jLlocBloc.setEditable(true);
-        this.jLlocPassadis.setEditable(true);
-        this.jLlocLleixa.setEditable(true);
+        this.jLlocBloc.setEnabled(true);
+        this.jLlocPassadis.setEnabled(true);
+        this.jLlocLleixa.setEnabled(true);
 
+        this.jBtnGuardarProducto.setEnabled(true);
         this.jProdNom.setBackground(Color.white);
         this.jProdPreu.setBackground(Color.white);
         this.jProdDescompte.setBackground(Color.white);
@@ -290,10 +302,7 @@ public class Home extends javax.swing.JFrame {
         jLabel9 = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
         jProdDescripcio = new javax.swing.JTextArea();
-        jLlocBloc = new javax.swing.JTextField();
         jLabel10 = new javax.swing.JLabel();
-        jLlocPassadis = new javax.swing.JTextField();
-        jLlocLleixa = new javax.swing.JTextField();
         jLabel11 = new javax.swing.JLabel();
         jLabel12 = new javax.swing.JLabel();
         jProdImagen = new javax.swing.JLabel();
@@ -311,6 +320,9 @@ public class Home extends javax.swing.JFrame {
         jBtnModificarCantidad = new javax.swing.JButton();
         jCatNom = new javax.swing.JComboBox<>();
         jSerNom = new javax.swing.JComboBox<>();
+        jLlocBloc = new javax.swing.JComboBox<>();
+        jLlocPassadis = new javax.swing.JComboBox<>();
+        jLlocLleixa = new javax.swing.JComboBox<>();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenuVerUsuarios = new javax.swing.JMenuItem();
@@ -399,26 +411,8 @@ public class Home extends javax.swing.JFrame {
         jProdDescripcio.setRows(5);
         jScrollPane2.setViewportView(jProdDescripcio);
 
-        jLlocBloc.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jLlocBlocActionPerformed(evt);
-            }
-        });
-
         jLabel10.setFont(new java.awt.Font("Tw Cen MT", 1, 18)); // NOI18N
         jLabel10.setText("PASSADIS:");
-
-        jLlocPassadis.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jLlocPassadisActionPerformed(evt);
-            }
-        });
-
-        jLlocLleixa.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jLlocLleixaActionPerformed(evt);
-            }
-        });
 
         jLabel11.setFont(new java.awt.Font("Tw Cen MT", 1, 18)); // NOI18N
         jLabel11.setText("LLOC:");
@@ -492,6 +486,12 @@ public class Home extends javax.swing.JFrame {
                 jCatNomActionPerformed(evt);
             }
         });
+
+        jLlocBloc.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Bloc 1", "Bloc 2", "Bloc3", "Bloc 4", "Bloc 5", "Bloc 6", "Bloc 7", "Bloc 8" }));
+
+        jLlocPassadis.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "passadis 1", "passadis 2", "passadis 3", "passadis 4", "passadis 5", "passadis 6", "passadis 7", "passadis 8", "passadis 9", "passadis 10", "passadis 11", "passadis 12" }));
+
+        jLlocLleixa.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "lleixa 1", "lleixa 2", "lleixa 3", "lleixa 4", "lleixa 5", "lleixa 6", "lleixa 7", "lleixa 8" }));
 
         jMenu1.setText("Usuarios");
 
@@ -610,44 +610,26 @@ public class Home extends javax.swing.JFrame {
                 .addComponent(jButton4)
                 .addGap(0, 0, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(layout.createSequentialGroup()
+                        .addGap(83, 83, 83)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLlocBloc, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(52, 52, 52)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLlocPassadis, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(57, 57, 57)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLlocLleixa, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(539, 539, 539))
-                            .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 671, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(71, 71, 71)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jProdPreu)
-                            .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jProdNom)
-                            .addComponent(jProdDescompte, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE)
-                            .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(22, 22, 22)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                    .addComponent(jBtnGuardarProducto, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(jBtnModificarProducto, javax.swing.GroupLayout.Alignment.LEADING)))
-                            .addComponent(jCatNom, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jSerNom, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jProdPreu)
+                                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jProdNom)
+                                .addComponent(jProdDescompte, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE)
+                                .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGroup(layout.createSequentialGroup()
+                                    .addGap(22, 22, 22)
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                        .addComponent(jBtnGuardarProducto, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(jBtnModificarProducto, javax.swing.GroupLayout.Alignment.LEADING)))
+                                .addComponent(jCatNom, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(jSerNom, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(174, 174, 174)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
@@ -674,7 +656,29 @@ public class Home extends javax.swing.JFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jProdImagen, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 46, Short.MAX_VALUE)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 671, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 671, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(22, 22, 22)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLlocBloc, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(43, 43, 43)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(69, 69, 69))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLlocPassadis, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGap(48, 48, 48)))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLlocLleixa, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(539, 539, 539))
+                            .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 671, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addGap(35, 35, 35))
         );
         layout.setVerticalGroup(
@@ -683,12 +687,12 @@ public class Home extends javax.swing.JFrame {
                 .addGap(88, 88, 88)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jScrollPane1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel5)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED))
-                    .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jScrollPane1)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jLabel5)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED))
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(layout.createSequentialGroup()
@@ -722,44 +726,44 @@ public class Home extends javax.swing.JFrame {
                                         .addComponent(jBtnStock)
                                         .addGap(46, 46, 46)
                                         .addComponent(jBtnUpdateStock)))
-                                .addGap(77, 77, 77))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(22, 22, 22)
-                                .addComponent(jBtnModificarProducto)
-                                .addGap(18, 18, 18)
-                                .addComponent(jBtnGuardarProducto)
-                                .addGap(29, 29, 29)
-                                .addComponent(jLabel1)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jProdNom, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(jLabel2)
-                                .addGap(4, 4, 4)
-                                .addComponent(jProdPreu, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(jLabel4)
-                                .addGap(5, 5, 5)
-                                .addComponent(jProdDescompte, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jLabel6)
-                                .addGap(18, 18, 18)
-                                .addComponent(jCatNom, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jLabel3)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jSerNom, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                                .addGap(98, 98, 98)))
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 56, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(22, 22, 22)
+                        .addComponent(jBtnModificarProducto)
+                        .addGap(18, 18, 18)
+                        .addComponent(jBtnGuardarProducto)
+                        .addGap(29, 29, 29)
+                        .addComponent(jLabel1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jProdNom, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jLabel2)
+                        .addGap(4, 4, 4)
+                        .addComponent(jProdPreu, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jLabel4)
+                        .addGap(5, 5, 5)
+                        .addComponent(jProdDescompte, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jLabel6)
+                        .addGap(18, 18, 18)
+                        .addComponent(jCatNom, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel3)
+                        .addGap(18, 18, 18)
+                        .addComponent(jSerNom, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(51, 51, 51)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel10)
                             .addComponent(jLabel12)
-                            .addComponent(jLabel11))))
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jLlocBloc, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jLlocPassadis, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jLlocLleixa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 56, Short.MAX_VALUE)
+                            .addComponent(jLabel11))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLlocBloc, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLlocPassadis, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLlocLleixa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jProdIndex, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton1)
@@ -792,18 +796,6 @@ public class Home extends javax.swing.JFrame {
     private void jStockMinActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jStockMinActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jStockMinActionPerformed
-
-    private void jLlocBlocActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jLlocBlocActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jLlocBlocActionPerformed
-
-    private void jLlocPassadisActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jLlocPassadisActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jLlocPassadisActionPerformed
-
-    private void jLlocLleixaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jLlocLleixaActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jLlocLleixaActionPerformed
 
     private void jMenuVerUsuariosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuVerUsuariosActionPerformed
         // TODO add your handling code here:
@@ -893,18 +885,24 @@ public class Home extends javax.swing.JFrame {
         modProd.setProducte_nom(this.jProdNom.getText());
         modProd.setProducte_preu(Double.parseDouble(this.jProdPreu.getText()));
         modProd.setProducte_descompte(Integer.parseInt(this.jProdDescompte.getText()));
-        //modProd.setCategoria_nom(this.jProd)
-//        this.jProdDescripcio.
-//
-//        this.jSerieNom.
-//        this.jCatNom.
-//
-//        this.jLlocBloc.
-//        this.jLlocPassadis.
-//        this.jLlocLleixa.
+        modProd.setCategoria_id(this.jCatNom.getSelectedIndex());
+        modProd.setSerie_id(this.jSerNom.getSelectedIndex());
+        modProd.setNum_bloc((String)this.jLlocBloc.getSelectedItem());
+        modProd.setNum_passadis((String)this.jLlocPassadis.getSelectedItem());
+        modProd.setNum_lleixa((String)this.jLlocLleixa.getSelectedItem());
+        modProd.setProducte_id(Integer.parseInt(this.jProdIndex.getText()));
+//        JOptionPane.showMessageDialog(null, modProd.getNum_bloc());
+//        JOptionPane.showMessageDialog(null, modProd.getNum_passadis());
+//        JOptionPane.showMessageDialog(null, modProd.getNum_lleixa());
+
+        modProd.updateProd(modProd);
         
-        JOptionPane.showMessageDialog(null, "Hacer query de modificar");
+        //JOptionPane.showMessageDialog(null, (String)this.jLlocBloc.getSelectedItem());
+        //modProd.setLloc(this.cbLlocBloc.getSelectedIndex()+1);
+        
+        JOptionPane.showMessageDialog(null, "Producto actualizado!");
         desactivarCamposProducto();
+        cargarTabla();
         //se ha creado la clase, falta hacer que categoria y serie sean desplegables porque no se 
         //tiene que poder modificar a mano, por si la categoria no existe y tal. 
                
@@ -1005,7 +1003,6 @@ public class Home extends javax.swing.JFrame {
     private void jCatNomActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCatNomActionPerformed
         // TODO add your handling code here:
         //hacer el desplegable de categoria
-       //mirar por que siempre me da id 2
        int i= this.jCatNom.getSelectedIndex();
        setDesplegableSerie(i+1);
        
@@ -1081,9 +1078,9 @@ public class Home extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
-    private javax.swing.JTextField jLlocBloc;
-    private javax.swing.JTextField jLlocLleixa;
-    private javax.swing.JTextField jLlocPassadis;
+    private javax.swing.JComboBox<String> jLlocBloc;
+    private javax.swing.JComboBox<String> jLlocLleixa;
+    private javax.swing.JComboBox<String> jLlocPassadis;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenu jMenu3;

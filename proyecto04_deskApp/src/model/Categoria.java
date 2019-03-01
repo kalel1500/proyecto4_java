@@ -72,9 +72,9 @@ public class Categoria {
     public Categoria nomCategoria(int i){
         Categoria cat = new Categoria();
         sql = "SELECT categoria_nom FROM tbl_categoria "
-                + "INNER JOIN tbl_serie ON tbl_serie.categoria_id = tbl_categoria.categoria_id "
-                + "INNER JOIN tbl_producte ON tbl_producte.serie_id = tbl_serie.serie_id "
-                + "WHERE tbl_producte.serie_id ='"+i+"'";
+                + "INNER JOIN tbl_serie  ON tbl_serie.categoria_id = tbl_categoria.categoria_id "
+                + "INNER JOIN tbl_producte  ON tbl_producte.serie_id = tbl_serie.serie_id "
+                + "WHERE tbl_producte.producte_id ='"+i+"'";
         try {
             Statement st = cn.createStatement();
             ResultSet rs = st.executeQuery(sql);
@@ -82,6 +82,7 @@ public class Categoria {
             cat.setCategoria_nom(rs.getString("categoria_nom"));
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null, ex);
+            JOptionPane.showMessageDialog(null, "no hace la query");
         }
         return cat;
     }

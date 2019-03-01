@@ -61,7 +61,9 @@ public class Serie {
     
     public Serie nomSerie(int i){
         Serie serie = new Serie();
-        sql = "SELECT serie_nom FROM tbl_serie INNER JOIN tbl_producte ON tbl_producte.serie_id = tbl_serie.serie_id WHERE tbl_producte.serie_id ='"+i+"'";
+        sql = "SELECT serie_nom FROM tbl_serie "
+                + "INNER JOIN tbl_producte ON tbl_producte.serie_id = tbl_serie.serie_id "
+                + "WHERE tbl_producte.producte_id ='"+i+"'";
         try {
             Statement st = cn.createStatement();
             ResultSet rs = st.executeQuery(sql);
@@ -90,5 +92,21 @@ public class Serie {
             }
         } catch (Exception e) {
         }
+    }
+    
+    public Serie getSerieId(int id){
+        Serie serieId = new Serie();
+        sql = "SELECT tbl_serie.serie_id FROM tbl_serie "
+                + " INNER JOIN tbl_producte  on tbl_producte.serie_id = tbl_serie.serie_id "
+                + "WHERE tbl_producte.producte_id='"+id+"'";
+        try {
+            Statement st = cn.createStatement();
+            ResultSet rs = st.executeQuery(sql);
+            rs.next();
+            serieId.setSerie_id(rs.getInt("serie_id"));
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, ex);
+        }
+        return serieId;
     }
 }

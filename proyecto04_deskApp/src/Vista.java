@@ -133,7 +133,7 @@ public class Vista extends javax.swing.JFrame {
             }
             this.dispose();
         }else{
-            JOptionPane.showMessageDialog(null, "algo va mal");
+            JOptionPane.showMessageDialog(null, "usuario o contraseña incorrectos");
         }
     }//GEN-LAST:event_submitLoginformActionPerformed
 

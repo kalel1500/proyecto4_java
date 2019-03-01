@@ -5,11 +5,22 @@
  */
 package model;
 
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author msi
  */
 public class ModificarProducto {
+    
+    private String sql="";
+    private Conexion conn=new Conexion();
+    private Connection cn=conn.conectar();
+    
     int producte_id;
     String producte_nom;
     String producte_foto;
@@ -197,4 +208,65 @@ public class ModificarProducto {
         this.num_lleixa = num_lleixa;
     }
     
+    private int getIdLloc(String bloc, String passadis, String lleixa){
+        Lloc llocId = new Lloc();
+        sql="SELECT lloc_id FROM tbl_lloc WHERE num_bloc='"+bloc+"' AND num_passadis='"+passadis+"' AND num_lleixa='"+lleixa+"'";
+        
+        try {
+            Statement st = cn.createStatement();
+            ResultSet rs = st.executeQuery(sql);
+            rs.next();
+            llocId.setLloc(rs.getInt("lloc_id"));
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, ex);
+            JOptionPane.showMessageDialog(null, "no se hace la query updateProd, get id de lloc");
+        }
+        int lloc_id = llocId.getLloc();
+        return lloc_id;
+    }
+    
+    public void updateProd(ModificarProducto modProd){
+        
+        int producto_id = modProd.getProducte_id();
+        String nombre = modProd.producte_nom;
+        double preu = modProd.producte_preu;
+        int descompte = modProd.producte_descompte;
+        int categoria = modProd.categoria_id;
+        int serie = modProd.serie_id+1;
+        String bloc = modProd.num_bloc;
+        String passadis = modProd.num_passadis;
+        String lleixa = modProd.num_lleixa;
+        
+        int lloc_id = getIdLloc(bloc,passadis,lleixa);
+        //JOptionPane.showMessageDialog(null, serie);
+        
+        try {
+            cn.setAutoCommit(false);
+            sql="UPDATE tbl_producte SET producte_nom ='"+nombre+"', producte_preu='"+preu+"'"
+                    + ", producte_descompte='"+descompte+"', serie_id='"+serie+"' WHERE producte_id ='"+producto_id+"'";
+            try {
+                Statement st = cn.createStatement();
+                int rs = st.executeUpdate(sql);
+            } catch (SQLException ex) {
+                JOptionPane.showMessageDialog(null, ex);
+            }
+            sql="UPDATE tbl_estoc SET lloc_id='"+lloc_id+"' WHERE producte_id='"+producto_id+"'";
+            try {
+                Statement st = cn.createStatement();
+                int rs = st.executeUpdate(sql);
+            } catch (SQLException ex) {
+                JOptionPane.showMessageDialog(null, ex);
+            }
+            cn.commit();
+        } catch (Exception e) {
+            //algo
+            try {
+                cn.rollback();
+            } catch (SQLException ex1) {
+               JOptionPane.showMessageDialog(null, "se hace el rollback");
+            }
+        }
+        
+    }
+    //hacer get procute nom
 }
