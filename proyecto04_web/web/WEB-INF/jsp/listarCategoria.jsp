@@ -15,6 +15,7 @@
     <button type="button" class="btn btn-success">
         <a href="insertarCategoria"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span>Agregar</a>
     </button>
+    
     <div class="table-responsive">
         <table class="table table-bordered">
             <thead>
@@ -32,7 +33,7 @@
                         <td>${cat.categoria_nom}</td>
                         <td><a href="eliminarCategoria?id=${cat.categoria_id}"><span class="glyphicon glyphicon-trash"></span></a></td>
                         <td><a href="modificarCategoria?id=${cat.categoria_id}"><span class="glyphicon glyphicon-pencil"></span></a></td>
-                        
+
                     </tr>
                 </c:forEach>
             </tbody>

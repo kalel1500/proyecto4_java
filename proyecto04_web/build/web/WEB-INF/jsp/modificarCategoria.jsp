@@ -23,8 +23,11 @@
         <form:hidden path="categoria_id" />
         
         <div class="form-group">        
-            <div class="col-sm-offset-2 col-sm-10">
-                <input type="submit" class="btn btn-default" value="Enviar"/>
+            <div class="col-sm-offset-2 col-sm-2">
+                <a href="listarCategoria" class="btn btn-danger">Cancelar</a>
+            </div>
+            <div class="col-sm-offset-1 col-sm-2">
+                <input type="submit" class="btn btn-success" value="Enviar"/>
             </div>
         </div>
     </form:form>

@@ -26,7 +26,7 @@
                 </div>
             </div>
 
-            <%-- <div class="form-group col-sm-3">
+            <%--<div class="form-group col-sm-3">
                 <label class="control-label col-sm-3" for="producte_nom">Serie:</label>
                 <div class="col-sm-9" id="cargar-select-serie">
                     <form:select path="serie_id" class="form-control">
@@ -39,12 +39,12 @@
             </div> --%>
 
             <div class="form-group col-sm-4">
-                <label class="control-label col-sm-3" for="producte_nom">Categoria:</label>
+                <label class="control-label col-sm-3" for="categoria_nom">Categoria:</label>
                 <div class="col-sm-9">
-                    <form:select path="categoria_id" class="form-control">
-                        <form:option value="0">-Selecciona-</form:option>
+                    <form:select path="categoria_nom" class="form-control">
+                        <form:option value="">-Selecciona-</form:option>
                         <c:forEach var="cat" items="${listaCategoria}">
-                            <form:option value="${cat.categoria_id}">${cat.categoria_nom}</form:option>
+                            <form:option value="${cat.categoria_nom}">${cat.categoria_nom}</form:option>
                         </c:forEach>
                     </form:select>
                 </div>
@@ -99,11 +99,11 @@
 </div>
 
 <script type="text/javascript">
-    $('#categoria_id').change(
+    $('#categoria_nom').change(
             function () {
                 $('#cargar-select-serie').load('cargarSelectSerie',
-                        "categoria_id=" + $('#categoria_id').val());
-
+                        "categoria_nom=" + $('#categoria_nom').val());
+                        
             }
     );
 </script>

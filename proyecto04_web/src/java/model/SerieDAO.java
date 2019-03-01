@@ -46,7 +46,8 @@ public class SerieDAO {
         }
     }
 
-    public void eliminarSerie(int id) {
+    public boolean eliminarSerie(int id) {
+        boolean res = true;
         sql = "DELETE FROM `tbl_serie` WHERE `tbl_serie`.`serie_id` = ?";
 
         try {
@@ -54,8 +55,10 @@ public class SerieDAO {
             pst.setInt(1, id);
             int n = pst.executeUpdate();
         } catch (SQLException ex) {
+            res = false;
             Logger.getLogger(SerieDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
+        return res;
     }
 
     public void insertarSerie(Serie serie) {
@@ -89,9 +92,10 @@ public class SerieDAO {
     }
     
     // recupera lista serie por categoria
-    public void getListaSeriePorCategoria(String id, ArrayList<Serie> listaSerie) {
+    public void getListaSeriePorCategoria(String nom, ArrayList<Serie> listaSerie) {
         
-        sql = "SELECT * FROM tbl_serie WHERE `tbl_serie`.`categoria_id` = " + id;
+        sql = "SELECT * FROM tbl_serie INNER JOIN tbl_categoria ON tbl_serie.categoria_id = tbl_categoria.categoria_id WHERE `tbl_categoria`.`categoria_nom` = '" + nom + "'";
+        JOptionPane.showMessageDialog(null, sql);
         try {
             Statement st = cn.createStatement();
             ResultSet rs = st.executeQuery(sql);

@@ -54,7 +54,8 @@ public class ProductoDAO {
         }
     }
 
-    public void eliminarProducto(int id) {
+    public boolean eliminarProducto(int id) {
+        boolean res = true;
         sql = "DELETE FROM `tbl_producto` WHERE `tbl_producto`.`producte_id` = ?";
 
         try {
@@ -62,8 +63,10 @@ public class ProductoDAO {
             pst.setInt(1, id);
             int n = pst.executeUpdate();
         } catch (SQLException ex) {
+            res = false;
             Logger.getLogger(ProductoDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
+        return res;
     }
 
     public void insertarProducto(Producto producto) {
@@ -163,14 +166,15 @@ public class ProductoDAO {
     }
     
     // filtrar producto
-    public void getListaProductosFiltrados(ArrayList<Producto> listaProducto, Producto prod) {
-        String nom = prod.getProducte_nom();
-        int id = prod.getCategoria_id();
-        sql = "SELECT `producte_nom` FROM tbl_producte INNER JOIN tbl_serie ON tbl_producte.serie_id = tbl_serie.serie_id INNER JOIN tbl_categoria ON tbl_serie.categoria_id = tbl_categoria.categoria_id WHERE `producte_nom` LIKE '%%' AND tbl_categoria.`categoria_id` LIKE '%%'";
+    public void getListaProductosFiltrados(ArrayList<Producto> listaFiltrarProducto, Producto prod) {
+        String prodNom = prod.getProducte_nom();
+        String catNom = prod.getCategoria_nom();
+        sql = "SELECT * FROM tbl_producte INNER JOIN tbl_serie ON tbl_producte.serie_id = tbl_serie.serie_id INNER JOIN tbl_categoria ON tbl_serie.categoria_id = tbl_categoria.categoria_id WHERE `producte_nom` LIKE '%"+ prodNom +"%' AND tbl_categoria.`categoria_nom` LIKE '%"+ catNom +"%'";
+        //JOptionPane.showMessageDialog(null, sql);
         try {
             Statement st = cn.createStatement();
             ResultSet rs = st.executeQuery(sql);
-            listaProducto.clear();
+            listaFiltrarProducto.clear();
             while (rs.next()) {
                 Producto producto = new Producto();
                 producto.setProducte_id(rs.getInt("producte_id"));
@@ -183,10 +187,11 @@ public class ProductoDAO {
                 producto.setProducte_descompte(rs.getInt("producte_descompte"));
                 producto.setSerie_nom(rs.getString("serie_nom"));
                 producto.setCategoria_nom(rs.getString("categoria_nom"));
-                listaProducto.add(producto);
+                listaFiltrarProducto.add(producto);
             }
+            
         } catch (SQLException ex) {
-            Logger.getLogger(ProductoDAO.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(null, ex);
         }
     }
 }

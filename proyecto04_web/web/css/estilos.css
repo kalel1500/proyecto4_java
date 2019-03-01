@@ -53,7 +53,7 @@ tr:hover {
     margin-bottom: 10px;
 }
 .lista-prod a {
-/*    display: block;*/
+    /*    display: block;*/
     color: #333;
 }
 .lista-prod a:hover {
@@ -62,7 +62,7 @@ tr:hover {
 }
 .fila-lista-prod {
     min-height: 180px;
-/*    background-color: #0686145c;*/
+    /*    background-color: #0686145c;*/
     background-color: #e4e4e45c;
     margin-bottom: 10px;
 }
@@ -100,3 +100,45 @@ tr:hover {
 .img-detalle-prod {
     width: 100%;
 }
+
+
+/* ventana modal */
+
+.modal {
+    background: rgba(0,0,0,0.8);
+}
+.modal-dialog {
+    top: 20%;
+}
+.modal-content {
+    background-color: #ffb4b4fc;
+}
+/*.modalDialog {
+        position: fixed;
+        font-family: Arial, Helvetica, sans-serif;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        background: rgba(0,0,0,0.8);
+        z-index: 99999;
+        display:none;
+        -webkit-transition: all 400ms ease-in;
+        -moz-transition: all 400ms ease-in;
+        transition: all 400ms ease-in;
+        pointer-events: auto;
+}*/
+/*.modalDialog > div {
+        width: 400px;
+        position: relative;
+        margin: 10% auto;
+        padding: 5px 20px 13px 20px;
+        border-radius: 10px;
+        background: #fff;
+        background: -moz-linear-gradient(#fff, #999);
+        background: -webkit-linear-gradient(#fff, #999);
+        background: -o-linear-gradient(#fff, #999);
+  -webkit-transition: opacity 400ms ease-in;
+-moz-transition: opacity 400ms ease-in;
+transition: opacity 400ms ease-in;
+}*/

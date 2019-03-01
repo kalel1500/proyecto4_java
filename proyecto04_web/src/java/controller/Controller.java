@@ -44,14 +44,18 @@ import org.springframework.web.servlet.view.RedirectView;
 @RequestMapping("/")
 @SessionAttributes({"us"})
 public class Controller {
+    // variables
+    boolean filtrar = false;
     // Usuario
     UsuarioDAO udao = new UsuarioDAO();
     Usuario usu = new Usuario();
     ArrayList<Usuario> listaUsuario = new ArrayList<Usuario>();
     // Producto
     Producto producto = new Producto();
+    Producto prodFiltro = new Producto();
     ProductoDAO pdao = new ProductoDAO();
     ArrayList<Producto> listaProducto = new ArrayList<Producto>();
+    ArrayList<Producto> listaFiltrarProducto = new ArrayList<Producto>();
     // Estoc
     Estoc estoc = new Estoc();
     EstocDAO edao = new EstocDAO();
@@ -190,16 +194,41 @@ public class Controller {
     // Mostrar productos
     @RequestMapping(value = "listarProducto", method = RequestMethod.GET)
     public String listarProductoController(Model model) {     
-        pdao.getListaProductos(listaProducto);
-        producto = new Producto();
-        model.addAttribute("producto",producto);
-        model.addAttribute("listaProducto", listaProducto);
+        // comprobamos si estamos filtrando
+        if(filtrar == true) {
+            // enviamos la lista de los productos filtrados
+            model.addAttribute("listaProducto", listaFiltrarProducto);
+            // enviamos el producto lleno para el formulario
+            model.addAttribute("producto",prodFiltro);
+            filtrar = false;
+        } else {
+            // enviamos un producto vacio para el formulario
+            producto = new Producto();
+            model.addAttribute("producto",producto);
+            // llenamos la lista con los productos
+            pdao.getListaProductos(listaProducto);
+            model.addAttribute("listaProducto", listaProducto);
+        }
+        
         // enviamos la lista de categorias para el desplegable
         cdao.getListaCategorias(listaCategoria);
         model.addAttribute("listaCategoria", listaCategoria);
-        
+        // enviamos el titulo para el head
         model.addAttribute("title", "Productos");
         return "listarProducto";
+    }
+    
+    // Filtar productos
+    @RequestMapping(value = "filtrarProducto", method = RequestMethod.POST)
+    public RedirectView filtrarProductoController(@ModelAttribute("producto") Producto prod) {     
+        // llenamos la lista con los productos filtrados
+        pdao.getListaProductosFiltrados(listaFiltrarProducto, prod);
+        //enviamos el producto para que el filtro este lleno
+        prodFiltro = prod;
+        
+        filtrar = true;
+        RedirectView respuesta = new RedirectView("listarProducto");
+        return respuesta;
     }
     
     // Detalle productos
@@ -219,9 +248,14 @@ public class Controller {
     
     // Eliminar productos
     @RequestMapping(value = "eliminarProducto", method = RequestMethod.GET)
-    public RedirectView eliminarProductoController(@RequestParam("id") int id) {     
+    public RedirectView eliminarProductoController(@RequestParam("id") int id, Model model) {     
         RedirectView respuesta = new RedirectView("listarProducto");
-        pdao.eliminarProducto(id);
+        boolean res = pdao.eliminarProducto(id);
+        if(res == false) {
+            model.addAttribute("eliminarProd", "false");
+        } else {
+            model.addAttribute("eliminarProd", "true");
+        }
         return respuesta;
     }
        
@@ -261,10 +295,17 @@ public class Controller {
     }
     
     @RequestMapping("cargarSelectSerie")
-    public @ResponseBody ArrayList<Serie> cargarSelectSerie(@RequestParam("categoria_id") String cat_id) {
-        sdao.getListaSeriePorCategoria(cat_id,listaSerie);
+    public @ResponseBody ArrayList<Serie> cargarSelectSerie(@RequestParam("categoria_nom") String cat_nom) {
+        try {
+            sdao.getListaSeriePorCategoria(cat_nom,listaSerie);
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "error");
+        }
+        
         return listaSerie;
     }
+    
+    
     // --------------------------------CATEGORIAS--------------------------------
     // Mostrar categorias
     @RequestMapping(value = "listarCategoria", method = RequestMethod.GET)
@@ -277,9 +318,14 @@ public class Controller {
     
     // Eliminar categorias
     @RequestMapping(value = "eliminarCategoria", method = RequestMethod.GET)
-    public RedirectView eliminarCategoriaController(@RequestParam("id") int id) {     
+    public RedirectView eliminarCategoriaController(@RequestParam("id") int id, Model model) {     
         RedirectView respuesta = new RedirectView("listarCategoria");
-        cdao.eliminarCategoria(id);
+        boolean res = cdao.eliminarCategoria(id);
+        if(res == false) {
+            model.addAttribute("eliminarCat", "false");
+        } else {
+            model.addAttribute("eliminarCat", "true");
+        }
         return respuesta;
     }
        
@@ -330,9 +376,15 @@ public class Controller {
     
     // Eliminar series
     @RequestMapping(value = "eliminarSerie", method = RequestMethod.GET)
-    public RedirectView eliminarSerieController(@RequestParam("id") int id) {     
+    public RedirectView eliminarSerieController(@RequestParam("id") int id, Model model) {     
         RedirectView respuesta = new RedirectView("listarSerie");
-        sdao.eliminarSerie(id);
+        boolean res = sdao.eliminarSerie(id);
+        if(res == false) {
+            model.addAttribute("eliminarSer", "false");
+        } else {
+            model.addAttribute("eliminarSer", "true");
+        }
+        
         return respuesta;
     }
        
