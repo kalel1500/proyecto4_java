@@ -106,6 +106,7 @@ public class Inicio extends javax.swing.JFrame {
         });
         jMenu2.add(jMenuVerProductos);
 
+        jMenuVerCategorias.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_B, java.awt.event.InputEvent.SHIFT_MASK));
         jMenuVerCategorias.setText("Buscar por Categoria");
         jMenu2.add(jMenuVerCategorias);
 
@@ -190,6 +191,13 @@ public class Inicio extends javax.swing.JFrame {
 
     private void jMenuCrearUsuariosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuCrearUsuariosActionPerformed
         // TODO add your handling code here:
+        openCrearUsu();
+         try {
+            cn.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(Vista.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        this.dispose();
     }//GEN-LAST:event_jMenuCrearUsuariosActionPerformed
 
     private void jMenuVerOfertasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuVerOfertasActionPerformed
@@ -262,6 +270,12 @@ public class Inicio extends javax.swing.JFrame {
     private void openUsuarios(){
         java.awt.EventQueue.invokeLater(() -> {
             new Usuarios().setVisible(true);
+        });
+    }
+    
+    private void openCrearUsu(){
+        java.awt.EventQueue.invokeLater(() -> {
+            new CrearUsu().setVisible(true);
         });
     }
     /**

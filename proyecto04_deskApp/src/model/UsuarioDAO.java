@@ -78,6 +78,7 @@ public class UsuarioDAO {
             JOptionPane.showMessageDialog(null, "FALLA LA QUERY getListaUsuarios");
         }
     }
+    
 
     public void eliminarUsuario(int id) {
         sql = "DELETE FROM `tbl_usuario` WHERE `tbl_usuario`.`id_usuario` = ?";
@@ -135,6 +136,7 @@ public class UsuarioDAO {
     // modifica la usuario
     public void modificarUsuario(Usuario usuario) {
         sql = "UPDATE `tbl_usuario` SET `nombre_usuario` = ?, `apellido_usuario` = ?, `password_usuario` = ?, `email_usuario` = ? WHERE `tbl_usuario`.`id_usuario` = ?";
+     
         try {
             PreparedStatement pst = cn.prepareStatement(sql);
             pst.setString(1, usuario.getNombre_usuario());
@@ -142,12 +144,28 @@ public class UsuarioDAO {
             pst.setString(3, usuario.getPassword_usuario());
             pst.setString(4, usuario.getEmail_usuario());
             pst.setInt(5, usuario.getId_usuario());
-//            JOptionPane.showMessageDialog(null, pst);
             int n = pst.executeUpdate();
-//            JOptionPane.showMessageDialog(null, n);
+
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null, ex);
             Logger.getLogger(UsuarioDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+    
+    //Saca el id del ultimo usuario para crear nuevos
+    public int getLastId(){
+        int id = 0;
+        sql="SELECT id_usuario FROM tbl_usuario ORDER BY id_usuario DESC LIMIT 1";
+        try {
+            Statement st = cn.createStatement();
+            ResultSet rs = st.executeQuery(sql);
+            rs.next();
+            id = rs.getInt("id_usuario");
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(null, ex);
+            JOptionPane.showMessageDialog(null, "Falla la query de sacar id");
+        }
+        
+        return id+1;
     }
 }

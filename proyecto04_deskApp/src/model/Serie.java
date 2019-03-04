@@ -109,4 +109,17 @@ public class Serie {
         }
         return serieId;
     }
+    
+    public int getId(String nom){
+        int id =0;
+        sql = "SELECT serie_id FROM tbl_serie WHERE serie_nom ='"+nom+"'";
+        try {
+            Statement st = cn.createStatement();
+            ResultSet rs = st.executeQuery(sql);
+            rs.next();
+            id = rs.getInt("serie_id");
+        } catch (Exception e) {
+        }
+        return id;
+    }
 }

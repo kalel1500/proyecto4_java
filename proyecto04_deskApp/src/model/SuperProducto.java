@@ -230,25 +230,28 @@ public class SuperProducto {
         int producto_id = modProd.getProducte_id();
         String nombre = modProd.producte_nom;
         double preu = modProd.producte_preu;
+        String descripcio = modProd.producte_descripcio;
         int descompte = modProd.producte_descompte;
         int categoria = modProd.categoria_id;
-        int serie = modProd.serie_id+1;
+        int serie = modProd.serie_id;
         String bloc = modProd.num_bloc;
         String passadis = modProd.num_passadis;
         String lleixa = modProd.num_lleixa;
         
         int lloc_id = getIdLloc(bloc,passadis,lleixa);
-        //JOptionPane.showMessageDialog(null, serie);
+        JOptionPane.showMessageDialog(null, serie);
+        
         
         try {
             cn.setAutoCommit(false);
-            sql="UPDATE tbl_producte SET producte_nom ='"+nombre+"', producte_preu='"+preu+"'"
+            sql="UPDATE tbl_producte SET producte_nom ='"+nombre+"', producte_preu='"+preu+"', producte_descripcio='"+descripcio+"'"
                     + ", producte_descompte='"+descompte+"', serie_id='"+serie+"' WHERE producte_id ='"+producto_id+"'";
             try {
                 Statement st = cn.createStatement();
                 int rs = st.executeUpdate(sql);
             } catch (SQLException ex) {
                 JOptionPane.showMessageDialog(null, ex);
+                JOptionPane.showMessageDialog(null, "falla el update de producto");
             }
             sql="UPDATE tbl_estoc SET lloc_id='"+lloc_id+"' WHERE producte_id='"+producto_id+"'";
             try {
@@ -256,6 +259,7 @@ public class SuperProducto {
                 int rs = st.executeUpdate(sql);
             } catch (SQLException ex) {
                 JOptionPane.showMessageDialog(null, ex);
+                JOptionPane.showMessageDialog(null, "falla el update de lloc");
             }
             cn.commit();
         } catch (Exception e) {
@@ -263,13 +267,73 @@ public class SuperProducto {
             try {
                 cn.rollback();
             } catch (SQLException ex1) {
-               JOptionPane.showMessageDialog(null, "se hace el rollback");
+               JOptionPane.showMessageDialog(null, "no se hace el rollback de modificar");
             }
         }
     }
     
     public void crearProducto(SuperProducto crearProd){
+        int producto_id = crearProd.getId();
+        String nombre = crearProd.producte_nom;
+        String descripcio = crearProd.producte_descripcio;
+        double preu = crearProd.producte_preu;
+        int descompte = crearProd.producte_descompte;
+        int categoria = crearProd.categoria_id;
+        int serie = crearProd.serie_id;
+        String bloc = crearProd.num_bloc;
+        String passadis = crearProd.num_passadis;
+        String lleixa = crearProd.num_lleixa;
+        int lloc_id = getIdLloc(bloc,passadis,lleixa);
+        int stock_max = crearProd.estoc_maxim;
+        int stock_min = crearProd.estoc_minim;
+        
+        try {
+            cn.setAutoCommit(false);
+            sql= "INSERT INTO tbl_producte(producte_id,producte_nom,producte_foto, producte_preu, producte_descripcio, producte_descompte, serie_id)"
+                    + "VALUES('"+producto_id+"','"+nombre+"','','"+preu+"','"+descripcio+"','"+descompte+"','"+serie+"')";
+             //JOptionPane.showMessageDialog(null, sql);
+             try {
+                Statement st = cn.createStatement();
+                int rs = st.executeUpdate(sql);
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(null, ex);
+                JOptionPane.showMessageDialog(null, "falla el insert de producto");
+            }
+             
+             sql="INSERT INTO tbl_estoc (estoc_id, estoc_quantitat, estoc_maxim, estoc_minim, producte_id, lloc_id)"
+                     + "VALUES('"+producto_id+"','0','"+stock_max+"','"+stock_min+"','"+producto_id+"','"+lloc_id+"')";
+             try {
+                Statement st = cn.createStatement();
+                int rs = st.executeUpdate(sql);
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(null, ex);
+                JOptionPane.showMessageDialog(null, "falla el insert de stock");
+            }
+             
+            cn.commit();
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Error al insertar");
+            try {
+                cn.rollback();
+            } catch (SQLException ex1) {
+               JOptionPane.showMessageDialog(null, "no se hace el rollback de insertar");
+            }
+        }
+        //JOptionPane.showMessageDialog(null, producto_id);
         
     }
-    //hacer get procute nom
+    
+    public int getId(){
+        int id = 0;
+        sql = "SELECT producte_id FROM tbl_producte ORDER BY producte_id DESC LIMIT 1";
+        try {
+            Statement st = cn.createStatement();
+            ResultSet rs = st.executeQuery(sql);
+            rs.next();
+            id = (rs.getInt("producte_id"));
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(null, "no se ha sacad el id");
+        }
+        return id+1;
+    }
 }

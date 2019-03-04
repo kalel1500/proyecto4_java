@@ -28,9 +28,9 @@ public class Vista extends javax.swing.JFrame {
      * Creates new form Vista
      */
     public Vista() {
-        setTitle("LOGIN");
-        this.setLocationRelativeTo(null); 
         initComponents();
+        setTitle("LOGIN");
+        this.setLocationRelativeTo(null);         
     }
 
     /**

@@ -87,6 +87,31 @@ public class Home extends javax.swing.JFrame {
         desactivarCamposStock();
     }
     
+    //Desactiva todos los botones para la creacion de productos
+    public void desactivarTodo(){
+        
+        activarFlechasAlante(false);
+        activarFlechasAtras(false);
+        this.jCrearProducto.setEnabled(false);
+        this.jBtnGuardarProducto.setEnabled(false);
+        this.jBtnModificarProducto.setEnabled(false);
+        this.jBtnModificarCantidad.setEnabled(false);
+        this.jBtnUpdateStock.setEnabled(false);
+        this.jBtnStock.setEnabled(false);
+    }
+    
+    //Desactiva todos los botones para la creacion de productos
+    public void activarTodo(){
+        
+        activarDesactivarFlechas();
+        this.jCrearProducto.setEnabled(true);
+        this.jBtnGuardarProducto.setEnabled(true);
+        this.jBtnModificarProducto.setEnabled(true);
+        this.jBtnModificarCantidad.setEnabled(true);
+        this.jBtnUpdateStock.setEnabled(true);
+        this.jBtnStock.setEnabled(true);
+    }
+    
     public void activarFlechasAlante(boolean ac) {
         this.jSiguiente.setEnabled(ac);
         this.jUltimo.setEnabled(ac);
@@ -139,22 +164,35 @@ public class Home extends javax.swing.JFrame {
             }
         });
     }
+    private void openCrearUsu(){
+        java.awt.EventQueue.invokeLater(() -> {
+            new CrearUsu().setVisible(true);
+        });
+    }
     
     //guarda el nuevo producto
     public void guardarNuevoProducto(){
         
-        
+        String Serienom = (String)this.jSerNom.getSelectedItem();
+               
         crearProd.setProducte_nom(this.jProdNom.getText());
         crearProd.setProducte_preu(Double.parseDouble(this.jProdPreu.getText()));
         crearProd.setProducte_descompte(Integer.parseInt(this.jProdDescompte.getText()));
+        crearProd.setProducte_descripcio(this.jProdDescripcio.getText());
         crearProd.setCategoria_id(this.jCatNom.getSelectedIndex());
-        crearProd.setSerie_id(this.jSerNom.getSelectedIndex());
+        crearProd.setSerie_id(serie.getId(Serienom));
         crearProd.setNum_bloc((String)this.jLlocBloc.getSelectedItem());
         crearProd.setNum_passadis((String)this.jLlocPassadis.getSelectedItem());
         crearProd.setNum_lleixa((String)this.jLlocLleixa.getSelectedItem());
-        crearProd.setProducte_id(Integer.parseInt(this.jProdIndex.getText()));
+        //crearProd.setEstoc_quantitat(Integer.parseInt(this.jStockActual.getText()));
+        crearProd.setEstoc_maxim(Integer.parseInt(this.jStockMax.getText()));
+        crearProd.setEstoc_minim(Integer.parseInt(this.jStockMin.getText()));
+        
+        //crearProd.setProducte_id(Integer.parseInt(this.jProdIndex.getText()));
 
         crearProd.crearProducto(crearProd);
+        JOptionPane.showMessageDialog(null, "Producto creado!");
+        cargarTabla();
     }
     
     //Este boton recarga los registros de la BDD al hacer la accion
@@ -188,6 +226,31 @@ public class Home extends javax.swing.JFrame {
         
         
         this.jProdIndex.setText(String.valueOf(i));
+        this.jGuardarProducto.setEnabled(false);
+    }
+    
+    public void limpiarCampos(){
+        this.jProdNom.setText("");
+        this.jProdPreu.setText("");
+        this.jProdDescompte.setText("");
+        this.jProdDescripcio.setText("");
+        
+               
+        this.jCatNom.setSelectedItem("");
+        this.jSerNom.setSelectedItem("");
+        
+        this.jLlocBloc.setSelectedItem("");
+        this.jLlocPassadis.setSelectedItem("");
+        this.jLlocLleixa.setSelectedItem("");
+        
+        
+        this.jStockActual.setText("");
+        this.jStockMax.setText("");
+        this.jStockMin.setText("");
+        
+        
+        
+        this.jProdIndex.setText("");
     }
     
     //Bloquea los campos si n hay id seleccionado
@@ -376,7 +439,6 @@ public class Home extends javax.swing.JFrame {
         jMenu2 = new javax.swing.JMenu();
         jMenuVerProductos = new javax.swing.JMenuItem();
         jMenuVerCategorias = new javax.swing.JMenuItem();
-        jMenuModificarCategoria = new javax.swing.JMenuItem();
         ofertasBtn = new javax.swing.JMenu();
         jMenuVerOfertas = new javax.swing.JMenuItem();
         jMenuItem1 = new javax.swing.JMenuItem();
@@ -612,14 +674,6 @@ public class Home extends javax.swing.JFrame {
             }
         });
         jMenu2.add(jMenuVerCategorias);
-
-        jMenuModificarCategoria.setText("Modificar Categoria");
-        jMenuModificarCategoria.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuModificarCategoriaActionPerformed(evt);
-            }
-        });
-        jMenu2.add(jMenuModificarCategoria);
 
         jMenuBar1.add(jMenu2);
 
@@ -871,6 +925,7 @@ public class Home extends javax.swing.JFrame {
         desactivarCamposProducto();
         desactivarCamposStock();
         activarDesactivarFlechas();
+        activarTodo();
     }//GEN-LAST:event_tablaProductoMouseClicked
 
     private void jStockMaxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jStockMaxActionPerformed
@@ -898,8 +953,7 @@ public class Home extends javax.swing.JFrame {
 
     private void jMenuCrearUsuariosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuCrearUsuariosActionPerformed
         // TODO add your handling code here:
-        //ir a vista crear usuario
-        //set editable false
+        openCrearUsu();
     }//GEN-LAST:event_jMenuCrearUsuariosActionPerformed
 
     private void jMenuVerProductosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuVerProductosActionPerformed
@@ -938,11 +992,6 @@ public class Home extends javax.swing.JFrame {
         JOptionPane.showMessageDialog(null, "Ops! parece que estamos en mantenimiento");
     }//GEN-LAST:event_jMenuCrearPedidoActionPerformed
 
-    private void jMenuModificarCategoriaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuModificarCategoriaActionPerformed
-        // TODO add your handling code here:
-        //abrir un frame con categorias para elegir.
-    }//GEN-LAST:event_jMenuModificarCategoriaActionPerformed
-
     private void jBtnStockActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnStockActionPerformed
         // TODO add your handling code here:
         //Ver como hacer para que el primer click desactive campos y el segundo haga el update
@@ -968,26 +1017,55 @@ public class Home extends javax.swing.JFrame {
     private void jBtnGuardarProductoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnGuardarProductoActionPerformed
         // TODO add your handling code here:
         // Guarda la informacion modificada
+        boolean error = false;
         
-        modProd.setProducte_nom(this.jProdNom.getText());
-        modProd.setProducte_preu(Double.parseDouble(this.jProdPreu.getText()));
-        modProd.setProducte_descompte(Integer.parseInt(this.jProdDescompte.getText()));
+        if(this.jProdNom.getText().length() > 1){
+           modProd.setProducte_nom(this.jProdNom.getText()); 
+        }else{
+            JOptionPane.showMessageDialog(null, "introduce nombre de producto");
+            error = true;
+        }
+        
+        if(Double.parseDouble(this.jProdPreu.getText()) > 0.01){
+            modProd.setProducte_preu(Double.parseDouble(this.jProdPreu.getText()));
+        }else{
+            JOptionPane.showMessageDialog(null, "Ponle precio, no somos comunistas");
+            error = true;
+        }
+        
+//           mirar de validar precio que no sea string
+//        if( this.jProdPreu.getText() instanceof String ) {
+//           JOptionPane.showMessageDialog(null, "Precio incorrecto, utiliza números");
+//            error = true;
+//        }
+        
+        if(Integer.parseInt(this.jProdDescompte.getText()) >= 0 && Integer.parseInt(this.jProdDescompte.getText()) < 100){
+            modProd.setProducte_descompte(Integer.parseInt(this.jProdDescompte.getText()));
+        }else{
+            JOptionPane.showMessageDialog(null, "Descuento no válido. introduce entre 1-99%");
+            error = true;
+        }
+        String Serienom = (String)this.jSerNom.getSelectedItem();
+       
+        modProd.setSerie_id(serie.getId(Serienom));
+        modProd.setProducte_descripcio(this.jProdDescripcio.getText());
         modProd.setCategoria_id(this.jCatNom.getSelectedIndex());
-        modProd.setSerie_id(this.jSerNom.getSelectedIndex());
+//        modProd.setSerie_id(this.jSerNom.getSelectedIndex());
         modProd.setNum_bloc((String)this.jLlocBloc.getSelectedItem());
         modProd.setNum_passadis((String)this.jLlocPassadis.getSelectedItem());
         modProd.setNum_lleixa((String)this.jLlocLleixa.getSelectedItem());
         modProd.setProducte_id(Integer.parseInt(this.jProdIndex.getText()));
-
-        modProd.updateProd(modProd);
         
         
-        JOptionPane.showMessageDialog(null, "Producto actualizado!");
-        desactivarCamposProducto();
-        cargarTabla();
-        //se ha creado la clase, falta hacer que categoria y serie sean desplegables porque no se 
-        //tiene que poder modificar a mano, por si la categoria no existe y tal. 
-               
+        
+       // JOptionPane.showMessageDialog(null, modProd.getProducte_preu());
+        if(error == false){
+            modProd.updateProd(modProd); 
+            JOptionPane.showMessageDialog(null, "Producto actualizado!");
+            desactivarCamposProducto();
+            cargarTabla();
+        }
+             
     }//GEN-LAST:event_jBtnGuardarProductoActionPerformed
 
     //UPDATE STOCK
@@ -1095,6 +1173,8 @@ public class Home extends javax.swing.JFrame {
         // TODO add your handling code here:
         activarCamposProducto();
         activarCamposStock();
+        limpiarCampos();
+        desactivarTodo();
         this.jGuardarProducto.setEnabled(true);
     }//GEN-LAST:event_jCrearProductoActionPerformed
 
@@ -1220,7 +1300,6 @@ public class Home extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItem3;
-    private javax.swing.JMenuItem jMenuModificarCategoria;
     private javax.swing.JMenuItem jMenuVerCategorias;
     private javax.swing.JMenuItem jMenuVerOfertas;
     private javax.swing.JMenuItem jMenuVerProductos;

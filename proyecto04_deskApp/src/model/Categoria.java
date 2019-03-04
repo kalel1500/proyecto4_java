@@ -84,6 +84,7 @@ public class Categoria {
             JOptionPane.showMessageDialog(null, ex);
             JOptionPane.showMessageDialog(null, "no hace la query");
         }
+        //JOptionPane.showMessageDialog(null, cat.categoria_nom);
         return cat;
     }
 }
