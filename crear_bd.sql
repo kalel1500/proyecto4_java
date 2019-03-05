@@ -79,7 +79,7 @@ CREATE TABLE IF NOT EXISTS `tbl_serie` (
 -- Estructura de tabla para la tabla `tbl_producte`
 CREATE TABLE IF NOT EXISTS `tbl_producte` (
 	`producte_id` int(11) NOT NULL PRIMARY KEY AUTO_INCREMENT,
-	`producte_nom` varchar(30) COLLATE utf8_unicode_ci NOT NULL,
+	`producte_nom` varchar(30) COLLATE utf8_unicode_ci NOT NULL UNIQUE KEY,
 	`producte_fotoRuta` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
 	`producte_fotoNom` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
 	`producte_fotoExt` varchar(50) COLLATE utf8_unicode_ci NOT NULL,

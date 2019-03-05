@@ -218,6 +218,24 @@ public class Controller {
         return "listarProducto";
     }
     
+    // Mostrar productos
+    @RequestMapping(value = "listarProducto1", method = RequestMethod.GET)
+    public String listarProducto1Controller(Model model) {     
+        // comprobamos si estamos filtrando
+        
+            
+        model.addAttribute("producto",producto);
+        model.addAttribute("listaProducto", listaProducto);
+        model.addAttribute("listaSeries", listaSerie);
+        
+        
+        // enviamos la lista de categorias para el desplegable
+        model.addAttribute("listaCategoria", listaCategoria);
+        // enviamos el titulo para el head
+        model.addAttribute("title", "Productos");
+        return "listarProducto";
+    }
+    
     // Filtar productos
     @RequestMapping(value = "filtrarProducto", method = RequestMethod.POST)
     public RedirectView filtrarProductoController(@ModelAttribute("producto") Producto prod) {     
@@ -295,15 +313,27 @@ public class Controller {
     }
     
     @RequestMapping("cargarSelectSerie")
-    public @ResponseBody ArrayList<Serie> cargarSelectSerie(@RequestParam("categoria_nom") String cat_nom) {
+    public RedirectView cargarSelectSerie(@RequestParam("categoria_nom") String cat_nom) {
+        RedirectView respuesta = new RedirectView("listarProducto1");
         try {
             sdao.getListaSeriePorCategoria(cat_nom,listaSerie);
+            
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "error");
         }
         
-        return listaSerie;
+        return respuesta;
     }
+//    @RequestMapping("cargarSelectSerie")
+//    public @ResponseBody ArrayList<Serie> cargarSelectSerie(@RequestParam("categoria_nom") String cat_nom) {
+//        try {
+//            sdao.getListaSeriePorCategoria(cat_nom,listaSerie);
+//        } catch (Exception e) {
+//            JOptionPane.showMessageDialog(null, "error");
+//        }
+//        
+//        return listaSerie;
+//    }
     
     
     // --------------------------------CATEGORIAS--------------------------------

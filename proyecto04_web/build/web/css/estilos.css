@@ -17,6 +17,9 @@ button a {
 button {
     margin: 15px 5px !important;
 }
+div {
+    word-wrap: break-word;
+}
 .form-con-fondo {
     width: 60%;
     margin: auto;

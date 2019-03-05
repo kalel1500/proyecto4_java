@@ -10,7 +10,7 @@
 
 <jsp:include page="/WEB-INF/jsp/proc/head.jsp" />
 
-<div class="container">
+<div class="container" id="cont">
     <h1>Lista de productos</h1>
     <button type="button" class="btn btn-success">
         <a href="insertarProducto"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span>Agregar</a>
@@ -20,15 +20,15 @@
         <!--        <div class="row">-->
         <form:form class="form-horizontal col-sm-12" modelAttribute="producto" action="filtrarProducto" method="POST">
             <div class="form-group col-sm-3">
-                <label class="control-label col-sm-3" for="producte_nom">Buscar:</label>
-                <div class="col-sm-9">
+                <label class="control-label col-sm-4" for="producte_nom">Nombre:</label>
+                <div class="col-sm-8">
                     <form:input path="producte_nom" class="form-control"/>
                 </div>
             </div>
 
-            <%--<div class="form-group col-sm-3">
-                <label class="control-label col-sm-3" for="producte_nom">Serie:</label>
-                <div class="col-sm-9" id="cargar-select-serie">
+            <div class="form-group col-sm-3">
+                <label class="control-label col-sm-4" for="producte_nom">Serie:</label>
+                <div class="col-sm-8" id="cargar-select-serie">
                     <form:select path="serie_id" class="form-control">
                         <form:option value="0">-Selecciona-</form:option>
                         <c:forEach var="ser" items="${listaSerie}">
@@ -36,11 +36,11 @@
                         </c:forEach>
                     </form:select>
                 </div>
-            </div> --%>
+            </div>
 
             <div class="form-group col-sm-4">
-                <label class="control-label col-sm-3" for="categoria_nom">Categoria:</label>
-                <div class="col-sm-9">
+                <label class="control-label col-sm-4" for="categoria_nom">Categoria:</label>
+                <div class="col-sm-8">
                     <form:select path="categoria_nom" class="form-control">
                         <form:option value="">-Selecciona-</form:option>
                         <c:forEach var="cat" items="${listaCategoria}">
@@ -101,7 +101,7 @@
 <script type="text/javascript">
     $('#categoria_nom').change(
             function () {
-                $('#cargar-select-serie').load('cargarSelectSerie',
+                $('#cont').load('cargarSelectSerie',
                         "categoria_nom=" + $('#categoria_nom').val());
                         
             }
