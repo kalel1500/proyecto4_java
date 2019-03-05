@@ -1,4 +1,5 @@
 
+import java.awt.Color;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -6,8 +7,12 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import model.Categoria;
 import model.Conexion;
+import model.Estoc;
+import model.Lloc;
 import model.Producto;
+import model.Serie;
 import model.Usuario;
 import model.UsuarioDAO;
 
@@ -23,7 +28,9 @@ import model.UsuarioDAO;
  */
 public final class Usuarios extends javax.swing.JFrame {
     UsuarioDAO uDAO = new UsuarioDAO();
+    Usuario usuario = new Usuario();
     ArrayList<Usuario> infoUsuario = new ArrayList<Usuario>();
+    int i=1;
     String mensaje = "yo vengo de la isla de japon";
     private Conexion con = new Conexion();
     private Connection cn = con.conectar();
@@ -32,7 +39,9 @@ public final class Usuarios extends javax.swing.JFrame {
      */
     public Usuarios() {
         initComponents();
+        this.setLocationRelativeTo(null);         
         cargarTabla();
+        desactivarTodo();
     }
 
     
@@ -52,6 +61,140 @@ public final class Usuarios extends javax.swing.JFrame {
         this.tablaUsuarios.setModel(dmodel);
         return dmodel;
     }
+     
+     //METER DATOS EN LOS CAMPOS
+     public void refrescar(int i){
+        Usuario infoUsuario = uDAO.recuperarUsuario(i);
+       
+        this.jUsuNom.setText(String.valueOf(infoUsuario.getNombre_usuario()));
+        this.jUsuCognom.setText(String.valueOf(infoUsuario.getApellido_usuario()));
+        this.jUsuEmail.setText(String.valueOf(infoUsuario.getEmail_usuario()));
+        this.jUsuPassword.setText(String.valueOf(infoUsuario.getPassword_usuario()));
+                
+        this.jUsuIndex.setText(String.valueOf(i));
+    }
+     
+     private void openHome(){
+         java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                new Home(mensaje).setVisible(true);
+            }
+        });
+    }
+    private void openUsuarios(){
+        java.awt.EventQueue.invokeLater(() -> {
+            new Usuarios().setVisible(true);
+        });
+    }
+    
+    private void openCrearUsu(){
+        java.awt.EventQueue.invokeLater(() -> {
+            new CrearUsu().setVisible(true);
+        });
+    }
+    
+    //FLECHAS
+    public void activarDesactivarFlechas() {
+        uDAO.getListaUsuarios(infoUsuario);
+        //JOptionPane.showMessageDialog(null, i);
+        if (i == infoUsuario.size() && infoUsuario.size() > 1) {
+            activarFlechasAlante(false);
+            activarFlechasAtras(true);
+        } else if (i == 0 && infoUsuario.size() == 1) {
+            activarFlechasAlante(false);
+            activarFlechasAtras(false);
+        } else if (i == 0 || i == 1) {
+            activarFlechasAlante(true);
+            activarFlechasAtras(false);
+        }else {
+            activarFlechasAlante(true);
+            activarFlechasAtras(true);
+        }
+    }
+    
+    public void activarFlechasAlante(boolean ac) {
+        this.jSiguiente.setEnabled(ac);
+        this.jUltimo.setEnabled(ac);
+    }
+
+    public void activarFlechasAtras(boolean ac) {
+        this.jAnterior.setEnabled(ac);
+        this.jPrimero.setEnabled(ac);
+    }
+    
+    //BLOQUEAR LOS CAMPOS
+    public void desactivarTodo(){
+        this.jUsuNom.setEditable(false);
+        this.jUsuCognom.setEditable(false);
+        this.jUsuEmail.setEditable(false);
+        this.jUsuPassword.setEditable(false);
+        
+        this.jUsuIndex.setEditable(false);
+        this.jGuardar.setEnabled(false);
+        
+        this.jUsuNom.setBackground(Color.lightGray);
+        this.jUsuCognom.setBackground(Color.lightGray);
+        this.jUsuEmail.setBackground(Color.lightGray);
+        this.jUsuPassword.setBackground(Color.lightGray);
+        
+        this.jUsuIndex.setBackground(Color.lightGray);
+        
+    }
+    
+    //DESBLOQUEAR LOS CAMPOS
+    public void activarTodo(){
+        this.jUsuNom.setEditable(true);
+        this.jUsuCognom.setEditable(true);
+        this.jUsuEmail.setEditable(true);
+        this.jUsuPassword.setEditable(true);
+        
+        this.jUsuIndex.setEditable(false);
+        this.jGuardar.setEnabled(true);
+        
+        this.jUsuNom.setBackground(Color.white);
+        this.jUsuCognom.setBackground(Color.white);
+        this.jUsuEmail.setBackground(Color.white);
+        this.jUsuPassword.setBackground(Color.white);
+        
+        this.jUsuIndex.setBackground(Color.white);
+    }
+    
+    /**
+     * @param args the command line arguments
+     */
+    public static void main(String args[]) {
+        /* Set the Nimbus look and feel */
+        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+         */
+        try {
+            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+                if ("Nimbus".equals(info.getName())) {
+                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                    break;
+                }
+            }
+        } catch (ClassNotFoundException ex) {
+            java.util.logging.Logger.getLogger(Usuarios.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (InstantiationException ex) {
+            java.util.logging.Logger.getLogger(Usuarios.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            java.util.logging.Logger.getLogger(Usuarios.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+            java.util.logging.Logger.getLogger(Usuarios.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        }
+        //</editor-fold>
+
+        /* Create and display the form */
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                new Usuarios().setVisible(true);
+            }
+        });
+    }
+    
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -73,6 +216,13 @@ public final class Usuarios extends javax.swing.JFrame {
         jUsuCognom = new javax.swing.JTextField();
         jUsuPassword = new javax.swing.JTextField();
         jUsuEmail = new javax.swing.JTextField();
+        jUsuIndex = new javax.swing.JTextField();
+        jPrimero = new javax.swing.JButton();
+        jAnterior = new javax.swing.JButton();
+        jSiguiente = new javax.swing.JButton();
+        jUltimo = new javax.swing.JButton();
+        jButton1 = new javax.swing.JButton();
+        jGuardar = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenuVerUsuarios = new javax.swing.JMenuItem();
@@ -104,6 +254,11 @@ public final class Usuarios extends javax.swing.JFrame {
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
         jLabel1.setText("USUARIOS");
 
+        tablaUsuarios.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tablaUsuariosMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(tablaUsuarios);
 
         jLabel2.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
@@ -121,6 +276,55 @@ public final class Usuarios extends javax.swing.JFrame {
         jUsuEmail.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jUsuEmailActionPerformed(evt);
+            }
+        });
+
+        jUsuIndex.setText("0");
+        jUsuIndex.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jUsuIndexActionPerformed(evt);
+            }
+        });
+
+        jPrimero.setText("Primero");
+        jPrimero.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jPrimeroActionPerformed(evt);
+            }
+        });
+
+        jAnterior.setText("Anterior");
+        jAnterior.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jAnteriorActionPerformed(evt);
+            }
+        });
+
+        jSiguiente.setText("Siguiente");
+        jSiguiente.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jSiguienteActionPerformed(evt);
+            }
+        });
+
+        jUltimo.setText("Ultimo");
+        jUltimo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jUltimoActionPerformed(evt);
+            }
+        });
+
+        jButton1.setText("MODIFICAR");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
+        jGuardar.setText("GUARDAR");
+        jGuardar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jGuardarActionPerformed(evt);
             }
         });
 
@@ -216,28 +420,43 @@ public final class Usuarios extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(121, 121, 121)
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 205, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(34, 34, 34)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(10, 10, 10)
+                        .addGap(34, 34, 34)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                .addComponent(jUsuPassword, javax.swing.GroupLayout.PREFERRED_SIZE, 350, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(10, 10, 10)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jUsuNom, javax.swing.GroupLayout.PREFERRED_SIZE, 350, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(jUsuCognom, javax.swing.GroupLayout.PREFERRED_SIZE, 350, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(jUsuEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 350, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addComponent(jUsuNom, javax.swing.GroupLayout.PREFERRED_SIZE, 350, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 151, Short.MAX_VALUE)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 800, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(55, 55, 55))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(jGuardar)
+                                .addComponent(jUsuPassword, javax.swing.GroupLayout.PREFERRED_SIZE, 350, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(155, 155, 155)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 1000, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(121, 121, 121)
+                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 205, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(4, 4, 4)
+                        .addComponent(jPrimero)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jAnterior)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jUsuIndex, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jButton1)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jSiguiente)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jUltimo)))))
+                .addContainerGap(20, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -246,26 +465,38 @@ public final class Usuarios extends javax.swing.JFrame {
                 .addComponent(jLabel1)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(18, 18, 18)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 500, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
                         .addGap(78, 78, 78)
                         .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jUsuNom, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jUsuCognom, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(13, 13, 13)
-                        .addComponent(jUsuEmail, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jUsuCognom, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jUsuEmail, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(jUsuPassword, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(69, Short.MAX_VALUE))
+                        .addComponent(jUsuPassword, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(85, 85, 85)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jButton1)
+                            .addComponent(jGuardar))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 35, Short.MAX_VALUE)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 500, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(14, 14, 14)))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jUsuIndex, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jSiguiente)
+                    .addComponent(jUltimo)
+                    .addComponent(jPrimero)
+                    .addComponent(jAnterior))
+                .addContainerGap())
         );
 
         pack();
@@ -284,6 +515,7 @@ public final class Usuarios extends javax.swing.JFrame {
 
     private void jMenuCrearUsuariosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuCrearUsuariosActionPerformed
         // TODO add your handling code here:
+        openCrearUsu();
     }//GEN-LAST:event_jMenuCrearUsuariosActionPerformed
 
     private void jMenuVerProductosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuVerProductosActionPerformed
@@ -326,57 +558,112 @@ public final class Usuarios extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jUsuEmailActionPerformed
 
-    private void openHome(){
-         java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new Home(mensaje).setVisible(true);
-            }
-        });
-    }
-    private void openUsuarios(){
-        java.awt.EventQueue.invokeLater(() -> {
-            new Usuarios().setVisible(true);
-        });
-    }
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Usuarios.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Usuarios.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Usuarios.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Usuarios.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
+    //CLICKS
+    private void tablaUsuariosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaUsuariosMouseClicked
+        // TODO add your handling code here:
+        int i=tablaUsuarios.getSelectedRow()+1;
+        
+        desactivarTodo();
+        refrescar(i);
+    }//GEN-LAST:event_tablaUsuariosMouseClicked
 
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new Usuarios().setVisible(true);
-            }
-        });
-    }
-    
+    private void jAnteriorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jAnteriorActionPerformed
+         i = Integer.parseInt(this.jUsuIndex.getText());
+        if((i-1) > 0){
+            refrescar(i-1);
+        }
+        activarDesactivarFlechas();
+    }//GEN-LAST:event_jAnteriorActionPerformed
+
+    private void jUltimoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jUltimoActionPerformed
+        // TODO add your handling code here:
+        i = infoUsuario.size();
+        //JOptionPane.showMessageDialog(null, i);
+        refrescar(i);
+        activarDesactivarFlechas();
+    }//GEN-LAST:event_jUltimoActionPerformed
+
+    private void jSiguienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jSiguienteActionPerformed
+        // TODO add your handling code here:
+        i = Integer.parseInt(this.jUsuIndex.getText());
+        
+        i++;
+        //JOptionPane.showMessageDialog(null, i);
+        if(i <= infoUsuario.size() ){
+            refrescar(i);
+        }
+        activarDesactivarFlechas();
+    }//GEN-LAST:event_jSiguienteActionPerformed
+
+   
+    private void jPrimeroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jPrimeroActionPerformed
+        // TODO add your handling code here:
+         // TODO add your handling code here:
+        i= 1;
+        refrescar(i);
+        activarDesactivarFlechas();
+    }//GEN-LAST:event_jPrimeroActionPerformed
+
+    private void jUsuIndexActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jUsuIndexActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jUsuIndexActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        if(Integer.parseInt(this.jUsuIndex.getText()) > 0){
+            activarTodo();
+        }
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jGuardarActionPerformed
+        // TODO add your handling code here:
+        //Usuario usuario = new Usuario();
+        boolean error = false;
+        if(this.jUsuNom.getText().length() > 0){
+            usuario.setNombre_usuario(this.jUsuNom.getText());
+        }else{
+            error = true;
+             JOptionPane.showMessageDialog(null,"El campo nombre no puede estar vacío!");
+        }
+        
+        if(this.jUsuCognom.getText().length() > 0){
+            usuario.setApellido_usuario(this.jUsuCognom.getText());
+        }else{
+            error = true;
+            JOptionPane.showMessageDialog(null, "Campo apellido no puede estar vacío!");
+        }
+        
+        if(this.jUsuEmail.getText().length() > 0){
+            usuario.setEmail_usuario(this.jUsuEmail.getText());
+        }else{
+            error = true;
+            JOptionPane.showMessageDialog(null, "Campo email no puede estar vacío!");
+        }
+        
+        if(this.jUsuPassword.getText().length() > 0){
+            usuario.setPassword_usuario(this.jUsuPassword.getText());
+        }else{
+            error = true;
+            JOptionPane.showMessageDialog(null, "Campo contraseña no puede estar vacío!");
+        }
+        usuario.setId_usuario(Integer.parseInt(this.jUsuIndex.getText()));
+        
+        if(error = false){
+            uDAO.modificarUsuario(usuario);
+            JOptionPane.showMessageDialog(null,"usuario modificado!");
+            refrescar(i);
+            cargarTabla();
+            desactivarTodo();
+        }        
+    }//GEN-LAST:event_jGuardarActionPerformed
+
     
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jAnterior;
+    private javax.swing.JButton jButton1;
     private javax.swing.JFrame jFrame1;
+    private javax.swing.JButton jGuardar;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -394,9 +681,13 @@ public final class Usuarios extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuVerOfertas;
     private javax.swing.JMenuItem jMenuVerProductos;
     private javax.swing.JMenuItem jMenuVerUsuarios;
+    private javax.swing.JButton jPrimero;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JButton jSiguiente;
+    private javax.swing.JButton jUltimo;
     private javax.swing.JTextField jUsuCognom;
     private javax.swing.JTextField jUsuEmail;
+    private javax.swing.JTextField jUsuIndex;
     private javax.swing.JTextField jUsuNom;
     private javax.swing.JTextField jUsuPassword;
     private javax.swing.JMenu ofertasBtn;

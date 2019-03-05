@@ -1,3 +1,4 @@
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -9,6 +10,8 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
 
 /**
@@ -25,7 +28,9 @@ public class LlocDAO {
     
     public Lloc recuperarLloc(int i){
         Lloc infoLloc = new Lloc();
-        sql="select tbl_lloc.lloc_id, num_bloc, num_passadis, num_lleixa from tbl_estoc inner join tbl_lloc on tbl_estoc.lloc_id = tbl_lloc.lloc_id where tbl_estoc.producte_id ='"+i+"'";
+        sql="SELECT tbl_lloc.lloc_id, num_bloc, num_passadis, num_lleixa "
+                + "FROM tbl_estoc inner join tbl_lloc on tbl_estoc.lloc_id = tbl_lloc.lloc_id "
+                + "WHERE tbl_estoc.producte_id ='"+i+"'";
        // JOptionPane.showMessageDialog(null, sql);
         try {
             Statement st = cn.createStatement();
@@ -39,5 +44,22 @@ public class LlocDAO {
             JOptionPane.showMessageDialog(null, ex);
         }
         return infoLloc;
+    }
+    
+    public void getAllLlocs(ArrayList<Lloc> llocArray, JComboBox cbLlocBloc){
+        Lloc cbL = new Lloc();
+        sql="select lloc_id, num_bloc FROM tbl_lloc";
+        try {
+            Statement st = cn.createStatement();
+            ResultSet rs = st.executeQuery(sql);
+            while(rs.next()){
+                cbL.setLloc(rs.getInt("lloc_id"));
+                cbL.setNum_bloc(rs.getString("num_bloc"));
+                //cat.setCategoria
+                llocArray.add(cbL);   
+                cbLlocBloc.addItem(cbL.getNum_bloc());
+            }
+        } catch (Exception e) {
+        }
     }
 }
