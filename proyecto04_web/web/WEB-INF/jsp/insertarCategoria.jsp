@@ -21,6 +21,8 @@
             <label class="control-label col-sm-2" for="categoria_nom">Nombre:</label>
             <div class="col-sm-10">
                 <form:input path="categoria_nom" class="form-control"/>
+                <form:errors path="categoria_nom" style="color: red;" />
+                <span id="err_categoria_nom" style="color: red;"></span>
             </div>
         </div>
         

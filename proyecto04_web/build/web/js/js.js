@@ -47,3 +47,163 @@ function escucharURL() {
     }
 }
 window.addEventListener("load", escucharURL);
+
+$(document).ready(function () {
+    $("#boton").click(function () {
+        //alert("hola");
+        var pasar = true
+        if ($("#nombre").val() === "") {
+            $("#error_nombre").html("Ingrese username desde cliente");
+            pasar = false;
+        } else {
+            $("#error_nombre").html("");
+        }
+
+        if ($("#password").val() === "") {
+            $("#error_password").html("Ingrese password desde cliente");
+            pasar = false;
+        } else {
+            $("#error_password").html("");
+        }
+
+        if ($("#email").val() === "") {
+            $("#error_email").html("Ingrese email desde cliente");
+            pasar = false;
+        } else {
+            $("#error_email").html("");
+        }
+        return pasar;
+    });
+});
+
+
+
+
+
+
+
+
+
+
+// validar formularios--------------------------------------------------------------------------------------
+// validar formularios--------------------------------------------------------------------------------------
+// validar formularios--------------------------------------------------------------------------------------
+
+var namePattern = "^[a-z A-Z]{4,30}$";
+var emailPattern = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+.[a-zA-Z]{2,4}$";
+var passPattern = "^[1-9]{4,30}$";
+
+function checkInput(idInput, pattern) {
+    return $(idInput).val().match(pattern) ? true : false;
+}
+
+function checkTextarea(idText) {
+    return $(idText).val().length > 12 ? true : false;
+}
+
+function checkRadioBox(nameRadioBox) {
+    return $(nameRadioBox).is(":checked") ? true : false;
+}
+
+function checkSelect(idSelect) {
+    return $(idSelect).val() ? true : false;
+}
+
+function ocultarError(idDiv) {
+    $(idDiv).html("");
+}
+
+function mostrarError(idDiv, error) {
+    //$(idDiv).append(error);
+    $(idDiv).html(error);
+}
+
+// ejemplo -------------------------------------------------------
+//function checkForm(idForm) {
+//    $(idForm + " *").on("change keydown", function () {
+//        if (checkInput("#nombre", namePattern) &&
+//                checkInput("#apellidos", namePattern) &&
+//                checkInput("#email", emailPattern) &&
+//                checkSelect("#edad") &&
+//                checkTextarea("#comentario") &&
+//                checkRadioBox("#legal") &&
+//                checkRadioBox("[name=boletin]"))
+//        {
+//            enableSubmit(idForm);
+//        } else {
+//            disableSubmit(idForm);
+//        }
+//    });
+//}
+
+// categoria -------------------------------------------------------
+function checkFormCat(idForm) {
+    $(idForm).on("submit", function () {
+        //alert('a');
+        if (checkInput("#categoria_nom", namePattern)) {
+            ocultarError("#err_categoria_nom");
+        } else {
+            mostrarError("#err_categoria_nom", "Requiere minimo 4 caracteres");
+            return false;
+        }
+    });
+}
+
+$(function () {
+    checkFormCat("#categoria");
+});
+
+// serie -------------------------------------------------------
+function checkFormSerie(idForm) {
+    $(idForm).on("submit", function () {
+        //alert('a');
+        if (checkInput("#serie_nom", namePattern)) {
+            ocultarError("#err_serie_nom");
+        } else {
+            mostrarError("#err_serie_nom", "Requiere minimo 4 caracteres");
+            return false;
+        }
+    });
+}
+
+$(function () {
+    checkFormSerie("#serie");
+});
+
+// login -------------------------------------------------------
+function checkFormLogin(idForm) {
+    $(idForm).on("submit", function () {
+        //alert('a');
+        var res = true;
+        if (checkInput("#email_usuario", emailPattern)) {
+            ocultarError("#err_email_usuario");
+        } else {
+            mostrarError("#err_email_usuario", "Introduce un correo valido");
+            res = false;
+        }
+        
+        if (checkInput("#password_usuario", passPattern)) {
+            ocultarError("#err_password_usuario");
+        } else {
+            mostrarError("#err_password_usuario", "Minimo 4 caracteres numericos");
+            res =  false;
+        }
+        
+        return res;
+    });
+}
+
+$(function () {
+    checkFormLogin("#usu");
+});
+
+
+//$('#btn_registrarse').on('click', function() {
+//  $('input').each(function(index, item){
+//    var $input = $(item);
+//    $input.closest('div').removeClass('has-error');
+//    if ($input.val().trim() == '') {
+//      $input.closest('div').addClass('has-error');
+//    }
+//  });
+//});

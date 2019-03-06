@@ -17,18 +17,20 @@
     <h1>Login</h1>
     <form:form class="form-horizontal form-con-fondo" modelAttribute="usu" action="login" method="POST">
         <div class="form-group">
-            <label class="control-label col-sm-2" for="nombre_usuario">Email:</label>
+            <label class="control-label col-sm-2" for="email_usuario">Email:</label>
             <div class="col-sm-10">
-                <form:input path="email_usuario" class="form-control"/>
-                <span class="error_email"></span>
+                <form:input type="email" path="email_usuario" class="form-control"/>
+                <form:errors path="email_usuario" style="color: red;" />
+                <span id="err_email_usuario" style="color: red;"></span>
             </div>
         </div>
 
         <div class="form-group">
-            <label class="control-label col-sm-2" for="nombre_usuario">Password:</label>
+            <label class="control-label col-sm-2" for="password_usuario">Password:</label>
             <div class="col-sm-10">
                 <form:input type="password" path="password_usuario" class="form-control"/>
-                <span class="error_password"></span>
+                <form:errors path="password_usuario" style="color: red;" />
+                <span id="err_password_usuario" style="color: red;"></span>
             </div>
         </div>
 

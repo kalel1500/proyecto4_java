@@ -11,6 +11,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
+import javax.validation.Valid;
 import model.Categoria;
 import model.CategoriaDAO;
 import model.Conexion;
@@ -27,6 +28,7 @@ import model.SerieDAO;
 import model.Usuario;
 import model.UsuarioDAO;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -168,9 +170,16 @@ public class Controller {
     
     // Insertar usuarios
     @RequestMapping(value="insertarUsuario",method = RequestMethod.POST)
-    public RedirectView insertarUsuarioController(@ModelAttribute("usuario") Usuario usuario) {
-        RedirectView respuesta = new RedirectView("listarUsuario");
-        udao.insertarUsuario(usuario);
+    public RedirectView insertarUsuarioController(@Valid @ModelAttribute("usuario") Usuario usuario, BindingResult resultado, Model model) {
+        RedirectView respuesta;
+        if (resultado.hasErrors()) {
+            respuesta = new RedirectView("insertarUsuario");
+        } else {
+            //udao.insertarUsuario(usuario);
+            respuesta = new RedirectView("listarUsuario");
+        }
+        
+        
         return respuesta;
     }
     
@@ -300,9 +309,14 @@ public class Controller {
     
     // Insertar productos
     @RequestMapping(value="insertarProducto",method = RequestMethod.POST)
-    public RedirectView insertarProductoController(@ModelAttribute("producto") Producto producto) {
+    public RedirectView insertarProductoController(@Valid @ModelAttribute("producto") Producto producto, BindingResult resultado, Model model) {
         RedirectView respuesta = new RedirectView("listarProducto");
-        pdao.insertarProducto(producto);
+        if (resultado.hasErrors()) {
+            respuesta = new RedirectView("insertarProducto");
+        } else {
+            pdao.insertarProducto(producto);
+        }
+        
         return respuesta;
     }
     
@@ -436,9 +450,14 @@ public class Controller {
     
     // Insertar categorias
     @RequestMapping(value="insertarCategoria",method = RequestMethod.POST)
-    public RedirectView insertarUsuarioController(@ModelAttribute("categoria") Categoria categoria) {
+    public RedirectView insertarUsuarioController(@Valid @ModelAttribute("categoria") Categoria categoria, BindingResult resultado, Model model) {
         RedirectView respuesta = new RedirectView("listarCategoria");
-        cdao.insertarCategoria(categoria);
+        if (resultado.hasErrors()) {
+            respuesta = new RedirectView("insertarCategoria");
+            model.addAttribute(resultado);
+        } else {
+            cdao.insertarCategoria(categoria);
+        }
         return respuesta;
     }
     
@@ -499,9 +518,13 @@ public class Controller {
     
     // Insertar series
     @RequestMapping(value="insertarSerie",method = RequestMethod.POST)
-    public RedirectView insertarUsuarioController(@ModelAttribute("serie") Serie serie) {
+    public RedirectView insertarUsuarioController(@Valid @ModelAttribute("serie") Serie serie, BindingResult resultado, Model model) {
         RedirectView respuesta = new RedirectView("listarSerie");
-        sdao.insertarSerie(serie);
+        if (resultado.hasErrors()) {
+            respuesta = new RedirectView("insertarSerie");
+        } else {
+            sdao.insertarSerie(serie);
+        }
         return respuesta;
     }
     

@@ -5,32 +5,54 @@
  */
 package model;
 
+import javax.validation.constraints.NotNull;
+import org.hibernate.validator.constraints.NotBlank;
+import org.hibernate.validator.constraints.NotEmpty;
+
 /**
  *
  * @author Usuario
  */
 public class Producto {
     private int producte_id;
+    //--
+    @NotBlank(message = "Nombre requerido")
     private String producte_nom;
     private String producte_fotoRuta;
     private String producte_fotoNom;
     private String producte_fotoExt;
+    //--
+    @NotNull(message = "Precio requerido")
     private double producte_preu;
     private String producte_descripcio;
+    //--
+    @NotNull(message = "Descuento requerido")
     private int producte_descompte;
     private int serie_id;
+    //--
+    @NotEmpty(message = "Nombre requerido")
     private String serie_nom;
     private int categoria_id;
     private String categoria_nom;
     
     private int estoc_id;
+    //--
+    @NotNull(message = "Estoc requerido")
     private int estoc_quantitat;
+    @NotNull(message = "Maximo requerido")
     private int estoc_maxim;
+    @NotNull(message = "Minimo requerido")
     private int estoc_minim;
     
     private int lloc_id;
+    //--
+    @NotEmpty(message = "Bloque requerido")
     private String lloc_bloc;
+    //--
+    @NotEmpty(message = "Pasillo requerido")
     private String lloc_passadis;
+    //--
+    @NotEmpty(message = "Estante requerido")
     private String lloc_lleixa;
 
     public Producto() {

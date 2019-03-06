@@ -20,6 +20,8 @@
             <label class="control-label col-sm-2" for="nombre_serie">Nombre:</label>
             <div class="col-sm-10">
                 <form:input path="serie_nom" class="form-control"/>
+                <form:errors path="serie_nom" style="color: red;" />
+                <span id="err_serie_nom" style="color: red;"></span>
             </div>
         </div>
 
@@ -32,6 +34,8 @@
                         <form:option value="${cat.categoria_id}">${cat.categoria_nom}</form:option>
                     </c:forEach>
                 </form:select>
+                <form:errors path="categoria_id" style="color: red;" />
+                <span id="err_categoria_id" style="color: red;"></span>
             </div>
         </div>
 
