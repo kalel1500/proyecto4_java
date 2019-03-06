@@ -13,8 +13,8 @@ USE `bd_proyecto_4`;
 
 CREATE TABLE IF NOT EXISTS `tbl_usuario` (
 	`id_usuario` int(11) NOT NULL AUTO_INCREMENT,
-	`email_usuario` varchar(255) DEFAULT NULL,
-	`password_usuario` varchar(255) DEFAULT NULL,
+	`email_usuario` varchar(255) NOT NULL,
+	`password_usuario` varchar(255) NOT NULL,
 	`nombre_usuario` varchar(255) DEFAULT NULL,
 	`apellido_usuario` varchar(255) DEFAULT NULL,
 	`grupo_usuario` enum('usuario','administrador') DEFAULT NULL,

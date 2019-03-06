@@ -61,6 +61,36 @@ public class ProductoDAO {
             Logger.getLogger(ProductoDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+    
+    // recupera la lista de las ofertas
+    public void getListaOfertas(ArrayList<Producto> listaProducto) {
+        // antigua // sql = "SELECT * FROM tbl_producte INNER JOIN tbl_serie ON tbl_producte.serie_id = tbl_serie.serie_id INNER JOIN tbl_categoria ON tbl_serie.categoria_id = tbl_categoria.categoria_id";
+        sql = "SELECT *, SUM(`estoc_quantitat`) AS SUM_estoc_quantitat, SUM(`estoc_maxim`) AS SUM_estoc_maxim, SUM(`estoc_minim`) AS SUM_estoc_minim FROM `tbl_producte` INNER JOIN `tbl_serie` ON `tbl_producte`.`serie_id` = `tbl_serie`.`serie_id` INNER JOIN `tbl_categoria` ON `tbl_serie`.`categoria_id` = `tbl_categoria`.`categoria_id` LEFT JOIN `tbl_estoc` ON `tbl_producte`.`producte_id` = `tbl_estoc`.`producte_id` GROUP BY `tbl_producte`.`producte_id` HAVING `tbl_producte`.`producte_descompte` IS NOT NULL";
+        try {
+            statement = cn.createStatement();
+            resultset = statement.executeQuery(sql);
+            listaProducto.clear();
+            while (resultset.next()) {
+                Producto producto = new Producto();
+                producto.setProducte_id(resultset.getInt("producte_id"));
+                producto.setProducte_nom(resultset.getString("producte_nom"));
+                producto.setProducte_fotoRuta(resultset.getString("producte_fotoRuta"));
+                producto.setProducte_fotoNom(resultset.getString("producte_fotoNom"));
+                producto.setProducte_fotoExt(resultset.getString("producte_fotoExt"));
+                producto.setProducte_preu(resultset.getDouble("producte_preu"));
+                producto.setProducte_descripcio(resultset.getString("producte_descripcio"));
+                producto.setProducte_descompte(resultset.getInt("producte_descompte"));
+                producto.setSerie_nom(resultset.getString("serie_nom"));
+                producto.setCategoria_nom(resultset.getString("categoria_nom"));
+                producto.setEstoc_quantitat(resultset.getInt("SUM_estoc_quantitat"));
+                producto.setEstoc_maxim(resultset.getInt("SUM_estoc_maxim"));
+                producto.setEstoc_minim(resultset.getInt("SUM_estoc_minim"));
+                listaProducto.add(producto);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(ProductoDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
 
     public void eliminarProducto(int id) {
         sql = "DELETE FROM `tbl_estoc` WHERE `tbl_estoc`.`producte_id` = ?";
@@ -264,6 +294,46 @@ public class ProductoDAO {
 
         // antigua //sql = "SELECT * FROM tbl_producte INNER JOIN tbl_serie ON tbl_producte.serie_id = tbl_serie.serie_id INNER JOIN tbl_categoria ON tbl_serie.categoria_id = tbl_categoria.categoria_id WHERE `producte_nom` LIKE '%"+ prodNom +"%' AND tbl_categoria.`categoria_nom` LIKE '%"+ catNom +"%' AND tbl_producte.`producte_id` LIKE '%"+ prodId +"%'";
         sql = "SELECT *, SUM(`estoc_quantitat`) AS SUM_estoc_quantitat, SUM(`estoc_maxim`) AS SUM_estoc_maxim, SUM(`estoc_minim`) AS SUM_estoc_minim FROM `tbl_producte` INNER JOIN `tbl_serie` ON `tbl_producte`.`serie_id` = `tbl_serie`.`serie_id` INNER JOIN `tbl_categoria` ON `tbl_serie`.`categoria_id` = `tbl_categoria`.`categoria_id` LEFT JOIN `tbl_estoc` ON `tbl_producte`.`producte_id` = `tbl_estoc`.`producte_id` WHERE `producte_nom` LIKE '%" + prodNom + "%' AND `tbl_categoria`.`categoria_nom` LIKE '%" + catNom + "%' AND `tbl_producte`.`producte_id` LIKE '%" + prodId + "%' GROUP BY `tbl_producte`.`producte_id`";
+        //JOptionPane.showMessageDialog(null, sql);
+        try {
+            Statement statement = cn.createStatement();
+            ResultSet resultset = statement.executeQuery(sql);
+            listaFiltrarProducto.clear();
+            while (resultset.next()) {
+                Producto producto = new Producto();
+                producto.setProducte_id(resultset.getInt("producte_id"));
+                producto.setProducte_nom(resultset.getString("producte_nom"));
+                producto.setProducte_fotoRuta(resultset.getString("producte_fotoRuta"));
+                producto.setProducte_fotoNom(resultset.getString("producte_fotoNom"));
+                producto.setProducte_fotoExt(resultset.getString("producte_fotoExt"));
+                producto.setProducte_preu(resultset.getDouble("producte_preu"));
+                producto.setProducte_descripcio(resultset.getString("producte_descripcio"));
+                producto.setProducte_descompte(resultset.getInt("producte_descompte"));
+                producto.setSerie_nom(resultset.getString("serie_nom"));
+                producto.setCategoria_nom(resultset.getString("categoria_nom"));
+                producto.setEstoc_quantitat(resultset.getInt("SUM_estoc_quantitat"));
+                producto.setEstoc_maxim(resultset.getInt("SUM_estoc_maxim"));
+                producto.setEstoc_minim(resultset.getInt("SUM_estoc_minim"));
+                listaFiltrarProducto.add(producto);
+            }
+
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, ex);
+        }
+    }
+    
+    // filtrar ofertas
+    public void getListaOfertasFiltradas(ArrayList<Producto> listaFiltrarProducto, Producto prod) {
+        String prodId = Integer.toString(prod.getProducte_id());
+        String prodNom = prod.getProducte_nom();
+        String catNom = prod.getCategoria_nom();
+
+        if (prodId.equals("0")) {
+            prodId = "";
+        }
+
+        // antigua //sql = "SELECT * FROM tbl_producte INNER JOIN tbl_serie ON tbl_producte.serie_id = tbl_serie.serie_id INNER JOIN tbl_categoria ON tbl_serie.categoria_id = tbl_categoria.categoria_id WHERE `producte_nom` LIKE '%"+ prodNom +"%' AND tbl_categoria.`categoria_nom` LIKE '%"+ catNom +"%' AND tbl_producte.`producte_id` LIKE '%"+ prodId +"%'";
+        sql = "SELECT *, SUM(`estoc_quantitat`) AS SUM_estoc_quantitat, SUM(`estoc_maxim`) AS SUM_estoc_maxim, SUM(`estoc_minim`) AS SUM_estoc_minim FROM `tbl_producte` INNER JOIN `tbl_serie` ON `tbl_producte`.`serie_id` = `tbl_serie`.`serie_id` INNER JOIN `tbl_categoria` ON `tbl_serie`.`categoria_id` = `tbl_categoria`.`categoria_id` LEFT JOIN `tbl_estoc` ON `tbl_producte`.`producte_id` = `tbl_estoc`.`producte_id` WHERE `producte_nom` LIKE '%" + prodNom + "%' AND `tbl_categoria`.`categoria_nom` LIKE '%" + catNom + "%' AND `tbl_producte`.`producte_id` LIKE '%" + prodId + "%' AND `tbl_producte`.`producte_descompte` IS NOT NULL GROUP BY `tbl_producte`.`producte_id`";
         //JOptionPane.showMessageDialog(null, sql);
         try {
             Statement statement = cn.createStatement();

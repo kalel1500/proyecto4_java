@@ -359,6 +359,47 @@ public class Controller {
 //        return listaSerie;
 //    }
     
+    // --------------------------------OFERTAS--------------------------------
+    // Mostrar ofertas
+    @RequestMapping(value = "listarOferta", method = RequestMethod.GET)
+    public String listarOfertaController(Model model) {     
+        // comprobamos si estamos filtrando
+        if(filtrar == true) {
+            // enviamos la lista de los productos filtrados
+            model.addAttribute("listaProducto", listaFiltrarProducto);
+            // enviamos el producto lleno para el formulario
+            model.addAttribute("producto",prodFiltro);
+            filtrar = false;
+        } else {
+            // enviamos un producto vacio para el formulario
+            producto = new Producto();
+            model.addAttribute("producto",producto);
+            // llenamos la lista con los productos
+            pdao.getListaOfertas(listaProducto);
+            model.addAttribute("listaProducto", listaProducto);
+        }
+        
+        // enviamos la lista de categorias para el desplegable
+        cdao.getListaCategorias(listaCategoria);
+        model.addAttribute("listaCategoria", listaCategoria);
+        // enviamos el titulo para el head
+        model.addAttribute("title", "Ofertas");
+        return "listarOferta";
+    }
+    
+    // Filtar ofertas
+    @RequestMapping(value = "filtrarOferta", method = RequestMethod.POST)
+    public RedirectView filtrarOfertaController(@ModelAttribute("producto") Producto prod) {     
+        // llenamos la lista con los productos filtrados
+        pdao.getListaOfertasFiltradas(listaFiltrarProducto, prod);
+        //enviamos el producto para que el filtro este lleno
+        prodFiltro = prod;
+        
+        filtrar = true;
+        RedirectView respuesta = new RedirectView("listarOferta");
+        return respuesta;
+    }
+    
     
     // --------------------------------CATEGORIAS--------------------------------
     // Mostrar categorias
