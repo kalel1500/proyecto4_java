@@ -51,6 +51,7 @@ public class Controller {
     // Usuario
     UsuarioDAO udao = new UsuarioDAO();
     Usuario usu = new Usuario();
+    Usuario usuario = new Usuario();
     ArrayList<Usuario> listaUsuario = new ArrayList<Usuario>();
     // Producto
     Producto producto = new Producto();
@@ -80,215 +81,189 @@ public class Controller {
     Serie serie = new Serie();
     SerieDAO sdao = new SerieDAO();
     ArrayList<Serie> listaSerie = new ArrayList<Serie>();
-    
-    @RequestMapping(value="index",method = RequestMethod.GET) // esto es lo mismo: @RequestMapping("index")    
+
+    @RequestMapping(value = "index", method = RequestMethod.GET) // esto es lo mismo: @RequestMapping("index")    
     public String indexController(Model model) {
         model.addAttribute("title", "Inicio");
         return "index";
     }
     
-    // login
-    @RequestMapping(value="login",method = RequestMethod.GET)
-    public String loginController(Model model) {
+    // --------------------------------LOGIN--------------------------------
+    // ------funciones login---------------
+    public void funcionLogin(Model model, Usuario usu) {
         model.addAttribute("usu", usu);
         model.addAttribute("title", "Login");
+    }
+
+    // login
+    @RequestMapping(value = "login", method = RequestMethod.GET)
+    public String loginController(Model model) {
+        usu = new Usuario();
+        funcionLogin(model, usu);
         return "login";
     }
-    
+
     // login
-    @RequestMapping(value="login",method = RequestMethod.POST)
-    public String loginController(@ModelAttribute("usu") Usuario usu, Model model) {
-        String pasa = udao.loginUsuario(usu);
-        //String nombre = usu.getNombre_usuario();
-        if(pasa.equals("correcto")) {
-            model.addAttribute("us",usu);
-            //JOptionPane.showMessageDialog(null, "exito");
-            model.addAttribute("title", "Inicio");
-            return "index";
-        } else if(pasa.equals("incorrecto")) {
-            JOptionPane.showMessageDialog(null, "Usuario o contraseña incorrecos");
-            model.addAttribute("title", "Login");
-            return "login";
-        } else {
-            JOptionPane.showMessageDialog(null, "Ha habido algun error. Vuelve en unos minutos.");
-            model.addAttribute("title", "Login");
-            return "login";
-        }
+    // aquei falla ya que la validacion no permite el registro aunque no muestra erroes en rojo
+    @RequestMapping(value = "login", method = RequestMethod.POST)
+    public String loginController(@Valid @ModelAttribute("usu") Usuario usu, BindingResult resultado, Model model) {
+        //if (resultado.hasErrors()) {
+            //funcionLogin(model, usu);
+            //return "login";
+        //} else {
+            String pasa = udao.loginUsuario(usu);
+            if (pasa.equals("correcto")) {
+                model.addAttribute("us", usu);
+                //JOptionPane.showMessageDialog(null, "exito");
+                model.addAttribute("title", "Inicio");
+                return "index";
+            } else if (pasa.equals("incorrecto")) {
+                JOptionPane.showMessageDialog(null, "Usuario o contraseña incorrecos");
+                model.addAttribute("title", "Login");
+                return "login";
+            } else {
+                JOptionPane.showMessageDialog(null, "Ha habido algun error. Vuelve en unos minutos.");
+                model.addAttribute("title", "Login");
+                return "login";
+            }
+        //}
+            
     }
-    
+
     // login
-    @RequestMapping(value="exito",method = RequestMethod.GET)
+    @RequestMapping(value = "exito", method = RequestMethod.GET)
     public String exitoController(Model model) {
         model.addAttribute("usu", usu);
         model.addAttribute("title", "Inicio");
         return "index";
     }
-    
+
     // perfil usuario
-    @RequestMapping(value="perfilUsuario",method = RequestMethod.GET)
+    @RequestMapping(value = "perfilUsuario", method = RequestMethod.GET)
     public String perfilUsuarioController(Model model) {
         model.addAttribute("title", "Perfil");
         return "perfilUsuario";
     }
-    
+
     // logout
-    @RequestMapping(value="logout",method = RequestMethod.GET)
+    @RequestMapping(value = "logout", method = RequestMethod.GET)
     public String logoutController(SessionStatus cerrarSesion, Model model) {
         cerrarSesion.setComplete();
         model.addAttribute("usu", usu);
         model.addAttribute("title", "Inicio");
         return "index";
     }
-    
+
     // --------------------------------USUARIOS--------------------------------
-    // Mostrar usuarios
-    @RequestMapping(value = "listarUsuario", method = RequestMethod.GET)
-    public String listarUsuarioController(Model model) {     
+    // ------funciones series---------------
+    public void funcionListarUsu(Model model) {
         udao.getListaUsuarios(listaUsuario);
         model.addAttribute("listaUsuario", listaUsuario);
         model.addAttribute("title", "Usuarios");
+    }
+    public void funcionInsertarUsu(Model model, Usuario usuario) {
+        // enviamos la serie para el form
+        model.addAttribute("usuario", usuario);
+        // enviamos el titulo head
+        model.addAttribute("title", "Insertar usuarios");
+    }
+    public void funcionModificarUsu(Model model, Usuario usuario) {
+        // enviamos la serie para el formulario
+        model.addAttribute("usuario", usuario);
+        // enviamos el titulo para el head
+        model.addAttribute("title", "Modificar usuario");
+    }
+    // ------fin-funciones series---------------
+
+    // Mostrar usuarios
+    @RequestMapping(value = "listarUsuario", method = RequestMethod.GET)
+    public String listarUsuarioController(Model model) {
+        funcionListarUsu(model);
         return "listarUsuario";
     }
-    
+
     // Eliminar usuarios
     @RequestMapping(value = "eliminarUsuario", method = RequestMethod.GET)
-    public RedirectView eliminarUsuarioController(@RequestParam("id") int id) {     
+    public RedirectView eliminarUsuarioController(@RequestParam("id") int id) {
         RedirectView respuesta = new RedirectView("listarUsuario");
         udao.eliminarUsuario(id);
         return respuesta;
     }
-       
+
     // Insertar usuarios
-    @RequestMapping(value="insertarUsuario",method = RequestMethod.GET)
+    @RequestMapping(value = "insertarUsuario", method = RequestMethod.GET)
     public String insertarUsuarioController(Model model) {
-        Usuario usuario = new Usuario();
-        model.addAttribute("usuario",usuario);
-        model.addAttribute("title", "Insertar usuarios");
-        String vista = "insertarUsuario";
-        return vista;
+        usuario = new Usuario();
+        funcionInsertarUsu(model, usuario);
+        return "insertarUsuario";
     }
-    
+
     // Insertar usuarios
-    @RequestMapping(value="insertarUsuario",method = RequestMethod.POST)
-    public RedirectView insertarUsuarioController(@Valid @ModelAttribute("usuario") Usuario usuario, BindingResult resultado, Model model) {
-        RedirectView respuesta;
+    @RequestMapping(value = "insertarUsuario", method = RequestMethod.POST)
+    public String insertarUsuarioController(@Valid @ModelAttribute("usuario") Usuario usuario, BindingResult resultado, Model model) {
         if (resultado.hasErrors()) {
-            respuesta = new RedirectView("insertarUsuario");
+            funcionInsertarUsu(model, usuario);
+            return "insertarUsuario";
         } else {
-            //udao.insertarUsuario(usuario);
-            respuesta = new RedirectView("listarUsuario");
+            udao.insertarUsuario(usuario);
+            funcionListarUsu(model);
+            return "listarUsuario";
         }
-        
-        
-        return respuesta;
     }
-    
+
     // Modificar usuarios
     @RequestMapping(value = "modificarUsuario", method = RequestMethod.GET)
     public String modificarUsuarioController(@RequestParam("id") int id, Model model) {
-        Usuario usuario = udao.recuperarUsuario(id);
-        model.addAttribute("usuario", usuario);
-        model.addAttribute("title", "Modificar usuario");
+        usuario = udao.recuperarUsuario(id);
+        funcionModificarUsu(model, usuario);
         return "modificarUsuario";
     }
     
     // Modificar usuarios
-    @RequestMapping(value="modificarUsuario",method = RequestMethod.POST)
-    public RedirectView modificarUsuarioController(@ModelAttribute("usuario") Usuario usuario) {
-        RedirectView respuesta = new RedirectView("listarUsuario");
-        udao.modificarUsuario(usuario);
-        return respuesta;
+    @RequestMapping(value = "modificarUsuario", method = RequestMethod.POST)
+    public String modificarUsuarioController(@Valid @ModelAttribute("usuario") Usuario usuario, BindingResult resultado, Model model) {
+        if (resultado.hasErrors()) {
+            funcionModificarUsu(model, usuario);
+            return "modificarUsuario";
+        } else {
+            udao.modificarUsuario(usuario);
+            funcionListarUsu(model);
+            return "listarUsuario";
+        }
     }
-    
-    
+
     // --------------------------------PRODUCTOS--------------------------------
-    // Mostrar productos
-    @RequestMapping(value = "listarProducto", method = RequestMethod.GET)
-    public String listarProductoController(Model model) {     
+    // --------------------------------PRODUCTOS--------------------------------
+    
+    // ------funciones productos---------------
+    public void funcionListarProd(Model model, boolean filtrar) {
         // comprobamos si estamos filtrando
-        if(filtrar == true) {
+        if (filtrar == true) {
             // enviamos la lista de los productos filtrados
             model.addAttribute("listaProducto", listaFiltrarProducto);
             // enviamos el producto lleno para el formulario
-            model.addAttribute("producto",prodFiltro);
+            model.addAttribute("producto", prodFiltro);
             filtrar = false;
         } else {
             // enviamos un producto vacio para el formulario
             producto = new Producto();
-            model.addAttribute("producto",producto);
+            model.addAttribute("producto", producto);
             // llenamos la lista con los productos
             pdao.getListaProductos(listaProducto);
             model.addAttribute("listaProducto", listaProducto);
         }
-        
+
         // enviamos la lista de categorias para el desplegable
         cdao.getListaCategorias(listaCategoria);
         model.addAttribute("listaCategoria", listaCategoria);
         // enviamos el titulo para el head
         model.addAttribute("title", "Productos");
-        return "listarProducto";
     }
     
-    // Mostrar productos
-    @RequestMapping(value = "listarProducto1", method = RequestMethod.GET)
-    public String listarProducto1Controller(Model model) {     
-        // comprobamos si estamos filtrando
-        
-            
-        model.addAttribute("producto",producto);
-        model.addAttribute("listaProducto", listaProducto);
-        model.addAttribute("listaSeries", listaSerie);
-        
-        
-        // enviamos la lista de categorias para el desplegable
-        model.addAttribute("listaCategoria", listaCategoria);
-        // enviamos el titulo para el head
-        model.addAttribute("title", "Productos");
-        return "listarProducto";
-    }
-    
-    // Filtar productos
-    @RequestMapping(value = "filtrarProducto", method = RequestMethod.POST)
-    public RedirectView filtrarProductoController(@ModelAttribute("producto") Producto prod) {     
-        // llenamos la lista con los productos filtrados
-        pdao.getListaProductosFiltrados(listaFiltrarProducto, prod);
-        //enviamos el producto para que el filtro este lleno
-        prodFiltro = prod;
-        
-        filtrar = true;
-        RedirectView respuesta = new RedirectView("listarProducto");
-        return respuesta;
-    }
-    
-    // Detalle productos
-    @RequestMapping(value = "detalleProducto", method = RequestMethod.GET)
-    public String detalleProductoController(@RequestParam("id") int id, Model model) {     
-        producto = pdao.recuperarProducto(id);
-//        edao.recuperarEstoc(id,listaEstoc);
-//        ldao.recuperarLugar(id,listaLugar);
-        eldao.recuperarEstocLugar(id, listaEstocLugar);
-        model.addAttribute("producto", producto);
-//        model.addAttribute("listaEstoc", listaEstoc);
-//        model.addAttribute("listaLugar", listaLugar);
-        model.addAttribute("listaEstocLugar", listaEstocLugar);
-        model.addAttribute("title", "Detalle "+producto.getProducte_nom());
-        return "detalleProducto";
-    }
-    
-    // Eliminar productos
-    @RequestMapping(value = "eliminarProducto", method = RequestMethod.GET)
-    public RedirectView eliminarProductoController(@RequestParam("id") int id, Model model) {     
-        RedirectView respuesta = new RedirectView("listarProducto");
-        pdao.eliminarProducto(id);
-        return respuesta;
-    }
-       
-    // Insertar productos
-    @RequestMapping(value="insertarProducto",method = RequestMethod.GET)
-    public String insertarProductoController(Model model) {
+    public void funcionInsertarProd(Model model, Producto producto) {
+        //JOptionPane.showMessageDialog(null, "llega");
         // enviamos un producto vacio para el formulario
-        producto = new Producto();
-        model.addAttribute("producto",producto);
+        model.addAttribute("producto", producto);
         // enviamos la lista de series para el desplegable
         sdao.getListaSeries(listaSerie);
         model.addAttribute("listaSerie", listaSerie);
@@ -303,27 +278,10 @@ public class Controller {
         model.addAttribute("listaEstanteLugar", listaEstanteLugar);
         // enviamos el titulo para el head
         model.addAttribute("title", "Insertar producto");
-        String vista = "insertarProducto";
-        return vista;
     }
     
-    // Insertar productos
-    @RequestMapping(value="insertarProducto",method = RequestMethod.POST)
-    public RedirectView insertarProductoController(@Valid @ModelAttribute("producto") Producto producto, BindingResult resultado, Model model) {
-        RedirectView respuesta = new RedirectView("listarProducto");
-        if (resultado.hasErrors()) {
-            respuesta = new RedirectView("insertarProducto");
-        } else {
-            pdao.insertarProducto(producto);
-        }
-        
-        return respuesta;
-    }
-    
-    // Modificar productos
-    @RequestMapping(value = "modificarProducto", method = RequestMethod.GET)
-    public String modificarProductoController(@RequestParam("id") int id, Model model) {
-        producto = pdao.recuperarProducto(id);
+    public void funcionModificarProd(Model model, Producto producto) {
+        // enviamos el producto para el form
         model.addAttribute("producto", producto);
         // enviamos la lista de series para el desplegable
         sdao.getListaSeries(listaSerie);
@@ -339,60 +297,113 @@ public class Controller {
         model.addAttribute("listaEstanteLugar", listaEstanteLugar);
         // enviamos el titulo para el head
         model.addAttribute("title", "Modificar producto");
+    }
+    // -----fin-funciones---------------
+    
+    // Mostrar productos
+    @RequestMapping(value = "listarProducto", method = RequestMethod.GET)
+    public String listarProductoController(Model model) {
+        funcionListarProd(model, this.filtrar);
+        return "listarProducto";
+    }
+    
+    // Filtar productos
+    @RequestMapping(value = "filtrarProducto", method = RequestMethod.POST)
+    public RedirectView filtrarProductoController(@ModelAttribute("producto") Producto prod) {
+        // llenamos la lista con los productos filtrados
+        pdao.getListaProductosFiltrados(listaFiltrarProducto, prod);
+        //enviamos el producto para que el filtro este lleno
+        prodFiltro = prod;
+        // ponemos la variable filtrar a true
+        filtrar = true;
+        RedirectView respuesta = new RedirectView("listarProducto");
+        return respuesta;
+    }
+
+    // Detalle productos
+    @RequestMapping(value = "detalleProducto", method = RequestMethod.GET)
+    public String detalleProductoController(@RequestParam("id") int id, Model model) {
+        producto = pdao.recuperarProducto(id);
+        eldao.recuperarEstocLugar(id, listaEstocLugar);
+        model.addAttribute("producto", producto);
+        model.addAttribute("listaEstocLugar", listaEstocLugar);
+        model.addAttribute("title", "Detalle " + producto.getProducte_nom());
+        return "detalleProducto";
+    }
+
+    // Eliminar productos
+    @RequestMapping(value = "eliminarProducto", method = RequestMethod.GET)
+    public RedirectView eliminarProductoController(@RequestParam("id") int id, Model model) {
+        RedirectView respuesta = new RedirectView("listarProducto");
+        pdao.eliminarProducto(id);
+        return respuesta;
+    }
+
+    // Insertar productos
+    @RequestMapping(value = "insertarProducto", method = RequestMethod.GET)
+    public String insertarProductoController(Model model) {
+        producto = new Producto();
+        funcionInsertarProd(model, producto);
+        return "insertarProducto";
+    }
+
+    // Insertar productos
+    @RequestMapping(value = "insertarProducto", method = RequestMethod.POST)
+    public String insertarProductoController(@Valid @ModelAttribute("producto") Producto producto, BindingResult resultado, Model model) {
+        if (resultado.hasErrors()) {
+            // llamamos a la funcion que hemos creado (seria el codigo que iria en insertarProductoController)
+            funcionInsertarProd(model, producto);
+            return "insertarProducto";
+        } else {
+            pdao.insertarProducto(producto);
+            funcionListarProd(model, filtrar);
+            return "listarProducto";
+        }
+
+    }
+
+    // Modificar productos
+    @RequestMapping(value = "modificarProducto", method = RequestMethod.GET)
+    public String modificarProductoController(@RequestParam("id") int id, Model model) {
+        producto = pdao.recuperarProducto(id);
+        funcionModificarProd(model, producto);
         return "modificarProducto";
     }
-    
+
     // Modificar productos
-    @RequestMapping(value="modificarProducto",method = RequestMethod.POST)
-    public RedirectView modificarProductoController(@ModelAttribute("producto") Producto producto) {
-        RedirectView respuesta = new RedirectView("listarProducto");
-        pdao.modificarProducto(producto);
-        return respuesta;
-    }
-    
-    @RequestMapping("cargarSelectSerie")
-    public RedirectView cargarSelectSerie(@RequestParam("categoria_nom") String cat_nom) {
-        RedirectView respuesta = new RedirectView("listarProducto1");
-        try {
-            sdao.getListaSeriePorCategoria(cat_nom,listaSerie);
-            
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "error");
+    @RequestMapping(value = "modificarProducto", method = RequestMethod.POST)
+    public String modificarProductoController(@Valid @ModelAttribute("producto") Producto producto, BindingResult resultado, Model model) {
+        if (resultado.hasErrors()) {
+            funcionModificarProd(model, producto);
+            return "modificarProducto";
+        } else {
+            pdao.modificarProducto(producto);
+            funcionListarProd(model, filtrar);
+            return "listarProducto";
         }
         
-        return respuesta;
     }
-//    @RequestMapping("cargarSelectSerie")
-//    public @ResponseBody ArrayList<Serie> cargarSelectSerie(@RequestParam("categoria_nom") String cat_nom) {
-//        try {
-//            sdao.getListaSeriePorCategoria(cat_nom,listaSerie);
-//        } catch (Exception e) {
-//            JOptionPane.showMessageDialog(null, "error");
-//        }
-//        
-//        return listaSerie;
-//    }
-    
+
     // --------------------------------OFERTAS--------------------------------
     // Mostrar ofertas
     @RequestMapping(value = "listarOferta", method = RequestMethod.GET)
-    public String listarOfertaController(Model model) {     
+    public String listarOfertaController(Model model) {
         // comprobamos si estamos filtrando
-        if(filtrar == true) {
+        if (filtrar == true) {
             // enviamos la lista de los productos filtrados
             model.addAttribute("listaProducto", listaFiltrarProducto);
             // enviamos el producto lleno para el formulario
-            model.addAttribute("producto",prodFiltro);
+            model.addAttribute("producto", prodFiltro);
             filtrar = false;
         } else {
             // enviamos un producto vacio para el formulario
             producto = new Producto();
-            model.addAttribute("producto",producto);
+            model.addAttribute("producto", producto);
             // llenamos la lista con los productos
             pdao.getListaOfertas(listaProducto);
             model.addAttribute("listaProducto", listaProducto);
         }
-        
+
         // enviamos la lista de categorias para el desplegable
         cdao.getListaCategorias(listaCategoria);
         model.addAttribute("listaCategoria", listaCategoria);
@@ -400,152 +411,190 @@ public class Controller {
         model.addAttribute("title", "Ofertas");
         return "listarOferta";
     }
-    
+
     // Filtar ofertas
     @RequestMapping(value = "filtrarOferta", method = RequestMethod.POST)
-    public RedirectView filtrarOfertaController(@ModelAttribute("producto") Producto prod) {     
+    public RedirectView filtrarOfertaController(@ModelAttribute("producto") Producto prod) {
         // llenamos la lista con los productos filtrados
         pdao.getListaOfertasFiltradas(listaFiltrarProducto, prod);
         //enviamos el producto para que el filtro este lleno
         prodFiltro = prod;
-        
+        // ponemos la variable filtrar a true
         filtrar = true;
         RedirectView respuesta = new RedirectView("listarOferta");
         return respuesta;
     }
-    
-    
+
     // --------------------------------CATEGORIAS--------------------------------
-    // Mostrar categorias
-    @RequestMapping(value = "listarCategoria", method = RequestMethod.GET)
-    public String listarCategoriaController(Model model) {     
+    // --------------------------------CATEGORIAS--------------------------------
+    // --------------------------------CATEGORIAS--------------------------------
+    
+    // ------funciones categorias---------------
+    public void funcionListarCat(Model model) {
         cdao.getListaCategorias(listaCategoria);
         model.addAttribute("listaCategoria", listaCategoria);
         model.addAttribute("title", "Categorias");
+    }
+    public void funcionInsertarCat(Model model, Categoria categoria) {
+        model.addAttribute("categoria", categoria);
+        model.addAttribute("title", "Insertar categorias");
+    }
+    public void funcionModificarCat(Model model, Categoria categoria) {
+        model.addAttribute("categoria", categoria);
+        model.addAttribute("title", "Modificar categoria");
+    }
+    // ------fin-funciones categorias---------------
+
+    // Mostrar categorias
+    @RequestMapping(value = "listarCategoria", method = RequestMethod.GET)
+    public String listarCategoriaController(Model model) {
+        funcionListarCat(model);
         return "listarCategoria";
     }
-    
+
     // Eliminar categorias
     @RequestMapping(value = "eliminarCategoria", method = RequestMethod.GET)
-    public RedirectView eliminarCategoriaController(@RequestParam("id") int id, Model model) {     
+    public RedirectView eliminarCategoriaController(@RequestParam("id") int id, Model model) {
         RedirectView respuesta = new RedirectView("listarCategoria");
         boolean res = cdao.eliminarCategoria(id);
-        if(res == false) {
+        if (res == false) {
             model.addAttribute("eliminarCat", "false");
         } else {
             model.addAttribute("eliminarCat", "true");
         }
         return respuesta;
     }
-       
+
     // Insertar categorias
-    @RequestMapping(value="insertarCategoria",method = RequestMethod.GET)
+    @RequestMapping(value = "insertarCategoria", method = RequestMethod.GET)
     public String insertarCategoriaController(Model model) {
-        Categoria categoria = new Categoria();
-        model.addAttribute("categoria",categoria);
-        model.addAttribute("title", "Insertar categorias");
-        String vista = "insertarCategoria";
-        return vista;
+        categoria = new Categoria();
+        funcionInsertarCat(model, categoria);
+        return "insertarCategoria";
     }
-    
+
     // Insertar categorias
-    @RequestMapping(value="insertarCategoria",method = RequestMethod.POST)
-    public RedirectView insertarUsuarioController(@Valid @ModelAttribute("categoria") Categoria categoria, BindingResult resultado, Model model) {
-        RedirectView respuesta = new RedirectView("listarCategoria");
+    @RequestMapping(value = "insertarCategoria", method = RequestMethod.POST)
+    public String insertarUsuarioController(@Valid @ModelAttribute("categoria") Categoria categoria, BindingResult resultado, Model model) {
         if (resultado.hasErrors()) {
-            respuesta = new RedirectView("insertarCategoria");
-            model.addAttribute(resultado);
+            funcionInsertarCat(model, categoria);
+            return "insertarCategoria";
         } else {
             cdao.insertarCategoria(categoria);
+            funcionListarCat(model);
+            return "listarCategoria";
         }
-        return respuesta;
     }
-    
+
     // Modificar categorias
     @RequestMapping(value = "modificarCategoria", method = RequestMethod.GET)
     public String modificarCategoriaController(@RequestParam("id") int id, Model model) {
-        Categoria categoria = cdao.recuperarCategoria(id);
-        model.addAttribute("categoria", categoria);
-        model.addAttribute("title", "Modificar categoria");
+        categoria = cdao.recuperarCategoria(id);
+        funcionModificarCat(model,categoria);
         return "modificarCategoria";
     }
-    
+
     // Modificar categorias
-    @RequestMapping(value="modificarCategoria",method = RequestMethod.POST)
-    public RedirectView modificarCategoriaController(@ModelAttribute("categoria") Categoria categoria) {
-        RedirectView respuesta = new RedirectView("listarCategoria");
-        cdao.modificarCategoria(categoria);
-        return respuesta;
+    @RequestMapping(value = "modificarCategoria", method = RequestMethod.POST)
+    public String modificarCategoriaController(@Valid @ModelAttribute("categoria") Categoria categoria, BindingResult resultado, Model model) {
+        if (resultado.hasErrors()) {
+            funcionModificarCat(model,categoria);
+            return "modificarCategoria";
+        } else {
+            cdao.modificarCategoria(categoria);
+            funcionListarCat(model);
+            return "listarCategoria";
+        }
     }
-    
+
     // --------------------------------SERIES--------------------------------
-    // Mostrar series
-    @RequestMapping(value = "listarSerie", method = RequestMethod.GET)
-    public String listarSerieController(Model model) {     
+    // ------funciones series---------------
+    public void funcionListarSer(Model model) {
         sdao.getListaSeries(listaSerie);
         model.addAttribute("listaSerie", listaSerie);
         model.addAttribute("title", "Series");
-        return "listarSerie";
     }
-    
-    // Eliminar series
-    @RequestMapping(value = "eliminarSerie", method = RequestMethod.GET)
-    public RedirectView eliminarSerieController(@RequestParam("id") int id, Model model) {     
-        RedirectView respuesta = new RedirectView("listarSerie");
-        boolean res = sdao.eliminarSerie(id);
-        if(res == false) {
-            model.addAttribute("eliminarSer", "false");
-        } else {
-            model.addAttribute("eliminarSer", "true");
-        }
-        
-        return respuesta;
-    }
-       
-    // Insertar series
-    @RequestMapping(value="insertarSerie",method = RequestMethod.GET)
-    public String insertarSerieController(Model model) {
-        Serie serie = new Serie();
-        model.addAttribute("serie",serie);
-        // enviamos la lista de categorias para el desplegable
-        cdao.getListaCategorias(listaCategoria);
-        model.addAttribute("listaCategoria", listaCategoria);
-        
-        model.addAttribute("title", "Insertar series");
-        String vista = "insertarSerie";
-        return vista;
-    }
-    
-    // Insertar series
-    @RequestMapping(value="insertarSerie",method = RequestMethod.POST)
-    public RedirectView insertarUsuarioController(@Valid @ModelAttribute("serie") Serie serie, BindingResult resultado, Model model) {
-        RedirectView respuesta = new RedirectView("listarSerie");
-        if (resultado.hasErrors()) {
-            respuesta = new RedirectView("insertarSerie");
-        } else {
-            sdao.insertarSerie(serie);
-        }
-        return respuesta;
-    }
-    
-    // Modificar series
-    @RequestMapping(value = "modificarSerie", method = RequestMethod.GET)
-    public String modificarSerieController(@RequestParam("id") int id, Model model) {
-        Serie serie = sdao.recuperarSerie(id);
+    public void funcionInsertarSer(Model model, Serie serie) {
+        // enviamos la serie para el form
         model.addAttribute("serie", serie);
         // enviamos la lista de categorias para el desplegable
         cdao.getListaCategorias(listaCategoria);
         model.addAttribute("listaCategoria", listaCategoria);
-        
+        // enviamos el titulo head
+        model.addAttribute("title", "Insertar series");
+    }
+    public void funcionModificarSer(Model model, Serie serie) {
+        // enviamos la serie para el formulario
+        model.addAttribute("serie", serie);
+        // enviamos la lista de categorias para el desplegable
+        cdao.getListaCategorias(listaCategoria);
+        model.addAttribute("listaCategoria", listaCategoria);
+        // enviamos el titulo para el head
         model.addAttribute("title", "Modificar serie");
+    }
+    // ------fin-funciones series---------------
+
+    // Mostrar series
+    @RequestMapping(value = "listarSerie", method = RequestMethod.GET)
+    public String listarSerieController(Model model) {
+        funcionListarSer(model);
+        return "listarSerie";
+    }
+
+    // Eliminar series
+    @RequestMapping(value = "eliminarSerie", method = RequestMethod.GET)
+    public RedirectView eliminarSerieController(@RequestParam("id") int id, Model model) {
+        RedirectView respuesta = new RedirectView("listarSerie");
+        boolean res = sdao.eliminarSerie(id);
+        if (res == false) {
+            model.addAttribute("eliminarSer", "false");
+        } else {
+            model.addAttribute("eliminarSer", "true");
+        }
+
+        return respuesta;
+    }
+
+    // Insertar series
+    @RequestMapping(value = "insertarSerie", method = RequestMethod.GET)
+    public String insertarSerieController(Model model) {
+        serie = new Serie();
+        funcionInsertarSer(model, serie);
+        return "insertarSerie";
+    }
+
+    // Insertar series
+    @RequestMapping(value = "insertarSerie", method = RequestMethod.POST)
+    public String insertarUsuarioController(@Valid @ModelAttribute("serie") Serie serie, BindingResult resultado, Model model) {
+        if (resultado.hasErrors()) {
+            funcionInsertarSer(model, serie);
+            return "insertarSerie";
+        } else {
+            sdao.insertarSerie(serie);
+            funcionListarSer(model);
+            return "listarSerie";
+        }
+    }
+
+    // Modificar series
+    @RequestMapping(value = "modificarSerie", method = RequestMethod.GET)
+    public String modificarSerieController(@RequestParam("id") int id, Model model) {
+        serie = sdao.recuperarSerie(id);
+        funcionModificarSer(model,serie);
         return "modificarSerie";
     }
-    
+
     // Modificar series
-    @RequestMapping(value="modificarSerie",method = RequestMethod.POST)
-    public RedirectView modificarSerieController(@ModelAttribute("serie") Serie serie) {
-        RedirectView respuesta = new RedirectView("listarSerie");
-        sdao.modificarSerie(serie);
-        return respuesta;
+    @RequestMapping(value = "modificarSerie", method = RequestMethod.POST)
+    public String modificarSerieController(@Valid @ModelAttribute("serie") Serie serie, BindingResult resultado, Model model) {
+        if (resultado.hasErrors()) {
+            funcionModificarSer(model, serie);
+            return "modificarSerie";
+        } else {
+            sdao.modificarSerie(serie);
+            funcionListarSer(model);
+            return "listarSerie";
+        }
+            
     }
 }

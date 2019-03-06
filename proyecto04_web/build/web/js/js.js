@@ -149,9 +149,9 @@ function checkFormCat(idForm) {
     });
 }
 
-$(function () {
-    checkFormCat("#categoria");
-});
+//$(function () {
+//    checkFormCat("#categoria");
+//});
 
 // serie -------------------------------------------------------
 function checkFormSerie(idForm) {
@@ -166,9 +166,9 @@ function checkFormSerie(idForm) {
     });
 }
 
-$(function () {
-    checkFormSerie("#serie");
-});
+//$(function () {
+//    checkFormSerie("#serie");
+//});
 
 // login -------------------------------------------------------
 function checkFormLogin(idForm) {
@@ -193,9 +193,72 @@ function checkFormLogin(idForm) {
     });
 }
 
-$(function () {
-    checkFormLogin("#usu");
-});
+//$(function () {
+//    checkFormLogin("#usu");
+//});
+
+
+// usuario (lo deshabilitamos para ver la validacion de servidor)-------------------------------------------------------
+//function checkFormUsu(idForm) {
+//    $(idForm).on("submit", function () {
+//        //alert('a');
+//        var res = true;
+//        if (checkInput("#nombre_usuario", emailPattern)) {
+//            ocultarError("#err_nombre_usuario");
+//        } else {
+//            mostrarError("#err_nombre_usuario", "Minimo 4 letras");
+//            res = false;
+//        }
+//        
+//        if (checkInput("#apellido_usuario", emailPattern)) {
+//            ocultarError("#err_apellido_usuario");
+//        } else {
+//            mostrarError("#err_nombre_usuario", "Minimo 4 letras");
+//            res = false;
+//        }
+//        
+//        if (checkInput("#email_usuario", emailPattern)) {
+//            ocultarError("#err_email_usuario");
+//        } else {
+//            mostrarError("#err_email_usuario", "Introduce un correo valido");
+//            res = false;
+//        }
+//        
+//        if (checkInput("#password_usuario", passPattern)) {
+//            ocultarError("#err_password_usuario");
+//        } else {
+//            mostrarError("#err_password_usuario", "Minimo 4 caracteres numericos");
+//            res =  false;
+//        }
+//        
+//        return res;
+//    });
+//}
+
+//$(function () {
+//    checkFormUsu("#usuario");
+//});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 //$('#btn_registrarse').on('click', function() {

@@ -17,9 +17,10 @@ public class Usuario {
     private int id_usuario;
     
     @Email(message = "Debes introducir un email")
+    @NotBlank(message = "Email requerido")
     private String email_usuario;
     
-    @NotBlank(message = "Nombre requerido")
+    @NotBlank(message = "Contraseña requerido")
     @Size(min=4, max=20, message="La contra debe contener entre 4 y 20 caracteres")
     private String password_usuario;
     
