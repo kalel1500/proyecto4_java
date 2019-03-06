@@ -11,47 +11,47 @@ package model;
  */
 public class Lloc {
     int lloc;
-    String num_bloc;
-    String num_passadis;
-    String num_lleixa;
+    String lloc_bloc;
+    String lloc_passadis;
+    String lloc_lleixa;
 
-    public Lloc(int lloc, String num_bloc, String num_passadis, String num_lleixa) {
+    public Lloc(int lloc, String lloc_bloc, String lloc_passadis, String lloc_lleixa) {
         this.lloc = lloc;
-        this.num_bloc = num_bloc;
-        this.num_passadis = num_passadis;
-        this.num_lleixa = num_lleixa;
+        this.lloc_bloc = lloc_bloc;
+        this.lloc_passadis = lloc_passadis;
+        this.lloc_lleixa = lloc_lleixa;
     }
 
     public int getLloc() {
         return lloc;
     }
 
-    public String getNum_bloc() {
-        return num_bloc;
+    public String getLloc_bloc() {
+        return lloc_bloc;
     }
 
-    public String getNum_passadis() {
-        return num_passadis;
+    public String getLloc_passadis() {
+        return lloc_passadis;
     }
 
-    public String getNum_lleixa() {
-        return num_lleixa;
+    public String getLloc_lleixa() {
+        return lloc_lleixa;
     }
 
     public void setLloc(int lloc) {
         this.lloc = lloc;
     }
 
-    public void setNum_bloc(String num_bloc) {
-        this.num_bloc = num_bloc;
+    public void setLloc_bloc(String lloc_bloc) {
+        this.lloc_bloc = lloc_bloc;
     }
 
-    public void setNum_passadis(String num_passadis) {
-        this.num_passadis = num_passadis;
+    public void setLloc_passadis(String lloc_passadis) {
+        this.lloc_passadis = lloc_passadis;
     }
 
-    public void setNum_lleixa(String num_lleixa) {
-        this.num_lleixa = num_lleixa;
+    public void setLloc_lleixa(String lloc_lleixa) {
+        this.lloc_lleixa = lloc_lleixa;
     }
 
    

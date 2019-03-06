@@ -276,6 +276,12 @@ public class Categorias extends javax.swing.JFrame {
     private void jMenuCrearUsuariosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuCrearUsuariosActionPerformed
         // TODO add your handling code here:
         openCrearUsu();
+        try {
+            cn.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(Vista.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        this.dispose();
     }//GEN-LAST:event_jMenuCrearUsuariosActionPerformed
 
     private void jMenuVerProductosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuVerProductosActionPerformed

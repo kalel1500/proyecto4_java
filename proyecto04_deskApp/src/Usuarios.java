@@ -516,6 +516,12 @@ public final class Usuarios extends javax.swing.JFrame {
     private void jMenuCrearUsuariosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuCrearUsuariosActionPerformed
         // TODO add your handling code here:
         openCrearUsu();
+        try {
+            cn.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(Vista.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        this.dispose();
     }//GEN-LAST:event_jMenuCrearUsuariosActionPerformed
 
     private void jMenuVerProductosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuVerProductosActionPerformed
@@ -618,43 +624,48 @@ public final class Usuarios extends javax.swing.JFrame {
     private void jGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jGuardarActionPerformed
         // TODO add your handling code here:
         //Usuario usuario = new Usuario();
-        boolean error = false;
-        if(this.jUsuNom.getText().length() > 0){
-            usuario.setNombre_usuario(this.jUsuNom.getText());
-        }else{
-            error = true;
-             JOptionPane.showMessageDialog(null,"El campo nombre no puede estar vacío!");
-        }
-        
-        if(this.jUsuCognom.getText().length() > 0){
-            usuario.setApellido_usuario(this.jUsuCognom.getText());
-        }else{
-            error = true;
-            JOptionPane.showMessageDialog(null, "Campo apellido no puede estar vacío!");
-        }
-        
-        if(this.jUsuEmail.getText().length() > 0){
-            usuario.setEmail_usuario(this.jUsuEmail.getText());
-        }else{
-            error = true;
-            JOptionPane.showMessageDialog(null, "Campo email no puede estar vacío!");
-        }
-        
-        if(this.jUsuPassword.getText().length() > 0){
-            usuario.setPassword_usuario(this.jUsuPassword.getText());
-        }else{
-            error = true;
-            JOptionPane.showMessageDialog(null, "Campo contraseña no puede estar vacío!");
-        }
-        usuario.setId_usuario(Integer.parseInt(this.jUsuIndex.getText()));
-        
-        if(error = false){
-            uDAO.modificarUsuario(usuario);
-            JOptionPane.showMessageDialog(null,"usuario modificado!");
-            refrescar(i);
-            cargarTabla();
-            desactivarTodo();
-        }        
+        try {
+            boolean error = false;
+            if(this.jUsuNom.getText().length() > 0){
+                usuario.setNombre_usuario(this.jUsuNom.getText());
+            }else{
+                error = true;
+                 JOptionPane.showMessageDialog(null,"El campo nombre no puede estar vacío!");
+            }
+
+            if(this.jUsuCognom.getText().length() > 0){
+                usuario.setApellido_usuario(this.jUsuCognom.getText());
+            }else{
+                error = true;
+                JOptionPane.showMessageDialog(null, "Campo apellido no puede estar vacío!");
+            }
+
+            if(this.jUsuEmail.getText().length() > 0){
+                usuario.setEmail_usuario(this.jUsuEmail.getText());
+            }else{
+                error = true;
+                JOptionPane.showMessageDialog(null, "Campo email no puede estar vacío!");
+            }
+
+            if(this.jUsuPassword.getText().length() > 0){
+                usuario.setPassword_usuario(this.jUsuPassword.getText());
+            }else{
+                error = true;
+                JOptionPane.showMessageDialog(null, "Campo contraseña no puede estar vacío!");
+            }
+            usuario.setId_usuario(Integer.parseInt(this.jUsuIndex.getText()));
+
+            if(error = false){
+                uDAO.modificarUsuario(usuario);
+                JOptionPane.showMessageDialog(null,"usuario modificado!");
+                refrescar(i);
+                cargarTabla();
+                desactivarTodo();
+            }
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(null, ex);
+            JOptionPane.showMessageDialog(null, "Ha habido fallos!");
+        }   
     }//GEN-LAST:event_jGuardarActionPerformed
 
     

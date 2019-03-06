@@ -1,8 +1,10 @@
 
+import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import model.Conexion;
 import model.Usuario;
 import model.UsuarioDAO;
 
@@ -17,6 +19,8 @@ import model.UsuarioDAO;
  * @author msi
  */
 public class CrearUsu extends javax.swing.JFrame {
+    private Conexion con = new Conexion();
+    private Connection cn = con.conectar();
 
     /**
      * Creates new form CrearUsu
@@ -51,6 +55,20 @@ public class CrearUsu extends javax.swing.JFrame {
         jUsuPassword2 = new javax.swing.JTextField();
         BtnCrearUsu = new javax.swing.JButton();
         jBtnVolver = new javax.swing.JButton();
+        jMenuBar1 = new javax.swing.JMenuBar();
+        jMenu1 = new javax.swing.JMenu();
+        jMenuVerUsuarios = new javax.swing.JMenuItem();
+        jMenuCrearUsuarios = new javax.swing.JMenuItem();
+        jMenu2 = new javax.swing.JMenu();
+        jMenuVerProductos = new javax.swing.JMenuItem();
+        jMenuVerCategorias = new javax.swing.JMenuItem();
+        ofertasBtn = new javax.swing.JMenu();
+        jMenuVerOfertas = new javax.swing.JMenuItem();
+        jMenuItem1 = new javax.swing.JMenuItem();
+        jMenuItem2 = new javax.swing.JMenuItem();
+        jMenuItem3 = new javax.swing.JMenuItem();
+        pedidosBtn = new javax.swing.JMenu();
+        jMenuCrearPedido = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -85,6 +103,98 @@ public class CrearUsu extends javax.swing.JFrame {
                 jBtnVolverActionPerformed(evt);
             }
         });
+
+        jMenu1.setText("Usuarios");
+
+        jMenuVerUsuarios.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_M, java.awt.event.InputEvent.SHIFT_MASK));
+        jMenuVerUsuarios.setText("Ver Todos");
+        jMenuVerUsuarios.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuVerUsuariosActionPerformed(evt);
+            }
+        });
+        jMenu1.add(jMenuVerUsuarios);
+
+        jMenuCrearUsuarios.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_N, java.awt.event.InputEvent.SHIFT_MASK));
+        jMenuCrearUsuarios.setText("Crear");
+        jMenuCrearUsuarios.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuCrearUsuariosActionPerformed(evt);
+            }
+        });
+        jMenu1.add(jMenuCrearUsuarios);
+
+        jMenuBar1.add(jMenu1);
+
+        jMenu2.setText("Productos");
+
+        jMenuVerProductos.setText("Ver Todos");
+        jMenuVerProductos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuVerProductosActionPerformed(evt);
+            }
+        });
+        jMenu2.add(jMenuVerProductos);
+
+        jMenuVerCategorias.setText("Buscar por Categoria");
+        jMenuVerCategorias.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuVerCategoriasActionPerformed(evt);
+            }
+        });
+        jMenu2.add(jMenuVerCategorias);
+
+        jMenuBar1.add(jMenu2);
+
+        ofertasBtn.setText("Ofertas");
+
+        jMenuVerOfertas.setText("Ver Todas");
+        jMenuVerOfertas.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuVerOfertasActionPerformed(evt);
+            }
+        });
+        ofertasBtn.add(jMenuVerOfertas);
+
+        jMenuItem1.setText("desde -50%");
+        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem1ActionPerformed(evt);
+            }
+        });
+        ofertasBtn.add(jMenuItem1);
+
+        jMenuItem2.setText("desde -25%");
+        jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem2ActionPerformed(evt);
+            }
+        });
+        ofertasBtn.add(jMenuItem2);
+
+        jMenuItem3.setText("desde -1%");
+        jMenuItem3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem3ActionPerformed(evt);
+            }
+        });
+        ofertasBtn.add(jMenuItem3);
+
+        jMenuBar1.add(ofertasBtn);
+
+        pedidosBtn.setText("Pedidos");
+
+        jMenuCrearPedido.setText("Crear Pedido");
+        jMenuCrearPedido.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuCrearPedidoActionPerformed(evt);
+            }
+        });
+        pedidosBtn.add(jMenuCrearPedido);
+
+        jMenuBar1.add(pedidosBtn);
+
+        setJMenuBar(jMenuBar1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -140,7 +250,7 @@ public class CrearUsu extends javax.swing.JFrame {
                 .addComponent(jUsuPassword, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(38, 38, 38)
                 .addComponent(jUsuPassword2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 70, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 44, Short.MAX_VALUE)
                 .addComponent(BtnCrearUsu)
                 .addGap(51, 51, 51))
         );
@@ -208,8 +318,82 @@ public class CrearUsu extends javax.swing.JFrame {
     private void jBtnVolverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnVolverActionPerformed
         // TODO add your handling code here:
         openUsuarios();
+        try {
+            cn.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(Vista.class.getName()).log(Level.SEVERE, null, ex);
+        }
         this.dispose();
     }//GEN-LAST:event_jBtnVolverActionPerformed
+
+    private void jMenuVerUsuariosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuVerUsuariosActionPerformed
+        // TODO add your handling code here:
+        openUsuarios();
+        try {
+            cn.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(Vista.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        this.dispose();
+    }//GEN-LAST:event_jMenuVerUsuariosActionPerformed
+
+    private void jMenuCrearUsuariosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuCrearUsuariosActionPerformed
+        // TODO add your handling code here:
+        openCrearUsu();
+        try {
+            cn.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(Vista.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        this.dispose();
+    }//GEN-LAST:event_jMenuCrearUsuariosActionPerformed
+
+    private void jMenuVerProductosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuVerProductosActionPerformed
+        // TODO add your handling code here:
+        openHome();
+        try {
+            cn.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(Vista.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        this.dispose();
+    }//GEN-LAST:event_jMenuVerProductosActionPerformed
+
+    private void jMenuVerCategoriasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuVerCategoriasActionPerformed
+        // TODO add your handling code here:
+        openCategoria();
+        try {
+            cn.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(Vista.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        this.dispose();
+    }//GEN-LAST:event_jMenuVerCategoriasActionPerformed
+
+    private void jMenuVerOfertasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuVerOfertasActionPerformed
+        // TODO add your handling code here:
+        JOptionPane.showMessageDialog(null, "Ops! parece que todavía no hay ofertas");
+    }//GEN-LAST:event_jMenuVerOfertasActionPerformed
+
+    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+        // TODO add your handling code here:
+        JOptionPane.showMessageDialog(null, "Ops! parece que todavía no hay ofertas");
+    }//GEN-LAST:event_jMenuItem1ActionPerformed
+
+    private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
+        // TODO add your handling code here:
+        JOptionPane.showMessageDialog(null, "Ops! parece que todavía no hay ofertas");
+    }//GEN-LAST:event_jMenuItem2ActionPerformed
+
+    private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
+        // TODO add your handling code here:
+        JOptionPane.showMessageDialog(null, "Ops! parece que todavía no hay ofertas");
+    }//GEN-LAST:event_jMenuItem3ActionPerformed
+
+    private void jMenuCrearPedidoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuCrearPedidoActionPerformed
+        // TODO add your handling code here:
+        JOptionPane.showMessageDialog(null, "Ops! parece que estamos en mantenimiento");
+    }//GEN-LAST:event_jMenuCrearPedidoActionPerformed
 
     /**
      * @param args the command line arguments
@@ -245,6 +429,26 @@ public class CrearUsu extends javax.swing.JFrame {
             }
         });
     }
+   
+    private void openHome(){
+         java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                new Home(null).setVisible(true);
+            }
+        });
+    }
+    private void openCategoria(){
+         java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                new Categorias().setVisible(true);
+            }
+        });
+    }
+    private void openCrearUsu(){
+        java.awt.EventQueue.invokeLater(() -> {
+            new CrearUsu().setVisible(true);
+        });
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton BtnCrearUsu;
@@ -253,10 +457,24 @@ public class CrearUsu extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
+    private javax.swing.JMenu jMenu1;
+    private javax.swing.JMenu jMenu2;
+    private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JMenuItem jMenuCrearPedido;
+    private javax.swing.JMenuItem jMenuCrearUsuarios;
+    private javax.swing.JMenuItem jMenuItem1;
+    private javax.swing.JMenuItem jMenuItem2;
+    private javax.swing.JMenuItem jMenuItem3;
+    private javax.swing.JMenuItem jMenuVerCategorias;
+    private javax.swing.JMenuItem jMenuVerOfertas;
+    private javax.swing.JMenuItem jMenuVerProductos;
+    private javax.swing.JMenuItem jMenuVerUsuarios;
     private javax.swing.JTextField jUsuCognom;
     private javax.swing.JTextField jUsuEmail;
     private javax.swing.JTextField jUsuNom;
     private javax.swing.JTextField jUsuPassword;
     private javax.swing.JTextField jUsuPassword2;
+    private javax.swing.JMenu ofertasBtn;
+    private javax.swing.JMenu pedidosBtn;
     // End of variables declaration//GEN-END:variables
 }
