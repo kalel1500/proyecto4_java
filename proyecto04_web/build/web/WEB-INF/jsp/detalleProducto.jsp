@@ -8,12 +8,18 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
+<c:if test="${sessionScope.us == null}">
+    <% response.sendRedirect("index"); %>
+</c:if>
 <jsp:include page="/WEB-INF/jsp/proc/head.jsp" />
 
 <div class="container">
     <div class="row">
-        <div class="col-md-12 col-sm-12 col-xs-12">
+        <div class="col-md-10 col-sm-10 col-xs-10 div-titulo1-detalleProd">
             <h1 class="page-header">${producto.producte_nom}</h1>
+        </div>
+        <div class="col-md-2 col-sm-2 col-xs-2 div-titulo2-detalleProd">
+            <a href="listarProducto"><h3 class="page-header">Volver</h3></a>
         </div>
     </div>
 

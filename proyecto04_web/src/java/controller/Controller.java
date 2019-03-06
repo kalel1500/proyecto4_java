@@ -268,12 +268,7 @@ public class Controller {
     @RequestMapping(value = "eliminarProducto", method = RequestMethod.GET)
     public RedirectView eliminarProductoController(@RequestParam("id") int id, Model model) {     
         RedirectView respuesta = new RedirectView("listarProducto");
-        boolean res = pdao.eliminarProducto(id);
-        if(res == false) {
-            model.addAttribute("eliminarProd", "false");
-        } else {
-            model.addAttribute("eliminarProd", "true");
-        }
+        pdao.eliminarProducto(id);
         return respuesta;
     }
        

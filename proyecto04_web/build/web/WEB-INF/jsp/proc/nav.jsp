@@ -9,6 +9,7 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 
+<% String title = (String) request.getAttribute("title"); %>
 <nav class="navbar navbar-inverse navbar-fixed-top">
     <div class="container">
         <div class="navbar-header">
@@ -18,15 +19,14 @@
                 <span class="icon-bar"></span> 
             </button>
 
-            <a class="navbar-brand  minav-caja-logo" href="index.php"><img class="minav-logo" src="./assets/imagenes/logo/logo.png">Tactil</a>
+            <a class="navbar-brand  minav-caja-logo" href="index"><img class="minav-logo" src="img/otros/logo.jpeg">Tactil</a>
 
         </div>
-        <% String title = (String) request.getAttribute("title"); %>
+        
         
         
         <div class="collapse navbar-collapse" id="myNavbar">
             <ul class="nav navbar-nav">
-                <li <% out.println((title.equals("Inicio"))?"class=active":""); %>><a href="index">index</a></li>
                 <li <% out.println((title.equals("Productos"))?"class=active":""); %>><a href="listarProducto">Productos</a></li>
                 <li <% out.println((title.equals("Categorias"))?"class=active":""); %>><a href="listarCategoria">Categorias</a></li>
                 <li <% out.println((title.equals("Series"))?"class=active":""); %>><a href="listarSerie">Series</a></li>

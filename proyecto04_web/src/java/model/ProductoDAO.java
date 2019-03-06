@@ -30,7 +30,8 @@ public class ProductoDAO {
 
     // recupera la lista de las productos
     public void getListaProductos(ArrayList<Producto> listaProducto) {
-        sql = "SELECT * FROM tbl_producte INNER JOIN tbl_serie ON tbl_producte.serie_id = tbl_serie.serie_id INNER JOIN tbl_categoria ON tbl_serie.categoria_id = tbl_categoria.categoria_id";
+        // antigua // sql = "SELECT * FROM tbl_producte INNER JOIN tbl_serie ON tbl_producte.serie_id = tbl_serie.serie_id INNER JOIN tbl_categoria ON tbl_serie.categoria_id = tbl_categoria.categoria_id";
+        sql = "SELECT *, SUM(`estoc_quantitat`) AS SUM_estoc_quantitat, SUM(`estoc_maxim`) AS SUM_estoc_maxim, SUM(`estoc_minim`) AS SUM_estoc_minim FROM `tbl_producte` INNER JOIN `tbl_serie` ON `tbl_producte`.`serie_id` = `tbl_serie`.`serie_id` INNER JOIN `tbl_categoria` ON `tbl_serie`.`categoria_id` = `tbl_categoria`.`categoria_id` LEFT JOIN `tbl_estoc` ON `tbl_producte`.`producte_id` = `tbl_estoc`.`producte_id` GROUP BY `tbl_producte`.`producte_id`";
         try {
             Statement st = cn.createStatement();
             ResultSet rs = st.executeQuery(sql);
@@ -47,6 +48,9 @@ public class ProductoDAO {
                 producto.setProducte_descompte(rs.getInt("producte_descompte"));
                 producto.setSerie_nom(rs.getString("serie_nom"));
                 producto.setCategoria_nom(rs.getString("categoria_nom"));
+                producto.setEstoc_quantitat(rs.getInt("SUM_estoc_quantitat"));
+                producto.setEstoc_maxim(rs.getInt("SUM_estoc_maxim"));
+                producto.setEstoc_minim(rs.getInt("SUM_estoc_minim"));                
                 listaProducto.add(producto);
             }
         } catch (SQLException ex) {
@@ -54,19 +58,31 @@ public class ProductoDAO {
         }
     }
 
-    public boolean eliminarProducto(int id) {
-        boolean res = true;
-        sql = "DELETE FROM `tbl_producto` WHERE `tbl_producto`.`producte_id` = ?";
-
+    public void eliminarProducto(int id) {
+        sql = "DELETE FROM `tbl_estoc` WHERE `tbl_estoc`.`producte_id` = ?";
         try {
+            cn.setAutoCommit(false);
             PreparedStatement pst = cn.prepareStatement(sql);
             pst.setInt(1, id);
             int n = pst.executeUpdate();
+            
+            sql = "DELETE FROM `tbl_producte` WHERE `tbl_producte`.`producte_id` = ?";
+            try {
+                pst = cn.prepareStatement(sql);
+                pst.setInt(1, id);
+                n = pst.executeUpdate();
+            } catch (SQLException ex) {
+                Logger.getLogger(ProductoDAO.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            cn.commit();
         } catch (SQLException ex) {
-            res = false;
+            try {
+                cn.rollback();
+            } catch (SQLException ex1) {
+                Logger.getLogger(ProductoDAO.class.getName()).log(Level.SEVERE, null, ex1);
+            }
             Logger.getLogger(ProductoDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return res;
     }
 
     public void insertarProducto(Producto producto) {
@@ -167,9 +183,16 @@ public class ProductoDAO {
     
     // filtrar producto
     public void getListaProductosFiltrados(ArrayList<Producto> listaFiltrarProducto, Producto prod) {
+        String prodId = Integer.toString(prod.getProducte_id());
         String prodNom = prod.getProducte_nom();
         String catNom = prod.getCategoria_nom();
-        sql = "SELECT * FROM tbl_producte INNER JOIN tbl_serie ON tbl_producte.serie_id = tbl_serie.serie_id INNER JOIN tbl_categoria ON tbl_serie.categoria_id = tbl_categoria.categoria_id WHERE `producte_nom` LIKE '%"+ prodNom +"%' AND tbl_categoria.`categoria_nom` LIKE '%"+ catNom +"%'";
+        
+        if(prodId.equals("0")) {
+            prodId = "";
+        }
+        
+        // antigua //sql = "SELECT * FROM tbl_producte INNER JOIN tbl_serie ON tbl_producte.serie_id = tbl_serie.serie_id INNER JOIN tbl_categoria ON tbl_serie.categoria_id = tbl_categoria.categoria_id WHERE `producte_nom` LIKE '%"+ prodNom +"%' AND tbl_categoria.`categoria_nom` LIKE '%"+ catNom +"%' AND tbl_producte.`producte_id` LIKE '%"+ prodId +"%'";
+        sql = "SELECT *, SUM(`estoc_quantitat`) AS SUM_estoc_quantitat, SUM(`estoc_maxim`) AS SUM_estoc_maxim, SUM(`estoc_minim`) AS SUM_estoc_minim FROM `tbl_producte` INNER JOIN `tbl_serie` ON `tbl_producte`.`serie_id` = `tbl_serie`.`serie_id` INNER JOIN `tbl_categoria` ON `tbl_serie`.`categoria_id` = `tbl_categoria`.`categoria_id` LEFT JOIN `tbl_estoc` ON `tbl_producte`.`producte_id` = `tbl_estoc`.`producte_id` WHERE `producte_nom` LIKE '%"+ prodNom +"%' AND `tbl_categoria`.`categoria_nom` LIKE '%"+ catNom +"%' AND `tbl_producte`.`producte_id` LIKE '%"+ prodId +"%' GROUP BY `tbl_producte`.`producte_id`";
         //JOptionPane.showMessageDialog(null, sql);
         try {
             Statement st = cn.createStatement();
@@ -187,6 +210,9 @@ public class ProductoDAO {
                 producto.setProducte_descompte(rs.getInt("producte_descompte"));
                 producto.setSerie_nom(rs.getString("serie_nom"));
                 producto.setCategoria_nom(rs.getString("categoria_nom"));
+                producto.setEstoc_quantitat(rs.getInt("SUM_estoc_quantitat"));
+                producto.setEstoc_maxim(rs.getInt("SUM_estoc_maxim"));
+                producto.setEstoc_minim(rs.getInt("SUM_estoc_minim"));
                 listaFiltrarProducto.add(producto);
             }
             

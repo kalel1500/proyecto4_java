@@ -20,6 +20,22 @@ button {
 div {
     word-wrap: break-word;
 }
+.minav-logo {
+	width: 50px;
+	display: inline-flex !important;
+	border-radius: 50%;
+        margin-right: 5px;
+}
+.minav-caja-logo {
+	/*display: inline-block;*/
+	padding-top: 12px;
+	/*width: 50px;*/
+	/*padding: 0;*/
+}
+.navbar-header>.active {
+    color: #fff;
+    background-color: #080808;
+}
 .form-con-fondo {
     width: 60%;
     margin: auto;
@@ -42,6 +58,18 @@ tr:hover {
 }
 .justify {
     text-align: justify;
+}
+@media (min-width: 992px) {
+    .alinear-contenido-vertical {
+        display: flex;
+        align-items: center;
+    }
+}
+
+.col-md-0 {
+    max-width: 50px;
+    width: 35px;
+    text-align: center;
 }
 .negrita {
     font-weight: 700;
@@ -68,6 +96,7 @@ tr:hover {
     /*    background-color: #0686145c;*/
     background-color: #e4e4e45c;
     margin-bottom: 10px;
+    
 }
 .fila-lista-prod:hover {
     background-color: #e2e2e2;
@@ -95,13 +124,25 @@ tr:hover {
     overflow: hidden;
     margin: 10px 0px;
 }
+
+
 /*detalle producto*/
 .div-img-detalle-prod {
     width: 60%;
     margin: auto;
+    border-radius: 10px;
+    background-color: beige;
+    border: 10px solid;
 }
 .img-detalle-prod {
     width: 100%;
+}
+.div-titulo1-detalleProd {
+    padding-right: 0px;
+}
+.div-titulo2-detalleProd {
+    margin-top: 13px;
+    padding-left: 0px;
 }
 
 
