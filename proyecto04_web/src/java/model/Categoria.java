@@ -5,12 +5,16 @@
  */
 package model;
 
+import org.hibernate.validator.constraints.NotBlank;
+
 /**
  *
  * @author Usuario
  */
 public class Categoria {
     private int categoria_id;
+    
+    @NotBlank(message = "Nombre requerido")
     private String categoria_nom;
 
     public Categoria() {

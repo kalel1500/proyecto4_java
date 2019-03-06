@@ -8,13 +8,16 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
+<c:if test="${sessionScope.us == null}">
+    <% response.sendRedirect("index"); %>
+</c:if>
 <jsp:include page="/WEB-INF/jsp/proc/head.jsp" />
 
 <div class="container">
     <h1>Lista de Series</h1>
-    <button type="button" class="btn btn-success">
-        <a href="insertarSerie"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span>Agregar</a>
-    </button>
+    
+    <a href="insertarSerie" class="btn btn-success boton-agregar"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span>Agregar</a>
+
     <div class="table-responsive">
         <table class="table table-bordered">
             <thead>

@@ -5,28 +5,60 @@
  */
 package model;
 
+import javax.validation.constraints.NotNull;
+import org.hibernate.validator.constraints.NotBlank;
+import org.hibernate.validator.constraints.NotEmpty;
+
 /**
  *
  * @author Usuario
  */
 public class Producto {
     private int producte_id;
+    //--
+    @NotBlank(message = "Nombre requerido")
     private String producte_nom;
     private String producte_fotoRuta;
     private String producte_fotoNom;
     private String producte_fotoExt;
+    //--
+    @NotNull(message = "Precio requerido")
     private double producte_preu;
     private String producte_descripcio;
+    //--
+    @NotNull(message = "Descuento requerido")
     private int producte_descompte;
     private int serie_id;
+    //--
+    @NotEmpty(message = "Nombre requerido")
     private String serie_nom;
     private int categoria_id;
     private String categoria_nom;
+    
+    private int estoc_id;
+    //--
+    @NotNull(message = "Estoc requerido")
+    private int estoc_quantitat;
+    @NotNull(message = "Maximo requerido")
+    private int estoc_maxim;
+    @NotNull(message = "Minimo requerido")
+    private int estoc_minim;
+    
+    private int lloc_id;
+    //--
+    @NotEmpty(message = "Bloque requerido")
+    private String lloc_bloc;
+    //--
+    @NotEmpty(message = "Pasillo requerido")
+    private String lloc_passadis;
+    //--
+    @NotEmpty(message = "Estante requerido")
+    private String lloc_lleixa;
 
     public Producto() {
     }
 
-    public Producto(int producte_id, String producte_nom, String producte_fotoRuta, String producte_fotoNom, String producte_fotoExt, double producte_preu, String producte_descripcio, int producte_descompte, int serie_id, String serie_nom, int categoria_id, String categoria_nom) {
+    public Producto(int producte_id, String producte_nom, String producte_fotoRuta, String producte_fotoNom, String producte_fotoExt, double producte_preu, String producte_descripcio, int producte_descompte, int serie_id, String serie_nom, int categoria_id, String categoria_nom, int estoc_id, int estoc_quantitat, int estoc_maxim, int estoc_minim, int lloc_id, String lloc_bloc, String lloc_passadis, String lloc_lleixa) {
         this.producte_id = producte_id;
         this.producte_nom = producte_nom;
         this.producte_fotoRuta = producte_fotoRuta;
@@ -39,6 +71,14 @@ public class Producto {
         this.serie_nom = serie_nom;
         this.categoria_id = categoria_id;
         this.categoria_nom = categoria_nom;
+        this.estoc_id = estoc_id;
+        this.estoc_quantitat = estoc_quantitat;
+        this.estoc_maxim = estoc_maxim;
+        this.estoc_minim = estoc_minim;
+        this.lloc_id = lloc_id;
+        this.lloc_bloc = lloc_bloc;
+        this.lloc_passadis = lloc_passadis;
+        this.lloc_lleixa = lloc_lleixa;
     }
 
     public int getProducte_id() {
@@ -89,6 +129,38 @@ public class Producto {
         return categoria_nom;
     }
 
+    public int getEstoc_id() {
+        return estoc_id;
+    }
+
+    public int getEstoc_quantitat() {
+        return estoc_quantitat;
+    }
+
+    public int getEstoc_maxim() {
+        return estoc_maxim;
+    }
+
+    public int getEstoc_minim() {
+        return estoc_minim;
+    }
+
+    public int getLloc_id() {
+        return lloc_id;
+    }
+
+    public String getLloc_bloc() {
+        return lloc_bloc;
+    }
+
+    public String getLloc_passadis() {
+        return lloc_passadis;
+    }
+
+    public String getLloc_lleixa() {
+        return lloc_lleixa;
+    }
+
     public void setProducte_id(int producte_id) {
         this.producte_id = producte_id;
     }
@@ -137,8 +209,37 @@ public class Producto {
         this.categoria_nom = categoria_nom;
     }
 
-    
+    public void setEstoc_id(int estoc_id) {
+        this.estoc_id = estoc_id;
+    }
 
-    
+    public void setEstoc_quantitat(int estoc_quantitat) {
+        this.estoc_quantitat = estoc_quantitat;
+    }
+
+    public void setEstoc_maxim(int estoc_maxim) {
+        this.estoc_maxim = estoc_maxim;
+    }
+
+    public void setEstoc_minim(int estoc_minim) {
+        this.estoc_minim = estoc_minim;
+    }
+
+    public void setLloc_id(int lloc_id) {
+        this.lloc_id = lloc_id;
+    }
+
+    public void setLloc_bloc(String lloc_bloc) {
+        this.lloc_bloc = lloc_bloc;
+    }
+
+    public void setLloc_passadis(String lloc_passadis) {
+        this.lloc_passadis = lloc_passadis;
+    }
+
+    public void setLloc_lleixa(String lloc_lleixa) {
+        this.lloc_lleixa = lloc_lleixa;
+    }
+
     
 }

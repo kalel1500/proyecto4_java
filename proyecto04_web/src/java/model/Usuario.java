@@ -5,15 +5,28 @@
  */
 package model;
 
+import javax.validation.constraints.Size;
+import org.hibernate.validator.constraints.Email;
+import org.hibernate.validator.constraints.NotBlank;
+
 /**
  *
  * @author Usuario
  */
 public class Usuario {
     private int id_usuario;
+    
+    @Email(message = "Debes introducir un email")
     private String email_usuario;
+    
+    @NotBlank(message = "Nombre requerido")
+    @Size(min=4, max=20, message="La contra debe contener entre 4 y 20 caracteres")
     private String password_usuario;
+    
+    @NotBlank(message = "Nombre requerido")
     private String nombre_usuario;
+    
+    @NotBlank(message = "Nombre requerido")
     private String apellido_usuario;
 
     public Usuario() {

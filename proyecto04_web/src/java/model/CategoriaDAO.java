@@ -29,7 +29,7 @@ public class CategoriaDAO {
 
     // recupera la lista de las categorias
     public void getListaCategorias(ArrayList<Categoria> listaCategoria) {
-        sql = "SELECT * FROM tbl_categoria";
+        sql = "SELECT * FROM tbl_categoria ORDER BY categoria_id DESC";
         try {
             Statement st = cn.createStatement();
             ResultSet rs = st.executeQuery(sql);
@@ -45,7 +45,8 @@ public class CategoriaDAO {
         }
     }
 
-    public void eliminarCategoria(int id) {
+    public boolean eliminarCategoria(int id) {
+        boolean res = true;
         sql = "DELETE FROM `tbl_categoria` WHERE `tbl_categoria`.`categoria_id` = ?";
 
         try {
@@ -53,8 +54,11 @@ public class CategoriaDAO {
             pst.setInt(1, id);
             int n = pst.executeUpdate();
         } catch (SQLException ex) {
+            //JOptionPane.showMessageDialog(null, "No se ha podido eliminar");
+            res = false;
             Logger.getLogger(CategoriaDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
+        return res;
     }
 
     public void insertarCategoria(Categoria categoria) {

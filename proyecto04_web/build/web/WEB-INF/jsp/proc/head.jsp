@@ -4,12 +4,13 @@
     Author     : Usuario
 --%>
 <!DOCTYPE html>
+<% String title = (String) request.getAttribute("title"); %>
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>${title}</title>
-        <!--        <link rel="icon" type="image/png" href="assets/images/recursos.jpg"/>-->
+        <link rel="icon" type="image/png" href="img/otros/logo.jpeg"/>
         
         <!--Librerias bootstrap-->
         <script src="https://code.jquery.com/jquery-3.2.1.min.js" ></script>
@@ -23,8 +24,19 @@
         <link rel="stylesheet" href="${pageContext.request.contextPath}/css/estilos.css" type="text/css" media="all" />
         <script src="${pageContext.request.contextPath}/js/js.js"></script>
     </head>
-
-    <body style="margin-top: 51px">
-        <jsp:include page="/WEB-INF/jsp/proc/nav.jsp" />
-
+    
+    <% 
+        if(title.equals("Inicio")) { 
+            %> <body class="body-inicio"> <%
+        } else {
+            %> <body> <%
+        }
+    %>
+        
+        <% 
+            if(!title.equals("Inicio")) {
+                %> <jsp:include page="/WEB-INF/jsp/proc/nav.jsp" /> <%
+            }
+        %>
+        
         <section>

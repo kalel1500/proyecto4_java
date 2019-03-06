@@ -5,13 +5,22 @@
  */
 package model;
 
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
+import org.hibernate.validator.constraints.NotBlank;
+
 /**
  *
  * @author Usuario
  */
 public class Serie {
     private int serie_id;
+    
+    @NotBlank(message = "Nombre requerido")
     private String serie_nom;
+    
+    @NotNull(message = "Categoria requerida")
+    @Min(value=1, message = "Minimo 1")
     private int categoria_id;
     private String categoria_nom;
 
