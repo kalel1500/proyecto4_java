@@ -12,7 +12,7 @@ package model;
 public class Producto {
     int producte_id;
     String producte_nom;
-    String producte_foto;
+    String producte_fotoNom;
     Double producte_preu;
     String producte_descripcio;
     int producte_descompte;
@@ -21,11 +21,11 @@ public class Producto {
     public Producto() {
     }
 
-    public Producto(int producte_id, String producte_nom, double producte_preu, String producte_foto, int serie_id, String producte_descripcio, int producte_descompte) {
+    public Producto(int producte_id, String producte_nom, double producte_preu, String producte_fotoNom, int serie_id, String producte_descripcio, int producte_descompte) {
         this.producte_id = producte_id;
         this.producte_nom = producte_nom;
         this.producte_preu = producte_preu;
-        this.producte_foto = producte_foto;
+        this.producte_fotoNom = producte_fotoNom;
         this.serie_id = serie_id;
         this.producte_descripcio = producte_descripcio;
         this.producte_descompte = producte_descompte;
@@ -43,8 +43,8 @@ public class Producto {
         return producte_preu;
     }
 
-    public String getProducte_foto() {
-        return producte_foto;
+    public String getProducte_fotoNom() {
+        return producte_fotoNom;
     }
 
     public int getSerie_id() {
@@ -71,8 +71,8 @@ public class Producto {
         this.producte_preu = producte_preu;
     }
 
-    public void setProducte_foto(String producte_foto) {
-        this.producte_foto = producte_foto;
+    public void setProducte_fotoNom(String producte_fotoNom) {
+        this.producte_fotoNom = producte_fotoNom;
     }
 
     public void setSerie_id(int serie_id) {

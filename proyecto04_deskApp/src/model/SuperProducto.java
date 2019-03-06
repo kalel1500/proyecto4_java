@@ -23,7 +23,7 @@ public class SuperProducto {
     
     int producte_id;
     String producte_nom;
-    String producte_foto;
+    String producte_fotoNom;
     Double producte_preu;
     String producte_descripcio;
     int producte_descompte;
@@ -36,17 +36,17 @@ public class SuperProducto {
     int estoc_maxim;
     int estoc_minim;
     int lloc;
-    String num_bloc;
-    String num_passadis;
-    String num_lleixa;
+    String lloc_bloc;
+    String lloc_passadis;
+    String lloc_lleixa;
 
     public SuperProducto() {
     }
 
-    public SuperProducto(int producte_id, String producte_nom, String producte_foto, Double producte_preu, String producte_descripcio, int producte_descompte, int serie_id, String serie_nom, int categoria_id, String categoria_nom, int estoc_id, int estoc_quantitat, int estoc_maxim, int estoc_minim, int lloc, String num_bloc, String num_passadis, String num_lleixa) {
+    public SuperProducto(int producte_id, String producte_nom, String producte_fotoNom, Double producte_preu, String producte_descripcio, int producte_descompte, int serie_id, String serie_nom, int categoria_id, String categoria_nom, int estoc_id, int estoc_quantitat, int estoc_maxim, int estoc_minim, int lloc, String lloc_bloc, String lloc_passadis, String lloc_lleixa) {
         this.producte_id = producte_id;
         this.producte_nom = producte_nom;
-        this.producte_foto = producte_foto;
+        this.producte_fotoNom = producte_fotoNom;
         this.producte_preu = producte_preu;
         this.producte_descripcio = producte_descripcio;
         this.producte_descompte = producte_descompte;
@@ -59,9 +59,9 @@ public class SuperProducto {
         this.estoc_maxim = estoc_maxim;
         this.estoc_minim = estoc_minim;
         this.lloc = lloc;
-        this.num_bloc = num_bloc;
-        this.num_passadis = num_passadis;
-        this.num_lleixa = num_lleixa;
+        this.lloc_bloc = lloc_bloc;
+        this.lloc_passadis = lloc_passadis;
+        this.lloc_lleixa = lloc_lleixa;
     }
 
     public int getProducte_id() {
@@ -72,8 +72,8 @@ public class SuperProducto {
         return producte_nom;
     }
 
-    public String getProducte_foto() {
-        return producte_foto;
+    public String getProducte_fotoNom() {
+        return producte_fotoNom;
     }
 
     public Double getProducte_preu() {
@@ -124,16 +124,16 @@ public class SuperProducto {
         return lloc;
     }
 
-    public String getNum_bloc() {
-        return num_bloc;
+    public String getLloc_bloc() {
+        return lloc_bloc;
     }
 
-    public String getNum_passadis() {
-        return num_passadis;
+    public String getLloc_passadis() {
+        return lloc_passadis;
     }
 
-    public String getNum_lleixa() {
-        return num_lleixa;
+    public String getLloc_lleixa() {
+        return lloc_lleixa;
     }
 
     public void setProducte_id(int producte_id) {
@@ -144,8 +144,8 @@ public class SuperProducto {
         this.producte_nom = producte_nom;
     }
 
-    public void setProducte_foto(String producte_foto) {
-        this.producte_foto = producte_foto;
+    public void setProducte_fotoNom(String producte_fotoNom) {
+        this.producte_fotoNom = producte_fotoNom;
     }
 
     public void setProducte_preu(Double producte_preu) {
@@ -196,21 +196,21 @@ public class SuperProducto {
         this.lloc = lloc;
     }
 
-    public void setNum_bloc(String num_bloc) {
-        this.num_bloc = num_bloc;
+    public void setLloc_bloc(String lloc_bloc) {
+        this.lloc_bloc = lloc_bloc;
     }
 
-    public void setNum_passadis(String num_passadis) {
-        this.num_passadis = num_passadis;
+    public void setLloc_passadis(String lloc_passadis) {
+        this.lloc_passadis = lloc_passadis;
     }
 
-    public void setNum_lleixa(String num_lleixa) {
-        this.num_lleixa = num_lleixa;
+    public void setLloc_lleixa(String lloc_lleixa) {
+        this.lloc_lleixa = lloc_lleixa;
     }
     
     private int getIdLloc(String bloc, String passadis, String lleixa){
         Lloc llocId = new Lloc();
-        sql="SELECT lloc_id FROM tbl_lloc WHERE num_bloc='"+bloc+"' AND num_passadis='"+passadis+"' AND num_lleixa='"+lleixa+"'";
+        sql="SELECT lloc_id FROM tbl_lloc WHERE lloc_bloc='"+bloc+"' AND lloc_passadis='"+passadis+"' AND lloc_lleixa='"+lleixa+"'";
         
         try {
             Statement st = cn.createStatement();
@@ -234,12 +234,12 @@ public class SuperProducto {
         int descompte = modProd.producte_descompte;
         int categoria = modProd.categoria_id;
         int serie = modProd.serie_id;
-        String bloc = modProd.num_bloc;
-        String passadis = modProd.num_passadis;
-        String lleixa = modProd.num_lleixa;
+        String bloc = modProd.lloc_bloc;
+        String passadis = modProd.lloc_passadis;
+        String lleixa = modProd.lloc_lleixa;
         
         int lloc_id = getIdLloc(bloc,passadis,lleixa);
-        JOptionPane.showMessageDialog(null, serie);
+        //JOptionPane.showMessageDialog(null, serie);
         
         
         try {
@@ -280,17 +280,19 @@ public class SuperProducto {
         int descompte = crearProd.producte_descompte;
         int categoria = crearProd.categoria_id;
         int serie = crearProd.serie_id;
-        String bloc = crearProd.num_bloc;
-        String passadis = crearProd.num_passadis;
-        String lleixa = crearProd.num_lleixa;
+        String bloc = crearProd.lloc_bloc;
+        String passadis = crearProd.lloc_passadis;
+        String lleixa = crearProd.lloc_lleixa;
         int lloc_id = getIdLloc(bloc,passadis,lleixa);
         int stock_max = crearProd.estoc_maxim;
         int stock_min = crearProd.estoc_minim;
+        String foto = crearProd.producte_fotoNom;
+      
         
         try {
             cn.setAutoCommit(false);
-            sql= "INSERT INTO tbl_producte(producte_id,producte_nom,producte_foto, producte_preu, producte_descripcio, producte_descompte, serie_id)"
-                    + "VALUES('"+producto_id+"','"+nombre+"','','"+preu+"','"+descripcio+"','"+descompte+"','"+serie+"')";
+            sql= "INSERT INTO tbl_producte(producte_id,producte_nom,producte_fotoRuta,producte_fotoNom, producte_fotoExt,producte_preu, producte_descripcio, producte_descompte, serie_id)"
+                    + "VALUES('"+producto_id+"','"+nombre+"','','"+foto+"','','"+preu+"','"+descripcio+"','"+descompte+"','"+serie+"')";
              //JOptionPane.showMessageDialog(null, sql);
              try {
                 Statement st = cn.createStatement();

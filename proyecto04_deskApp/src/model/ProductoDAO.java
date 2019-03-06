@@ -36,7 +36,7 @@ public class ProductoDAO {
                 Producto producto = new Producto();
                 producto.setProducte_id(rs.getInt("producte_id"));
                 producto.setProducte_nom(rs.getString("producte_nom"));
-                producto.setProducte_foto(rs.getString("producte_foto"));
+                producto.setProducte_fotoNom(rs.getString("producte_fotoNom"));
                 producto.setProducte_preu(rs.getDouble("producte_preu"));
                 producto.setProducte_descripcio(rs.getString("producte_descripcio"));
                 producto.setProducte_descompte(rs.getInt("producte_descompte"));
@@ -58,7 +58,7 @@ public class ProductoDAO {
             rs.next();
             producto.setProducte_id(rs.getInt("producte_id"));
             producto.setProducte_nom(rs.getString("producte_nom"));
-            producto.setProducte_foto(rs.getString("producte_foto"));
+            producto.setProducte_fotoNom(rs.getString("producte_fotoNom"));
             producto.setProducte_preu(rs.getDouble("producte_preu"));
             producto.setProducte_descripcio(rs.getString("producte_descripcio"));
             producto.setProducte_descompte(rs.getInt("producte_descompte"));
@@ -83,7 +83,7 @@ public class ProductoDAO {
                 Producto producto = new Producto();
                 producto.setProducte_id(rs.getInt("producte_id"));
                 producto.setProducte_nom(rs.getString("producte_nom"));
-                producto.setProducte_foto(rs.getString("producte_foto"));
+                producto.setProducte_fotoNom(rs.getString("producte_fotoNom"));
                 producto.setProducte_preu(rs.getDouble("producte_preu"));
                 producto.setProducte_descripcio(rs.getString("producte_descripcio"));
                 producto.setProducte_descompte(rs.getInt("producte_descompte"));
@@ -95,4 +95,18 @@ public class ProductoDAO {
             JOptionPane.showMessageDialog(null, "FALLA LA QUERY GetInfoProductoCat");
         }
     }
+     
+     public int getNextId(){
+         int id = 0;
+         sql="SELECT producte_id FROM tbl_producte ORDER BY producte_id DESC LIMIT 1";
+         try {
+            Statement st = cn.createStatement();
+            ResultSet rs = st.executeQuery(sql);
+            rs.next();
+            id = rs.getInt("producte_id");
+         } catch (Exception e) {
+             JOptionPane.showMessageDialog(null, "FALLA LA QUERY getNextId");
+         }
+         return id;
+     }
 }

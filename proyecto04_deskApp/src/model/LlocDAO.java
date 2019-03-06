@@ -28,7 +28,7 @@ public class LlocDAO {
     
     public Lloc recuperarLloc(int i){
         Lloc infoLloc = new Lloc();
-        sql="SELECT tbl_lloc.lloc_id, num_bloc, num_passadis, num_lleixa "
+        sql="SELECT tbl_lloc.lloc_id, lloc_bloc, lloc_passadis, lloc_lleixa "
                 + "FROM tbl_estoc inner join tbl_lloc on tbl_estoc.lloc_id = tbl_lloc.lloc_id "
                 + "WHERE tbl_estoc.producte_id ='"+i+"'";
        // JOptionPane.showMessageDialog(null, sql);
@@ -37,9 +37,9 @@ public class LlocDAO {
             ResultSet rs = st.executeQuery(sql);
             rs.next();
             infoLloc.setLloc(rs.getInt("lloc_id"));
-            infoLloc.setNum_bloc(rs.getString("num_bloc"));
-            infoLloc.setNum_passadis(rs.getString("num_passadis"));
-            infoLloc.setNum_lleixa(rs.getString("num_lleixa"));
+            infoLloc.setLloc_bloc(rs.getString("lloc_bloc"));
+            infoLloc.setLloc_passadis(rs.getString("lloc_passadis"));
+            infoLloc.setLloc_lleixa(rs.getString("lloc_lleixa"));
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null, ex);
         }
@@ -48,16 +48,16 @@ public class LlocDAO {
     
     public void getAllLlocs(ArrayList<Lloc> llocArray, JComboBox cbLlocBloc){
         Lloc cbL = new Lloc();
-        sql="select lloc_id, num_bloc FROM tbl_lloc";
+        sql="select lloc_id, lloc_bloc FROM tbl_lloc";
         try {
             Statement st = cn.createStatement();
             ResultSet rs = st.executeQuery(sql);
             while(rs.next()){
                 cbL.setLloc(rs.getInt("lloc_id"));
-                cbL.setNum_bloc(rs.getString("num_bloc"));
+                cbL.setLloc_bloc(rs.getString("lloc_bloc"));
                 //cat.setCategoria
                 llocArray.add(cbL);   
-                cbLlocBloc.addItem(cbL.getNum_bloc());
+                cbLlocBloc.addItem(cbL.getLloc_bloc());
             }
         } catch (Exception e) {
         }
