@@ -280,7 +280,7 @@ public class Controller {
         // enviamos un producto vacio para el formulario
         producto = new Producto();
         model.addAttribute("producto",producto);
-        // enviamos la lista de categorias para el desplegable
+        // enviamos la lista de series para el desplegable
         sdao.getListaSeries(listaSerie);
         model.addAttribute("listaSerie", listaSerie);
         // enviamos la lista de bloques para el desplegable
@@ -311,6 +311,19 @@ public class Controller {
     public String modificarProductoController(@RequestParam("id") int id, Model model) {
         producto = pdao.recuperarProducto(id);
         model.addAttribute("producto", producto);
+        // enviamos la lista de series para el desplegable
+        sdao.getListaSeries(listaSerie);
+        model.addAttribute("listaSerie", listaSerie);
+        // enviamos la lista de bloques para el desplegable
+        ldao.getListaBloquesLugares(listaBloqueLugar);
+        model.addAttribute("listaBloqueLugar", listaBloqueLugar);
+        // enviamos la lista de passillos para el desplegable
+        ldao.getListaPasillosLugares(listaPasilloLugar);
+        model.addAttribute("listaPasilloLugar", listaPasilloLugar);
+        // enviamos la lista de estantes para el desplegable
+        ldao.getListaEstanteLugares(listaEstanteLugar);
+        model.addAttribute("listaEstanteLugar", listaEstanteLugar);
+        // enviamos el titulo para el head
         model.addAttribute("title", "Modificar producto");
         return "modificarProducto";
     }

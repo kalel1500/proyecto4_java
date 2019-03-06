@@ -10,9 +10,21 @@ and open the template in the editor.
 
 body {
     font-family: Roboto;
+    margin-top: 51px
+}
+body.body-inicio {
+    background-color: #89b5dc;
+    margin-top: 0px
 }
 button a {
     color: white;
+}
+.centrado-automatico {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    -webkit-transform: translate(-50%, -50%);
 }
 .boton-agregar {
     margin: 15px 5px !important;

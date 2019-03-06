@@ -12,8 +12,9 @@
 <jsp:include page="/WEB-INF/jsp/proc/head.jsp" />
 
 <div class="container">
-    <h1>Index</h1>
-    imagen con <a href="login">link</a> a login
+    <div class="centrado-automatico">
+        <a href="login"><img src="img/otros/logo.jpeg"></a>
+    </div>
 </div>
 
 <jsp:include page="/WEB-INF/jsp/proc/footer.jsp" />

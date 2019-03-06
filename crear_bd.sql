@@ -1186,7 +1186,7 @@ INSERT INTO `tbl_lloc` (`lloc_bloc`,`lloc_passadis`,`lloc_lleixa`) VALUES
 
 INSERT INTO `tbl_estoc` (`estoc_quantitat`,`estoc_maxim`,`estoc_minim`,`producte_id`,`lloc_id`) VALUES
 (20,50,10,(SELECT `producte_id` FROM `tbl_producte` WHERE `producte_nom` = 'prod01'),1),
-(60,100,10,(SELECT `producte_id` FROM `tbl_producte` WHERE `producte_nom` = 'prod01'),41),
+/*(60,100,10,(SELECT `producte_id` FROM `tbl_producte` WHERE `producte_nom` = 'prod01'),41),*/
 (20,50,10,(SELECT `producte_id` FROM `tbl_producte` WHERE `producte_nom` = 'prod02'),2),
 (20,50,10,(SELECT `producte_id` FROM `tbl_producte` WHERE `producte_nom` = 'prod03'),3),
 (20,50,10,(SELECT `producte_id` FROM `tbl_producte` WHERE `producte_nom` = 'prod04'),4),

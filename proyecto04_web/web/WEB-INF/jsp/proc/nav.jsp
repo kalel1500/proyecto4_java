@@ -28,6 +28,7 @@
         <div class="collapse navbar-collapse" id="myNavbar">
             <ul class="nav navbar-nav">
                 <li <% out.println((title.equals("Productos"))?"class=active":""); %>><a href="listarProducto">Productos</a></li>
+                <li <% out.println((title.equals("Ofertas"))?"class=active":""); %>><a href="listarOfertas">Ofertas</a></li>
                 <li <% out.println((title.equals("Categorias"))?"class=active":""); %>><a href="listarCategoria">Categorias</a></li>
                 <li <% out.println((title.equals("Series"))?"class=active":""); %>><a href="listarSerie">Series</a></li>
                 <li <% out.println((title.equals("Usuarios"))?"class=active":""); %>><a href="listarUsuario">Usuarios</a></li>

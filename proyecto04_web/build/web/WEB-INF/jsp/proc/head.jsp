@@ -24,12 +24,19 @@
         <link rel="stylesheet" href="${pageContext.request.contextPath}/css/estilos.css" type="text/css" media="all" />
         <script src="${pageContext.request.contextPath}/js/js.js"></script>
     </head>
-
-    <body style="margin-top: 51px">
-        
-        <% if(!title.equals("Inicio")) {
-            %><jsp:include page="/WEB-INF/jsp/proc/nav.jsp" /><%
+    
+    <% 
+        if(title.equals("Inicio")) { 
+            %> <body class="body-inicio"> <%
+        } else {
+            %> <body> <%
         }
+    %>
+        
+        <% 
+            if(!title.equals("Inicio")) {
+                %> <jsp:include page="/WEB-INF/jsp/proc/nav.jsp" /> <%
+            }
         %>
         
         <section>

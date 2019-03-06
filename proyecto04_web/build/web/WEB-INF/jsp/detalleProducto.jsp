@@ -86,6 +86,8 @@
                     <th>Estoc maximo</th>
                     <th>Estoc minimo</th>
                     <th>Estoc actual</th>
+                    
+                    <th>Modificar/Eliminar <span class="negrita">TODO</span> el producto</th>
 
                 </tr>
             </thead>
@@ -102,6 +104,11 @@
                         <td>${estLug.estoc_maxim}</td>
                         <td>${estLug.estoc_minim}</td>
                         <td>${estLug.estoc_quantitat}</td>
+                        
+                        <td>
+                            <a href="modificarProducto?id=${estLug.producte_id}"><span class="glyphicon glyphicon-pencil"></span></a>
+                            <a href="eliminarProducto?id=${estLug.producte_id}"><span class="glyphicon glyphicon-trash"></span></a>
+                        </td>
                     </tr>
                 </c:forEach>
             </tbody>
