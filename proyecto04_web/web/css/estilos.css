@@ -14,7 +14,7 @@ body {
 button a {
     color: white;
 }
-button {
+.boton-agregar {
     margin: 15px 5px !important;
 }
 div {

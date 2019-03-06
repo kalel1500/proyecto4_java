@@ -15,15 +15,14 @@
 
 <div class="container" id="cont">
     <h1>Lista de productos</h1>
-    <button type="button" class="btn btn-success">
-        <a href="insertarProducto"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span>Agregar</a>
-    </button>
+    
+    <a href="insertarProducto" class="btn btn-success boton-agregar"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span>Agregar</a>
 
     <div class="container div-contenedor-buscador">
         <!--        <div class="row">-->
         <form:form class="form-horizontal col-sm-12" modelAttribute="producto" action="filtrarProducto" method="POST">
             <div class="form-group col-sm-3">
-                <label class="control-label col-sm-5" for="producte_nom">Codigo:</label>
+                <label class="control-label col-sm-5" for="producte_id">Codigo:</label>
                 <div class="col-sm-7">
                     <form:input path="producte_id" class="form-control"/>
                 </div>

@@ -63,7 +63,9 @@ public class Controller {
     // Lugar
     Lugar lugar = new Lugar();
     LugarDAO ldao = new LugarDAO();
-    ArrayList<Lugar> listaLugar = new ArrayList<Lugar>();
+    ArrayList<Lugar> listaBloqueLugar = new ArrayList<Lugar>();
+    ArrayList<Lugar> listaPasilloLugar = new ArrayList<Lugar>();
+    ArrayList<Lugar> listaEstanteLugar = new ArrayList<Lugar>();
     // EstocLugar
     EstocLugar estocLugar = new EstocLugar();
     EstocLugarDAO eldao = new EstocLugarDAO();
@@ -275,8 +277,22 @@ public class Controller {
     // Insertar productos
     @RequestMapping(value="insertarProducto",method = RequestMethod.GET)
     public String insertarProductoController(Model model) {
+        // enviamos un producto vacio para el formulario
         producto = new Producto();
         model.addAttribute("producto",producto);
+        // enviamos la lista de categorias para el desplegable
+        sdao.getListaSeries(listaSerie);
+        model.addAttribute("listaSerie", listaSerie);
+        // enviamos la lista de bloques para el desplegable
+        ldao.getListaBloquesLugares(listaBloqueLugar);
+        model.addAttribute("listaBloqueLugar", listaBloqueLugar);
+        // enviamos la lista de passillos para el desplegable
+        ldao.getListaPasillosLugares(listaPasilloLugar);
+        model.addAttribute("listaPasilloLugar", listaPasilloLugar);
+        // enviamos la lista de estantes para el desplegable
+        ldao.getListaEstanteLugares(listaEstanteLugar);
+        model.addAttribute("listaEstanteLugar", listaEstanteLugar);
+        // enviamos el titulo para el head
         model.addAttribute("title", "Insertar producto");
         String vista = "insertarProducto";
         return vista;

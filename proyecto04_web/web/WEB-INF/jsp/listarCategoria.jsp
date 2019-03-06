@@ -15,10 +15,9 @@
 
 <div class="container">
     <h1>Lista de Categorias</h1>
-    <button type="button" class="btn btn-success">
-        <a href="insertarCategoria"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span>Agregar</a>
-    </button>
     
+    <a href="insertarCategoria" class="btn btn-success boton-agregar"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span>Agregar</a>
+
     <div class="table-responsive">
         <table class="table table-bordered">
             <thead>
