@@ -11,6 +11,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.URL;
 import java.nio.channels.FileChannel;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -19,6 +21,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Pattern;
 import javax.imageio.ImageIO;
+import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
@@ -60,6 +63,10 @@ public class Home extends javax.swing.JFrame {
     Estoc estoc = new Estoc();
     int i = 1;
     File file=null;
+//    String ruta= System.getProperty("user.dir");
+//    JOptionPane.showMessageDialog (null, ruta);
+    
+   
     
     
     
@@ -197,6 +204,12 @@ public class Home extends javax.swing.JFrame {
     public void guardarNuevoProducto(){
         boolean error = false;
         
+        //Mirar si el nombre existe
+        String nombre = pDAO.nombreExists(this.jProdNom.getText());
+        if(!(nombre.equals(""))){
+            JOptionPane.showMessageDialog(null, "este producto ya existe!");
+            error=true;
+        }
         
         /* NOMBRE */
         if(!(this.jProdNom.getText().equals("")) || !(this.jProdNom.getText().length() < 1)){
@@ -207,20 +220,35 @@ public class Home extends javax.swing.JFrame {
         }
         
         /* PRECIO */
-        if(!(this.jProdPreu.getText().equals("")) || !(this.jProdPreu.getText().length() < 1)){
-           crearProd.setProducte_preu(Double.parseDouble(this.jProdPreu.getText()));
-        }else{
-            JOptionPane.showMessageDialog(null, "el precio no puede estar vacío!");
-            error = true;
+        try {
+            if(!(this.jProdPreu.getText().equals("")) || !(this.jProdPreu.getText().length() < 1)){
+               crearProd.setProducte_preu(Double.parseDouble(this.jProdPreu.getText()));
+            }else{
+                JOptionPane.showMessageDialog(null, "el precio no puede estar vacío!");
+                error = true;
+            }
+        } catch (Exception e) {
+            error=true;
+            JOptionPane.showMessageDialog(null, "el precio ha de ser un número!");
         }
         
+        
         /*  DESCUENTO */
-        if(!(this.jProdDescompte.getText().equals("")) || !(this.jProdDescompte.getText().length() < 1)){
-           crearProd.setProducte_descompte(Integer.parseInt(this.jProdDescompte.getText()));
-        }else{
-            JOptionPane.showMessageDialog(null, "el descuento no puede estar vacío!");
-            error = true;
+        try {
+            if(!(this.jProdDescompte.getText().equals("")) || !(this.jProdDescompte.getText().length() < 1)){
+                if(Integer.parseInt(this.jProdDescompte.getText()) > 99){
+                    error = true;
+                    JOptionPane.showMessageDialog(null,"El descuento no puede ser del 100% o más!");
+                }
+                crearProd.setProducte_descompte(Integer.parseInt(this.jProdDescompte.getText()));
+            }else{
+                JOptionPane.showMessageDialog(null, "el descuento no puede estar vacío!");
+                error = true;
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "el descuento ha de ser un número!");
         }
+        
         
         /* DESCRIPCIO */
         if(!(this.jProdDescripcio.getText().equals("")) || !(this.jProdDescripcio.getText().length() < 1)){
@@ -231,41 +259,35 @@ public class Home extends javax.swing.JFrame {
         }
         
         /* ESTO MAX */
-        if(!(Integer.parseInt(this.jStockMax.getText()) <= 0)){
-            crearProd.setEstoc_maxim(Integer.parseInt(this.jStockMax.getText()));
-        }else{
-            JOptionPane.showMessageDialog(null, "el estoc max no puede estar vacío!");
+        try {
+            if(Integer.parseInt(this.jStockMax.getText()) < Integer.parseInt(this.jStockMin.getText()) ){
+                error = true;
+                JOptionPane.showMessageDialog(null, "El stock Máx no puede ser menor al Minimo!");
+            }
+            if(!(Integer.parseInt(this.jStockMax.getText()) <= 0)){
+                crearProd.setEstoc_maxim(Integer.parseInt(this.jStockMax.getText()));
+            }else{
+                JOptionPane.showMessageDialog(null, "el estoc max no puede estar vacío!");
+                error = true;
+            }
+
+            /*ESTOC MIN */
+             if(!(Integer.parseInt(this.jStockMin.getText()) <= 0)){
+                crearProd.setEstoc_minim(Integer.parseInt(this.jStockMin.getText()));
+            }else{
+                JOptionPane.showMessageDialog(null, "el estoc min no puede estar vacío!");
+                error = true;
+            }
+             
+        } catch (Exception e) {
             error = true;
-        }
-        
-        /*ESTOC MIN */
-         if(!(Integer.parseInt(this.jStockMin.getText()) <= 0)){
-            crearProd.setEstoc_minim(Integer.parseInt(this.jStockMin.getText()));
-        }else{
-            JOptionPane.showMessageDialog(null, "el estoc min no puede estar vacío!");
-            error = true;
-        }
+            JOptionPane.showMessageDialog(null, "Introduce números!");
+        }        
          
-         /* IMAGEN */
-         try {
-//                       
-             BufferedImage imag = ImageIO.read(file);
-             String Location="F:/msi/Documents/NetBeansProjects/1819_DAW2_PR04_DESKAPP/src/img1/"+this.jProdNom.getText()+".jpg";
-             JOptionPane.showMessageDialog(null, Location);
-             String format="PNG";
-             ImageIO.write(imag, format,new File(Location));
-             JOptionPane.showMessageDialog(null,"imagen subida correctamente");
-             crearProd.setProducte_fotoNom(this.jProdNom.getText());
-            
-        } catch (Exception ex) {
-            //JOptionPane.showMessageDialog(null, ex.getMessage());
-            JOptionPane.showMessageDialog(null, "error al subir la imagen");
-        }
-        
         try {
             String Serienom = (String)this.jSerNom.getSelectedItem();
             crearProd.setProducte_id(pDAO.getNextId()+1);
-            JOptionPane.showMessageDialog(null, crearProd.getProducte_id());
+            //JOptionPane.showMessageDialog(null, crearProd.getProducte_id());
             crearProd.setCategoria_id(this.jCatNom.getSelectedIndex());
             crearProd.setSerie_id(serie.getId(Serienom));
             crearProd.setLloc_bloc((String)this.jLlocBloc.getSelectedItem());
@@ -275,30 +297,35 @@ public class Home extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "error en algunos campos");
         }
         
+        /* IMAGEN */
+         try {                       
+             BufferedImage imag = ImageIO.read(file);
+           /************************************************************************/
+             String Location="F:/msi/Documents/NetBeansProjects/1819_DAW2_PR04_DESKAPP/src/img1/"+crearProd.getProducte_id()+"_"+this.jProdNom.getText()+".jpg";
+           /************************************************************************/
+             JOptionPane.showMessageDialog(null, Location);
+             String format="PNG";
+             ImageIO.write(imag, format,new File(Location));
+             crearProd.setProducte_fotoNom(this.jProdNom.getText());
+             JOptionPane.showMessageDialog(null,"imagen subida correctamente");
+            
+        } catch (Exception ex) {
+            //JOptionPane.showMessageDialog(null, ex.getMessage());
+            JOptionPane.showMessageDialog(null, "error al subir la imagen");
+        }
+        
         //crearProd.setEstoc_quantitat(Integer.parseInt(this.jStockActual.getText()));
         
         //crearProd.setProducte_id(Integer.parseInt(this.jProdIndex.getText()));
         if(error == false){
             crearProd.crearProducto(crearProd);
             JOptionPane.showMessageDialog(null, "Producto creado!");
+            int i = 0;
+            limpiarCampos();
             cargarTabla(); 
         }
         
     }
-    /***************************************************************************************************/
-//    private static void copyFileUsingFileChannels(File source, File dest)
-//            throws IOException {
-//        FileChannel inputChannel = null;
-//        FileChannel outputChannel = null;
-//        try {
-//            inputChannel = new FileInputStream(source).getChannel();
-//            outputChannel = new FileOutputStream(dest).getChannel();
-//            outputChannel.transferFrom(inputChannel, 0, inputChannel.size());
-//        } finally {
-//            inputChannel.close();
-//            outputChannel.close();
-//        }
-//    }
     
     //Este boton recarga los registros de la BDD al hacer la accion
     public void refrescar(int i){
@@ -308,9 +335,11 @@ public class Home extends javax.swing.JFrame {
         Serie getSerieId = serie.getSerieId(i);
         Categoria catNom = cat.nomCategoria(i);
         Serie serieNom = serie.nomSerie(i);
-        //JOptionPane.showMessageDialog(null, infoProducto.getProducte_fotoNom());
+        
+        //JMODIFICAR LA RUTA
+        /******************************************************************************/
         ImageIcon img = new ImageIcon("F:\\msi\\Documents\\NetBeansProjects\\1819_DAW2_PR04_DESKAPP\\src\\img1\\"+infoProducto.getProducte_fotoNom()+".jpg");
-       
+        /******************************************************************************/
         this.jProdNom.setText(String.valueOf(infoProducto.getProducte_nom()));
         this.jProdPreu.setText(String.valueOf(infoProducto.getProducte_preu()));
         this.jProdDescompte.setText(String.valueOf(infoProducto.getProducte_descompte()));
@@ -356,9 +385,11 @@ public class Home extends javax.swing.JFrame {
         this.jStockMax.setText("");
         this.jStockMin.setText("");
         
-        
-        
-        this.jProdIndex.setText("");
+        this.jProdImagen.setText("");
+        //this.jProdIndex.setText("");
+        this.jProdImagen.setOpaque(true);//repaint();
+        //this.jProdImagen.setIcon(icon);
+        this.jProdImagen.setIcon(null);
     }
     
     //Bloquea los campos si n hay id seleccionado
@@ -1174,7 +1205,7 @@ public class Home extends javax.swing.JFrame {
                 error = true;
             }
         } catch (HeadlessException ex) {
-            JOptionPane.showMessageDialog(null, "Precio vacio");
+            JOptionPane.showMessageDialog(null, "falla nombre");
         }
         
         
@@ -1189,19 +1220,17 @@ public class Home extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Precio vacio");
         }
         
-        
-//           mirar de validar precio que no sea string
-//        if( this.jProdPreu.getText() instanceof String ) {
-//           JOptionPane.showMessageDialog(null, "Precio incorrecto, utiliza números");
-//            error = true;
-//        }
-        
-        if(Integer.parseInt(this.jProdDescompte.getText()) >= 0 && Integer.parseInt(this.jProdDescompte.getText()) < 100){
-            modProd.setProducte_descompte(Integer.parseInt(this.jProdDescompte.getText()));
-        }else{
-            JOptionPane.showMessageDialog(null, "Descuento no válido. introduce entre 1-99%");
-            error = true;
+        try {
+            if(Integer.parseInt(this.jProdDescompte.getText()) >= 0 && Integer.parseInt(this.jProdDescompte.getText()) < 100){
+                modProd.setProducte_descompte(Integer.parseInt(this.jProdDescompte.getText()));
+            }else{
+                JOptionPane.showMessageDialog(null, "Descuento no válido. introduce entre 1-99%");
+                error = true;
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "El descuento ha de ser un número!");
         }
+        
         String Serienom = (String)this.jSerNom.getSelectedItem();
         try {
             modProd.setSerie_id(serie.getId(Serienom));
@@ -1215,10 +1244,6 @@ public class Home extends javax.swing.JFrame {
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Error al dar valores");
         }
-       
-        
-        
-        
        // JOptionPane.showMessageDialog(null, modProd.getProducte_preu());
         if(error == false){
             modProd.updateProd(modProd); 
@@ -1237,7 +1262,7 @@ public class Home extends javax.swing.JFrame {
         try {
             int estoc_max = Integer.parseInt(this.jStockMax.getText());
             int estoc_min = Integer.parseInt(this.jStockMin.getText());
-            if(estoc_max < estoc_min || estoc_min < 0){
+            if(estoc_max < estoc_min && estoc_min > 0){
                 control = false;
                 JOptionPane.showMessageDialog(null, "Por favor, introduce números válidos");
             }
@@ -1249,7 +1274,7 @@ public class Home extends javax.swing.JFrame {
                 eDAO.modificarStockMin(id, estoc_min);
                 desactivarCamposStock();
                 refrescar(id);
-                // se puede modificar la base de datos
+                JOptionPane.showMessageDialog(null, "Stock modificado!");
             }
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Has de introducir números!");
@@ -1384,10 +1409,6 @@ public class Home extends javax.swing.JFrame {
 
     private void jBtnSubirImgActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnSubirImgActionPerformed
         // TODO add your handling code here:
-//        FileNameExtensionFilter filtro  = new FileNameExtensionFilter("Imagenes", "jpg");    
-//        jFCProd.setFileFilter(filtro);
-//        int a = jFCProd.showOpenDialog(this);
-//        if(a == jFCProd.APPROVE_OPTION);
         JFileChooser chooser = new JFileChooser();
         chooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
         int res = chooser.showOpenDialog(Home.this);

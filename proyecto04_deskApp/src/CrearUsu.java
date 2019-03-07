@@ -268,42 +268,45 @@ public class CrearUsu extends javax.swing.JFrame {
         Usuario nuevoUsu = new Usuario();
         nuevoUsu.setId_usuario(uDAO.getLastId());
         boolean error = false;
-        
-        if(this.jUsuNom.getText().length() > 0){
-            nuevoUsu.setNombre_usuario(this.jUsuNom.getText());
-        }else{
-            error = true;
-            JOptionPane.showMessageDialog(null, "Campo nombre no puede estar vacío!");
-        }
-        
-        if(this.jUsuCognom.getText().length() > 0){
-            nuevoUsu.setApellido_usuario(this.jUsuCognom.getText());
-        }else{
-            error = true;
-            JOptionPane.showMessageDialog(null, "Campo apellido no puede estar vacío!");
-        }
-        
-        if(this.jUsuEmail.getText().length() > 0){
-            nuevoUsu.setEmail_usuario(this.jUsuEmail.getText());
-        }else{
-            error = true;
-            JOptionPane.showMessageDialog(null, "Campo email no puede estar vacío!");
-        }
-        
-        String pass2 = this.jUsuPassword2.getText();
-        if(this.jUsuPassword.getText().length() > 0 ){
-            if(this.jUsuPassword.getText().equals(pass2) ){
-               nuevoUsu.setPassword_usuario(this.jUsuPassword.getText()); 
+        try {
+            if(this.jUsuNom.getText().length() > 0){
+                nuevoUsu.setNombre_usuario(this.jUsuNom.getText());
             }else{
-                JOptionPane.showMessageDialog(null, this.jUsuPassword.getText());
-                JOptionPane.showMessageDialog(null, this.jUsuPassword2.getText() );
-                
                 error = true;
-                 JOptionPane.showMessageDialog(null, "Las contraseñas no coinciden!");
-            } 
-        }else{
-            error = true;
-             JOptionPane.showMessageDialog(null, "Campo contraseña no puede estar vacío!");
+                JOptionPane.showMessageDialog(null, "Campo nombre no puede estar vacío!");
+            }
+
+            if(this.jUsuCognom.getText().length() > 0){
+                nuevoUsu.setApellido_usuario(this.jUsuCognom.getText());
+            }else{
+                error = true;
+                JOptionPane.showMessageDialog(null, "Campo apellido no puede estar vacío!");
+            }
+
+            if(this.jUsuEmail.getText().length() > 0){
+                nuevoUsu.setEmail_usuario(this.jUsuEmail.getText());
+            }else{
+                error = true;
+                JOptionPane.showMessageDialog(null, "Campo email no puede estar vacío!");
+            }
+
+            String pass2 = this.jUsuPassword2.getText();
+            if(this.jUsuPassword.getText().length() > 0 ){
+                if(this.jUsuPassword.getText().equals(pass2) ){
+                   nuevoUsu.setPassword_usuario(this.jUsuPassword.getText()); 
+                }else{
+                    JOptionPane.showMessageDialog(null, this.jUsuPassword.getText());
+                    JOptionPane.showMessageDialog(null, this.jUsuPassword2.getText() );
+
+                    error = true;
+                     JOptionPane.showMessageDialog(null, "Las contraseñas no coinciden!");
+                } 
+            }else{
+                error = true;
+                JOptionPane.showMessageDialog(null, "Campo contraseña no puede estar vacío!");
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Revisa los campos!");
         }
         
        if(error == false){

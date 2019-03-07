@@ -6,12 +6,6 @@ import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import model.Conexion;
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 /**
  *
  * @author msi
@@ -108,6 +102,11 @@ public class Inicio extends javax.swing.JFrame {
 
         jMenuVerCategorias.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_B, java.awt.event.InputEvent.SHIFT_MASK));
         jMenuVerCategorias.setText("Buscar por Categoria");
+        jMenuVerCategorias.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuVerCategoriasActionPerformed(evt);
+            }
+        });
         jMenu2.add(jMenuVerCategorias);
 
         jMenuBar1.add(jMenu2);
@@ -258,6 +257,17 @@ public class Inicio extends javax.swing.JFrame {
             this.dispose();
     }//GEN-LAST:event_jButtonEntrarActionPerformed
 
+    private void jMenuVerCategoriasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuVerCategoriasActionPerformed
+         // TODO add your handling code here:
+         openCategoria();
+        try {
+            cn.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(Vista.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        this.dispose();
+    }//GEN-LAST:event_jMenuVerCategoriasActionPerformed
+
     
     private void openHome(){
          java.awt.EventQueue.invokeLater(new Runnable() {
@@ -278,6 +288,15 @@ public class Inicio extends javax.swing.JFrame {
             new CrearUsu().setVisible(true);
         });
     }
+    
+    private void openCategoria(){
+         java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                new Categorias().setVisible(true);
+            }
+        });
+    }
+    
     /**
      * @param args the command line arguments
      */

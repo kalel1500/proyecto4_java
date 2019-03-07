@@ -109,4 +109,19 @@ public class ProductoDAO {
          }
          return id;
      }
+     
+     //mira si el nombre ya existe
+     public String nombreExists(String nombre){
+         String productoNombre = "";
+         sql ="SELECT producte_nom FROM tbl_producte WHERE producte_nom ='"+nombre+"'";
+         try {
+            Statement st = cn.createStatement();
+            ResultSet rs = st.executeQuery(sql);
+            rs.next();
+            productoNombre = rs.getString("producte_nom");
+         } catch (Exception e) {
+             productoNombre = "";
+         }
+         return productoNombre;
+     }
 }
