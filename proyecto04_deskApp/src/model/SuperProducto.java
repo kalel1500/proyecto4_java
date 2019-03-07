@@ -211,7 +211,7 @@ public class SuperProducto {
     private int getIdLloc(String bloc, String passadis, String lleixa){
         Lloc llocId = new Lloc();
         sql="SELECT lloc_id FROM tbl_lloc WHERE lloc_bloc='"+bloc+"' AND lloc_passadis='"+passadis+"' AND lloc_lleixa='"+lleixa+"'";
-        
+        //JOptionPane.showMessageDialog(null,sql);
         try {
             Statement st = cn.createStatement();
             ResultSet rs = st.executeQuery(sql);
@@ -239,7 +239,7 @@ public class SuperProducto {
         String lleixa = modProd.lloc_lleixa;
         
         int lloc_id = getIdLloc(bloc,passadis,lleixa);
-        //JOptionPane.showMessageDialog(null, serie);
+        JOptionPane.showMessageDialog(null, lloc_id);
         
         
         try {
@@ -253,7 +253,7 @@ public class SuperProducto {
                 JOptionPane.showMessageDialog(null, ex);
                 JOptionPane.showMessageDialog(null, "falla el update de producto");
             }
-            sql="UPDATE tbl_estoc SET lloc_id='"+lloc_id+"' WHERE producte_id='"+producto_id+"'";
+            sql="UPDATE tbl_estoc SET lloc_id='"+producto_id+"' WHERE producte_id='"+producto_id+"'";
             try {
                 Statement st = cn.createStatement();
                 int rs = st.executeUpdate(sql);
@@ -292,7 +292,7 @@ public class SuperProducto {
         try {
             cn.setAutoCommit(false);
             sql= "INSERT INTO tbl_producte(producte_id,producte_nom,producte_fotoRuta,producte_fotoNom, producte_fotoExt,producte_preu, producte_descripcio, producte_descompte, serie_id)"
-                    + "VALUES('"+producto_id+"','"+nombre+"','','"+foto+"','','"+preu+"','"+descripcio+"','"+descompte+"','"+serie+"')";
+                    + "VALUES('"+producto_id+"','"+nombre+"','img/productos/','"+foto+"','.jpg','"+preu+"','"+descripcio+"','"+descompte+"','"+serie+"')";
              //JOptionPane.showMessageDialog(null, sql);
              try {
                 Statement st = cn.createStatement();
@@ -307,12 +307,13 @@ public class SuperProducto {
              try {
                 Statement st = cn.createStatement();
                 int rs = st.executeUpdate(sql);
+                cn.commit();
             } catch (Exception ex) {
                 JOptionPane.showMessageDialog(null, ex);
                 JOptionPane.showMessageDialog(null, "falla el insert de stock");
             }
              
-            cn.commit();
+            
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Error al insertar");
             try {
