@@ -262,22 +262,28 @@ public class Home extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "error al subir la imagen");
         }
         
-       
-        String Serienom = (String)this.jSerNom.getSelectedItem();
-        crearProd.setProducte_id(pDAO.getNextId()+1);
-        JOptionPane.showMessageDialog(null, crearProd.getProducte_id());
-        crearProd.setCategoria_id(this.jCatNom.getSelectedIndex());
-        crearProd.setSerie_id(serie.getId(Serienom));
-        crearProd.setLloc_bloc((String)this.jLlocBloc.getSelectedItem());
-        crearProd.setLloc_passadis((String)this.jLlocPassadis.getSelectedItem());
-        crearProd.setLloc_lleixa((String)this.jLlocLleixa.getSelectedItem());
+        try {
+            String Serienom = (String)this.jSerNom.getSelectedItem();
+            crearProd.setProducte_id(pDAO.getNextId()+1);
+            JOptionPane.showMessageDialog(null, crearProd.getProducte_id());
+            crearProd.setCategoria_id(this.jCatNom.getSelectedIndex());
+            crearProd.setSerie_id(serie.getId(Serienom));
+            crearProd.setLloc_bloc((String)this.jLlocBloc.getSelectedItem());
+            crearProd.setLloc_passadis((String)this.jLlocPassadis.getSelectedItem());
+            crearProd.setLloc_lleixa((String)this.jLlocLleixa.getSelectedItem());
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "error en algunos campos");
+        }
+        
         //crearProd.setEstoc_quantitat(Integer.parseInt(this.jStockActual.getText()));
         
         //crearProd.setProducte_id(Integer.parseInt(this.jProdIndex.getText()));
-
-        crearProd.crearProducto(crearProd);
-        JOptionPane.showMessageDialog(null, "Producto creado!");
-        cargarTabla();
+        if(error == false){
+            crearProd.crearProducto(crearProd);
+            JOptionPane.showMessageDialog(null, "Producto creado!");
+            cargarTabla(); 
+        }
+        
     }
     /***************************************************************************************************/
 //    private static void copyFileUsingFileChannels(File source, File dest)
@@ -302,9 +308,8 @@ public class Home extends javax.swing.JFrame {
         Serie getSerieId = serie.getSerieId(i);
         Categoria catNom = cat.nomCategoria(i);
         Serie serieNom = serie.nomSerie(i);
-        //JOptionPane.showMessageDialog(null, infoProducto.getProducte_foto());
+        //JOptionPane.showMessageDialog(null, infoProducto.getProducte_fotoNom());
         ImageIcon img = new ImageIcon("F:\\msi\\Documents\\NetBeansProjects\\1819_DAW2_PR04_DESKAPP\\src\\img1\\"+infoProducto.getProducte_fotoNom()+".jpg");
-        
        
         this.jProdNom.setText(String.valueOf(infoProducto.getProducte_nom()));
         this.jProdPreu.setText(String.valueOf(infoProducto.getProducte_preu()));
@@ -324,6 +329,7 @@ public class Home extends javax.swing.JFrame {
         this.jStockMax.setText(String.valueOf(infoEstoc.getEstoc_maxim()));
         this.jStockMin.setText(String.valueOf(infoEstoc.getEstoc_minim())); 
 
+       // jProdImagen.setIcon(img);
         jProdImagen.setIcon(new javax.swing.ImageIcon(img.getImage().getScaledInstance(200, 180, Image.SCALE_SMOOTH)));
         //getscaled instance.
       
