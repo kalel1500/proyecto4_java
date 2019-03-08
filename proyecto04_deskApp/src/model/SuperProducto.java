@@ -239,7 +239,7 @@ public class SuperProducto {
         String lleixa = modProd.lloc_lleixa;
         
         int lloc_id = getIdLloc(bloc,passadis,lleixa);
-        JOptionPane.showMessageDialog(null, lloc_id);
+        //JOptionPane.showMessageDialog(null, lloc_id);
         
         
         try {
