@@ -1,16 +1,32 @@
+-- phpMyAdmin SQL Dump
+-- version 4.6.5.2
+-- https://www.phpmyadmin.net/
+--
+-- Servidor: 127.0.0.1
+-- Tiempo de generación: 08-03-2019 a las 20:26:37
+-- Versión del servidor: 10.1.21-MariaDB
+-- Versión de PHP: 7.1.1
+
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET time_zone = "+00:00";
+
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8mb4 */;
 
 --
--- Base de datos: `bd_estoc`
+-- Base de datos: `bd_proyecto_4`
 --
-
 DROP DATABASE IF EXISTS bd_proyecto_4;
-CREATE DATABASE IF NOT EXISTS bd_proyecto_4 DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci;;
+CREATE DATABASE IF NOT EXISTS `bd_proyecto_4` DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci;
 USE `bd_proyecto_4`;
 
 -- --------------------------------------------------------
--- Estructura de tabla para la tabla `tbl_persona`
+-- Estructura de tabla para la tabla `tbl_usuario`
 
+DROP TABLE IF EXISTS `tbl_usuario`;
 CREATE TABLE IF NOT EXISTS `tbl_usuario` (
 	`id_usuario` int(11) NOT NULL AUTO_INCREMENT,
 	`email_usuario` varchar(255) NOT NULL,
@@ -18,67 +34,79 @@ CREATE TABLE IF NOT EXISTS `tbl_usuario` (
 	`nombre_usuario` varchar(255) DEFAULT NULL,
 	`apellido_usuario` varchar(255) DEFAULT NULL,
 	`grupo_usuario` enum('usuario','administrador') DEFAULT NULL,
-PRIMARY KEY (`id_usuario`)
+	PRIMARY KEY (`id_usuario`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- --------------------------------------------------------
 -- Estructura de tabla para la tabla `tbl_lloc`
 
+DROP TABLE IF EXISTS `tbl_lloc`;
 CREATE TABLE IF NOT EXISTS `tbl_lloc` (
-	`lloc_id` int(11) NOT NULL PRIMARY KEY AUTO_INCREMENT,
+	`lloc_id` int(11) NOT NULL AUTO_INCREMENT,
 	`lloc_bloc` enum('Bloc 1','Bloc 2','Bloc 3','Bloc 4','Bloc 5','Bloc 6','Bloc 7','Bloc 8') COLLATE utf8_unicode_ci NOT NULL,
 	`lloc_passadis` enum('Passadis 1','Passadis 2','Passadis 3','Passadis 4','Passadis 5','Passadis 6','Passadis 7','Passadis 8','Passadis 9','Passadis 10','Passadis 11','Passadis 12') COLLATE utf8_unicode_ci NOT NULL,
-	`lloc_lleixa` enum('Lleixa 1','Lleixa 2','Lleixa 3','Lleixa 4','Lleixa 5','Lleixa 6','Lleixa 7','Lleixa 8') COLLATE utf8_unicode_ci NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+	`lloc_lleixa` enum('Lleixa 1','Lleixa 2','Lleixa 3','Lleixa 4','Lleixa 5','Lleixa 6','Lleixa 7','Lleixa 8') COLLATE utf8_unicode_ci NOT NULL,
+	PRIMARY KEY (`lloc_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 
 -- --------------------------------------------------------
 -- Estructura de tabla para la tabla `tbl_estoc`
 
+DROP TABLE IF EXISTS `tbl_estoc`;
 CREATE TABLE IF NOT EXISTS `tbl_estoc` (
-	`estoc_id` int(11) NOT NULL PRIMARY KEY AUTO_INCREMENT,
+	`estoc_id` int(11) NOT NULL AUTO_INCREMENT,
 	`estoc_quantitat` int(5) NOT NULL,
 	`estoc_maxim` int(5) NOT NULL,
 	`estoc_minim` int(5) NOT NULL,
 	`producte_id` int(11)  NULL,
-	`lloc_id` int(11)  NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+	`lloc_id` int(11)  NULL,
+	PRIMARY KEY (`estoc_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 
 -- --------------------------------------------------------
 -- Estructura de tabla para la tabla `tbl_proveidor`
 
-/*CREATE TABLE IF NOT EXISTS `tbl_proveidor` (
-	`proveidor_id` int(11) NOT NULL PRIMARY KEY AUTO_INCREMENT,
+/*DROP TABLE IF EXISTS `tbl_proveidor`;
+CREATE TABLE IF NOT EXISTS `tbl_proveidor` (
+	`proveidor_id` int(11) NOT NULL AUTO_INCREMENT,
 	`proveidor_nom` varchar(15) COLLATE utf8_unicode_ci NOT NULL,
 	`proveidor_adre` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
-	`proveidor_email` varchar(100) COLLATE utf8_unicode_ci NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;*/
+	`proveidor_email` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
+	PRIMARY KEY (`proveidor_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;*/
 
 
 -- --------------------------------------------------------
--- Estructura de tabla para la tabla `tbl_categoria` ----
+-- Estructura de tabla para la tabla `tbl_categoria`
 
+DROP TABLE IF EXISTS `tbl_categoria`;
 CREATE TABLE IF NOT EXISTS `tbl_categoria`(
-	`categoria_id` int(11) NOT NULL  PRIMARY KEY AUTO_INCREMENT,
-	`categoria_nom` varchar(20) COLLATE utf8_unicode_ci NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+	`categoria_id` int(11) NOT NULL AUTO_INCREMENT,
+	`categoria_nom` varchar(20) COLLATE utf8_unicode_ci NOT NULL,
+	PRIMARY KEY (`categoria_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 
 -- --------------------------------------------------------
 -- Estructura de tabla para la tabla `tbl_serie`
 
+DROP TABLE IF EXISTS `tbl_serie`;
 CREATE TABLE IF NOT EXISTS `tbl_serie` (
-	`serie_id` int(11) NOT NULL PRIMARY KEY AUTO_INCREMENT,
+	`serie_id` int(11) NOT NULL AUTO_INCREMENT,
 	`serie_nom` varchar(20) COLLATE utf8_unicode_ci NOT NULL,
-	`categoria_id` int(11) NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+	`categoria_id` int(11) NULL,
+	PRIMARY KEY (`serie_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 
 -- --------------------------------------------------------
 -- Estructura de tabla para la tabla `tbl_producte`
+
+DROP TABLE IF EXISTS `tbl_producte`;
 CREATE TABLE IF NOT EXISTS `tbl_producte` (
-	`producte_id` int(11) NOT NULL PRIMARY KEY AUTO_INCREMENT,
+	`producte_id` int(11) NOT NULL AUTO_INCREMENT,
 	`producte_nom` varchar(30) COLLATE utf8_unicode_ci NOT NULL UNIQUE KEY,
 	`producte_fotoRuta` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
 	`producte_fotoNom` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
@@ -86,30 +114,35 @@ CREATE TABLE IF NOT EXISTS `tbl_producte` (
 	`producte_preu` DOUBLE COLLATE utf8_unicode_ci NOT NULL,
 	`producte_descripcio` text COLLATE utf8_unicode_ci NULL,
 	`producte_descompte` int(3) NULL,
-	`serie_id` int(11) NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+	`serie_id` int(11) NULL,
+	PRIMARY KEY (`producte_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 
 
 -- --------------------------------------------------------
 -- Estructura de tabla para la tabla `tbl_comanda`
-/*CREATE TABLE IF NOT EXISTS `tbl_comanda` (
+
+/*DROP TABLE IF EXISTS `tbl_comanda`;
+CREATE TABLE IF NOT EXISTS `tbl_comanda` (
 	`comanda_id` int(11) NOT NULL AUTO_INCREMENT,
 	`comanda_data` date NOT NULL,
 	`proveidor_id` int(11)  NULL,
 	PRIMARY KEY (`comanda_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;*/
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;*/
 
 
 -- --------------------------------------------------------
 -- Estructura de tabla para la tabla `tbl_detall_comandaanda`
-/*CREATE TABLE IF NOT EXISTS `tbl_detall_comanda` (
+
+/*DROP TABLE IF EXISTS `tbl_detall_comanda`;
+CREATE TABLE IF NOT EXISTS `tbl_detall_comanda` (
 	`detallComanda_id` int(11) NOT NULL AUTO_INCREMENT,
 	`detallComanda_quantitat` int(5) NOT NULL,
 	`comanda_id` int(11) NOT NULL,
 	`producte_id` int(11)  NULL,
 	PRIMARY KEY (`detallComanda_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;*/
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;*/
 
 
 
@@ -119,39 +152,39 @@ CREATE TABLE IF NOT EXISTS `tbl_producte` (
 -- ---------------------------------------------------
 
 -- `tbl_serie` `tbl_categoria`:
-ALTER TABLE `tbl_serie` ADD CONSTRAINT `FK_serie_categoria` FOREIGN KEY (categoria_id)
-REFERENCES `tbl_categoria`(categoria_id);
+ALTER TABLE `tbl_serie`
+	ADD CONSTRAINT `FK_serie_categoria` FOREIGN KEY (categoria_id) REFERENCES `tbl_categoria`(categoria_id);
 -- ---------------------------------------------------
 
 -- `tbl_producte`  `tbl_serie`:
-ALTER TABLE `tbl_producte` ADD CONSTRAINT `FK_prod_serie` FOREIGN KEY (serie_id)
-REFERENCES `tbl_serie`(serie_id);
+ALTER TABLE `tbl_producte`
+	ADD CONSTRAINT `FK_prod_serie` FOREIGN KEY (serie_id) REFERENCES `tbl_serie`(serie_id);
 -- ---------------------------------------------------
 /*
 -- `tbl_detall_comandaanda` `tbl_producte`:
-ALTER TABLE `tbl_detall_comanda` ADD CONSTRAINT `FK_detallComanda_producte` FOREIGN KEY (producte_id)
-REFERENCES `tbl_producte`(producte_id);
+ALTER TABLE `tbl_detall_comanda`
+	ADD CONSTRAINT `FK_detallComanda_producte` FOREIGN KEY (producte_id) REFERENCES `tbl_producte`(producte_id);
 -- ---------------------------------------------------
 
 -- `tbl_detall_comandaanda` `tbl_comanda`:
-ALTER TABLE `tbl_detall_comanda` ADD CONSTRAINT `FK_detall_com_comanda` FOREIGN KEY (comanda_id)
-REFERENCES `tbl_comanda`(comanda_id);
+ALTER TABLE `tbl_detall_comanda`
+	ADD CONSTRAINT `FK_detall_com_comanda` FOREIGN KEY (comanda_id) REFERENCES `tbl_comanda`(comanda_id);
 -- ---------------------------------------------------
 
 -- `tbl_comanda` `tbl_proveidor`:
-ALTER TABLE `tbl_comanda` ADD CONSTRAINT `FK_comanda_prov` FOREIGN KEY (prov_id)
-REFERENCES `tbl_proveidor`(prov_id);
+ALTER TABLE `tbl_comanda`
+	ADD CONSTRAINT `FK_comanda_prov` FOREIGN KEY (prov_id) REFERENCES `tbl_proveidor`(prov_id);
 -- ---------------------------------------------------
 */
 
 -- `tbl_estoc` `tbl_producte`:
-ALTER TABLE `tbl_estoc` ADD CONSTRAINT `FK_estoc_producte` FOREIGN KEY (producte_id)
-REFERENCES `tbl_producte`(producte_id);
+ALTER TABLE `tbl_estoc`
+	ADD CONSTRAINT `FK_estoc_producte` FOREIGN KEY (producte_id) REFERENCES `tbl_producte`(producte_id);
 -- ---------------------------------------------------
 
 -- `tbl_estoc `tbl_lloc`:
-ALTER TABLE `tbl_estoc` ADD CONSTRAINT `FK_estoc_lloc` FOREIGN KEY (lloc_id)
-REFERENCES `tbl_lloc`(lloc_id);
+ALTER TABLE `tbl_estoc`
+	ADD CONSTRAINT `FK_estoc_lloc` FOREIGN KEY (lloc_id) REFERENCES `tbl_lloc`(lloc_id);
 -- ----------------------------------------
 
 
@@ -159,6 +192,7 @@ REFERENCES `tbl_lloc`(lloc_id);
 -- DATOS DE LAS TABLAS 
 -- ---------------------------------------------------
 
+-- TRUNCATE TABLE `tbl_usuario`;
 INSERT INTO `tbl_usuario` (`nombre_usuario`,`apellido_usuario`,`password_usuario`,`email_usuario`,`grupo_usuario`) VALUES
 ('Admin',		'Empresa',	'1234',	'admin@gmail.com','administrador'),
 ('Stefan',		'Salvatore','1234',	'usu01@gmail.com','usuario'),
@@ -180,123 +214,92 @@ INSERT INTO `tbl_usuario` (`nombre_usuario`,`apellido_usuario`,`password_usuario
 ('Freya',		'Mikaelson','1234',	'usu18@gmail.com','usuario');
 
 
+-- TRUNCATE TABLE `tbl_categoria`;
 INSERT INTO `tbl_categoria` (`categoria_nom`) VALUES
-('cat01'),
-('cat02'),
-('cat03'),
-('cat04'),
-('cat05');
+('Luz de interior'),
+('Luz de exterior'),
+('Lamparas'),
+('LED'),
+('Control Alumbrado');
 
 
+-- TRUNCATE TABLE `tbl_serie`;
 INSERT INTO `tbl_serie` (`serie_nom`,`categoria_id`) VALUES
-('serie01',	(SELECT `categoria_id` FROM `tbl_categoria` WHERE `categoria_nom` = 'cat01')),
-('serie02',	(SELECT `categoria_id` FROM `tbl_categoria` WHERE `categoria_nom` = 'cat01')),
-('serie03',	(SELECT `categoria_id` FROM `tbl_categoria` WHERE `categoria_nom` = 'cat01')),
-('serie04',	(SELECT `categoria_id` FROM `tbl_categoria` WHERE `categoria_nom` = 'cat01')),
-('serie05',	(SELECT `categoria_id` FROM `tbl_categoria` WHERE `categoria_nom` = 'cat02')),
-('serie06',	(SELECT `categoria_id` FROM `tbl_categoria` WHERE `categoria_nom` = 'cat02')),
-('serie07',	(SELECT `categoria_id` FROM `tbl_categoria` WHERE `categoria_nom` = 'cat02')),
-('serie08',	(SELECT `categoria_id` FROM `tbl_categoria` WHERE `categoria_nom` = 'cat02')),
-('serie09',	(SELECT `categoria_id` FROM `tbl_categoria` WHERE `categoria_nom` = 'cat03')),
-('serie10',	(SELECT `categoria_id` FROM `tbl_categoria` WHERE `categoria_nom` = 'cat03')),
-('serie11',	(SELECT `categoria_id` FROM `tbl_categoria` WHERE `categoria_nom` = 'cat03')),
-('serie12',	(SELECT `categoria_id` FROM `tbl_categoria` WHERE `categoria_nom` = 'cat03')),
-('serie13',	(SELECT `categoria_id` FROM `tbl_categoria` WHERE `categoria_nom` = 'cat04')),
-('serie14',	(SELECT `categoria_id` FROM `tbl_categoria` WHERE `categoria_nom` = 'cat04')),
-('serie15',	(SELECT `categoria_id` FROM `tbl_categoria` WHERE `categoria_nom` = 'cat04')),
-('serie16',	(SELECT `categoria_id` FROM `tbl_categoria` WHERE `categoria_nom` = 'cat04')),
-('serie17',	(SELECT `categoria_id` FROM `tbl_categoria` WHERE `categoria_nom` = 'cat05')),
-('serie18',	(SELECT `categoria_id` FROM `tbl_categoria` WHERE `categoria_nom` = 'cat05')),
-('serie19',	(SELECT `categoria_id` FROM `tbl_categoria` WHERE `categoria_nom` = 'cat05')),
-('serie20',	(SELECT `categoria_id` FROM `tbl_categoria` WHERE `categoria_nom` = 'cat05'));
+('Suspendida',			(SELECT `categoria_id` FROM `tbl_categoria` WHERE `categoria_nom` = 'Luz de interior')),
+('Empotrables',			(SELECT `categoria_id` FROM `tbl_categoria` WHERE `categoria_nom` = 'Luz de interior')),
+('Apliques',			(SELECT `categoria_id` FROM `tbl_categoria` WHERE `categoria_nom` = 'Luz de interior')),
+('Downlights',			(SELECT `categoria_id` FROM `tbl_categoria` WHERE `categoria_nom` = 'Luz de interior')),
+('Alumbrado Público',	(SELECT `categoria_id` FROM `tbl_categoria` WHERE `categoria_nom` = 'Luz de exterior')),
+('Proyectores',			(SELECT `categoria_id` FROM `tbl_categoria` WHERE `categoria_nom` = 'Luz de exterior')),
+('Túneles',				(SELECT `categoria_id` FROM `tbl_categoria` WHERE `categoria_nom` = 'Luz de exterior')),
+('Grandes Superfícies',	(SELECT `categoria_id` FROM `tbl_categoria` WHERE `categoria_nom` = 'Luz de exterior')),
+('Halógenas',			(SELECT `categoria_id` FROM `tbl_categoria` WHERE `categoria_nom` = 'Lamparas')),
+('Fluorescentes',		(SELECT `categoria_id` FROM `tbl_categoria` WHERE `categoria_nom` = 'Lamparas')),
+('Compactas',			(SELECT `categoria_id` FROM `tbl_categoria` WHERE `categoria_nom` = 'Lamparas')),
+('Incandescentes',		(SELECT `categoria_id` FROM `tbl_categoria` WHERE `categoria_nom` = 'Lamparas')),
+('Tubos',				(SELECT `categoria_id` FROM `tbl_categoria` WHERE `categoria_nom` = 'LED')),
+('Focos',				(SELECT `categoria_id` FROM `tbl_categoria` WHERE `categoria_nom` = 'LED')),
+('HID',					(SELECT `categoria_id` FROM `tbl_categoria` WHERE `categoria_nom` = 'LED')),
+('Velas y Reflejo',		(SELECT `categoria_id` FROM `tbl_categoria` WHERE `categoria_nom` = 'LED')),
+('User Interface',		(SELECT `categoria_id` FROM `tbl_categoria` WHERE `categoria_nom` = 'Control Alumbrado')),
+('Sensors',				(SELECT `categoria_id` FROM `tbl_categoria` WHERE `categoria_nom` = 'Control Alumbrado')),
+('Relay Controllers',	(SELECT `categoria_id` FROM `tbl_categoria` WHERE `categoria_nom` = 'Control Alumbrado')),
+('Reguladores',			(SELECT `categoria_id` FROM `tbl_categoria` WHERE `categoria_nom` = 'Control Alumbrado'));
 
 
-/*INSERT INTO `tbl_producte` (`producte_nom`,`producte_fotoRuta`,`producte_fotoNom`,`producte_fotoExt`,`producte_preu`,`producte_descripcio`,`producte_descompte`,`serie_id`) VALUES
-('prod01',	'img/productos/',	'prod01',	'.jpg',	20,	'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed quis commodo lacus, vel molestie augue. Fusce a blandit sem, ac auctor enim. Nam ut augue tristique purus fringilla facilisis sit amet ac eros. Nulla sit amet tortor gravida, molestie nibh faucibus, interdum ex. Donec eget dui neque. Pellentesque eu libero dignissim, lobortis est ac, rhoncus lacus. Vivamus a turpis quis sapien maximus iaculis ac ac dui. In mollis lorem volutpat placerat egestas.',	NULL,	(SELECT `serie_id` FROM `tbl_serie` WHERE `serie_nom` = 'serie01')),
-('prod02',	'img/productos/',	'prod02',	'.jpg',	20,	'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed quis commodo lacus, vel molestie augue. Fusce a blandit sem, ac auctor enim. Nam ut augue tristique purus fringilla facilisis sit amet ac eros. Nulla sit amet tortor gravida, molestie nibh faucibus, interdum ex. Donec eget dui neque. Pellentesque eu libero dignissim, lobortis est ac, rhoncus lacus. Vivamus a turpis quis sapien maximus iaculis ac ac dui. In mollis lorem volutpat placerat egestas.',	NULL,	(SELECT `serie_id` FROM `tbl_serie` WHERE `serie_nom` = 'serie01')),
-('prod03',	'img/productos/',	'prod03',	'.jpg',	20,	'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed quis commodo lacus, vel molestie augue. Fusce a blandit sem, ac auctor enim. Nam ut augue tristique purus fringilla facilisis sit amet ac eros. Nulla sit amet tortor gravida, molestie nibh faucibus, interdum ex. Donec eget dui neque. Pellentesque eu libero dignissim, lobortis est ac, rhoncus lacus. Vivamus a turpis quis sapien maximus iaculis ac ac dui. In mollis lorem volutpat placerat egestas.',	20,		(SELECT `serie_id` FROM `tbl_serie` WHERE `serie_nom` = 'serie02')),
-('prod04',	'img/productos/',	'prod04',	'.jpg',	20,	'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed quis commodo lacus, vel molestie augue. Fusce a blandit sem, ac auctor enim. Nam ut augue tristique purus fringilla facilisis sit amet ac eros. Nulla sit amet tortor gravida, molestie nibh faucibus, interdum ex. Donec eget dui neque. Pellentesque eu libero dignissim, lobortis est ac, rhoncus lacus. Vivamus a turpis quis sapien maximus iaculis ac ac dui. In mollis lorem volutpat placerat egestas.',	20,		(SELECT `serie_id` FROM `tbl_serie` WHERE `serie_nom` = 'serie02')),
-('prod05',	'img/productos/',	'prod05',	'.jpg',	20,	'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed quis commodo lacus, vel molestie augue. Fusce a blandit sem, ac auctor enim. Nam ut augue tristique purus fringilla facilisis sit amet ac eros. Nulla sit amet tortor gravida, molestie nibh faucibus, interdum ex. Donec eget dui neque. Pellentesque eu libero dignissim, lobortis est ac, rhoncus lacus. Vivamus a turpis quis sapien maximus iaculis ac ac dui. In mollis lorem volutpat placerat egestas.',	NULL,	(SELECT `serie_id` FROM `tbl_serie` WHERE `serie_nom` = 'serie03')),
-('prod06',	'img/productos/',	'prod06',	'.jpg',	20,	'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed quis commodo lacus, vel molestie augue. Fusce a blandit sem, ac auctor enim. Nam ut augue tristique purus fringilla facilisis sit amet ac eros. Nulla sit amet tortor gravida, molestie nibh faucibus, interdum ex. Donec eget dui neque. Pellentesque eu libero dignissim, lobortis est ac, rhoncus lacus. Vivamus a turpis quis sapien maximus iaculis ac ac dui. In mollis lorem volutpat placerat egestas.',	NULL,	(SELECT `serie_id` FROM `tbl_serie` WHERE `serie_nom` = 'serie03')),
-('prod07',	'img/productos/',	'prod07',	'.jpg',	20,	'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed quis commodo lacus, vel molestie augue. Fusce a blandit sem, ac auctor enim. Nam ut augue tristique purus fringilla facilisis sit amet ac eros. Nulla sit amet tortor gravida, molestie nibh faucibus, interdum ex. Donec eget dui neque. Pellentesque eu libero dignissim, lobortis est ac, rhoncus lacus. Vivamus a turpis quis sapien maximus iaculis ac ac dui. In mollis lorem volutpat placerat egestas.',	20,		(SELECT `serie_id` FROM `tbl_serie` WHERE `serie_nom` = 'serie04')),
-('prod08',	'img/productos/',	'prod08',	'.jpg',	20,	'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed quis commodo lacus, vel molestie augue. Fusce a blandit sem, ac auctor enim. Nam ut augue tristique purus fringilla facilisis sit amet ac eros. Nulla sit amet tortor gravida, molestie nibh faucibus, interdum ex. Donec eget dui neque. Pellentesque eu libero dignissim, lobortis est ac, rhoncus lacus. Vivamus a turpis quis sapien maximus iaculis ac ac dui. In mollis lorem volutpat placerat egestas.',	NULL,	(SELECT `serie_id` FROM `tbl_serie` WHERE `serie_nom` = 'serie04')),
-('prod09',	'img/productos/',	'prod09',	'.jpg',	20,	'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed quis commodo lacus, vel molestie augue. Fusce a blandit sem, ac auctor enim. Nam ut augue tristique purus fringilla facilisis sit amet ac eros. Nulla sit amet tortor gravida, molestie nibh faucibus, interdum ex. Donec eget dui neque. Pellentesque eu libero dignissim, lobortis est ac, rhoncus lacus. Vivamus a turpis quis sapien maximus iaculis ac ac dui. In mollis lorem volutpat placerat egestas.',	NULL,	(SELECT `serie_id` FROM `tbl_serie` WHERE `serie_nom` = 'serie05')),
-('prod10',	'img/productos/',	'prod10',	'.jpg',	20,	'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed quis commodo lacus, vel molestie augue. Fusce a blandit sem, ac auctor enim. Nam ut augue tristique purus fringilla facilisis sit amet ac eros. Nulla sit amet tortor gravida, molestie nibh faucibus, interdum ex. Donec eget dui neque. Pellentesque eu libero dignissim, lobortis est ac, rhoncus lacus. Vivamus a turpis quis sapien maximus iaculis ac ac dui. In mollis lorem volutpat placerat egestas.',	20,		(SELECT `serie_id` FROM `tbl_serie` WHERE `serie_nom` = 'serie05')),
-('prod11',	'img/productos/',	'prod11',	'.jpg',	20,	'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed quis commodo lacus, vel molestie augue. Fusce a blandit sem, ac auctor enim. Nam ut augue tristique purus fringilla facilisis sit amet ac eros. Nulla sit amet tortor gravida, molestie nibh faucibus, interdum ex. Donec eget dui neque. Pellentesque eu libero dignissim, lobortis est ac, rhoncus lacus. Vivamus a turpis quis sapien maximus iaculis ac ac dui. In mollis lorem volutpat placerat egestas.',	NULL,	(SELECT `serie_id` FROM `tbl_serie` WHERE `serie_nom` = 'serie06')),
-('prod12',	'img/productos/',	'prod12',	'.jpg',	20,	'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed quis commodo lacus, vel molestie augue. Fusce a blandit sem, ac auctor enim. Nam ut augue tristique purus fringilla facilisis sit amet ac eros. Nulla sit amet tortor gravida, molestie nibh faucibus, interdum ex. Donec eget dui neque. Pellentesque eu libero dignissim, lobortis est ac, rhoncus lacus. Vivamus a turpis quis sapien maximus iaculis ac ac dui. In mollis lorem volutpat placerat egestas.',	20,		(SELECT `serie_id` FROM `tbl_serie` WHERE `serie_nom` = 'serie06')),
-('prod13',	'img/productos/',	'prod13',	'.jpg',	20,	'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed quis commodo lacus, vel molestie augue. Fusce a blandit sem, ac auctor enim. Nam ut augue tristique purus fringilla facilisis sit amet ac eros. Nulla sit amet tortor gravida, molestie nibh faucibus, interdum ex. Donec eget dui neque. Pellentesque eu libero dignissim, lobortis est ac, rhoncus lacus. Vivamus a turpis quis sapien maximus iaculis ac ac dui. In mollis lorem volutpat placerat egestas.',	NULL,	(SELECT `serie_id` FROM `tbl_serie` WHERE `serie_nom` = 'serie07')),
-('prod14',	'img/productos/',	'prod14',	'.jpg',	20,	'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed quis commodo lacus, vel molestie augue. Fusce a blandit sem, ac auctor enim. Nam ut augue tristique purus fringilla facilisis sit amet ac eros. Nulla sit amet tortor gravida, molestie nibh faucibus, interdum ex. Donec eget dui neque. Pellentesque eu libero dignissim, lobortis est ac, rhoncus lacus. Vivamus a turpis quis sapien maximus iaculis ac ac dui. In mollis lorem volutpat placerat egestas.',	NULL,	(SELECT `serie_id` FROM `tbl_serie` WHERE `serie_nom` = 'serie07')),
-('prod15',	'img/productos/',	'prod15',	'.jpg',	20,	'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed quis commodo lacus, vel molestie augue. Fusce a blandit sem, ac auctor enim. Nam ut augue tristique purus fringilla facilisis sit amet ac eros. Nulla sit amet tortor gravida, molestie nibh faucibus, interdum ex. Donec eget dui neque. Pellentesque eu libero dignissim, lobortis est ac, rhoncus lacus. Vivamus a turpis quis sapien maximus iaculis ac ac dui. In mollis lorem volutpat placerat egestas.',	20,		(SELECT `serie_id` FROM `tbl_serie` WHERE `serie_nom` = 'serie08')),
-('prod16',	'img/productos/',	'prod16',	'.jpg',	20,	'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed quis commodo lacus, vel molestie augue. Fusce a blandit sem, ac auctor enim. Nam ut augue tristique purus fringilla facilisis sit amet ac eros. Nulla sit amet tortor gravida, molestie nibh faucibus, interdum ex. Donec eget dui neque. Pellentesque eu libero dignissim, lobortis est ac, rhoncus lacus. Vivamus a turpis quis sapien maximus iaculis ac ac dui. In mollis lorem volutpat placerat egestas.',	NULL,	(SELECT `serie_id` FROM `tbl_serie` WHERE `serie_nom` = 'serie08')),
-('prod17',	'img/productos/',	'prod17',	'.jpg',	20,	'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed quis commodo lacus, vel molestie augue. Fusce a blandit sem, ac auctor enim. Nam ut augue tristique purus fringilla facilisis sit amet ac eros. Nulla sit amet tortor gravida, molestie nibh faucibus, interdum ex. Donec eget dui neque. Pellentesque eu libero dignissim, lobortis est ac, rhoncus lacus. Vivamus a turpis quis sapien maximus iaculis ac ac dui. In mollis lorem volutpat placerat egestas.',	NULL,	(SELECT `serie_id` FROM `tbl_serie` WHERE `serie_nom` = 'serie09')),
-('prod18',	'img/productos/',	'prod18',	'.jpg',	20,	'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed quis commodo lacus, vel molestie augue. Fusce a blandit sem, ac auctor enim. Nam ut augue tristique purus fringilla facilisis sit amet ac eros. Nulla sit amet tortor gravida, molestie nibh faucibus, interdum ex. Donec eget dui neque. Pellentesque eu libero dignissim, lobortis est ac, rhoncus lacus. Vivamus a turpis quis sapien maximus iaculis ac ac dui. In mollis lorem volutpat placerat egestas.',	20,		(SELECT `serie_id` FROM `tbl_serie` WHERE `serie_nom` = 'serie09')),
-('prod19',	'img/productos/',	'prod19',	'.jpg',	20,	'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed quis commodo lacus, vel molestie augue. Fusce a blandit sem, ac auctor enim. Nam ut augue tristique purus fringilla facilisis sit amet ac eros. Nulla sit amet tortor gravida, molestie nibh faucibus, interdum ex. Donec eget dui neque. Pellentesque eu libero dignissim, lobortis est ac, rhoncus lacus. Vivamus a turpis quis sapien maximus iaculis ac ac dui. In mollis lorem volutpat placerat egestas.',	NULL,	(SELECT `serie_id` FROM `tbl_serie` WHERE `serie_nom` = 'serie10')),
-('prod20',	'img/productos/',	'prod20',	'.jpg',	20,	'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed quis commodo lacus, vel molestie augue. Fusce a blandit sem, ac auctor enim. Nam ut augue tristique purus fringilla facilisis sit amet ac eros. Nulla sit amet tortor gravida, molestie nibh faucibus, interdum ex. Donec eget dui neque. Pellentesque eu libero dignissim, lobortis est ac, rhoncus lacus. Vivamus a turpis quis sapien maximus iaculis ac ac dui. In mollis lorem volutpat placerat egestas.',	NULL,	(SELECT `serie_id` FROM `tbl_serie` WHERE `serie_nom` = 'serie10')),
-('prod21',	'img/productos/',	'prod21',	'.jpg',	20,	'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed quis commodo lacus, vel molestie augue. Fusce a blandit sem, ac auctor enim. Nam ut augue tristique purus fringilla facilisis sit amet ac eros. Nulla sit amet tortor gravida, molestie nibh faucibus, interdum ex. Donec eget dui neque. Pellentesque eu libero dignissim, lobortis est ac, rhoncus lacus. Vivamus a turpis quis sapien maximus iaculis ac ac dui. In mollis lorem volutpat placerat egestas.',	20,		(SELECT `serie_id` FROM `tbl_serie` WHERE `serie_nom` = 'serie11')),
-('prod22',	'img/productos/',	'prod22',	'.jpg',	20,	'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed quis commodo lacus, vel molestie augue. Fusce a blandit sem, ac auctor enim. Nam ut augue tristique purus fringilla facilisis sit amet ac eros. Nulla sit amet tortor gravida, molestie nibh faucibus, interdum ex. Donec eget dui neque. Pellentesque eu libero dignissim, lobortis est ac, rhoncus lacus. Vivamus a turpis quis sapien maximus iaculis ac ac dui. In mollis lorem volutpat placerat egestas.',	NULL,	(SELECT `serie_id` FROM `tbl_serie` WHERE `serie_nom` = 'serie11')),
-('prod23',	'img/productos/',	'prod23',	'.jpg',	20,	'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed quis commodo lacus, vel molestie augue. Fusce a blandit sem, ac auctor enim. Nam ut augue tristique purus fringilla facilisis sit amet ac eros. Nulla sit amet tortor gravida, molestie nibh faucibus, interdum ex. Donec eget dui neque. Pellentesque eu libero dignissim, lobortis est ac, rhoncus lacus. Vivamus a turpis quis sapien maximus iaculis ac ac dui. In mollis lorem volutpat placerat egestas.',	20,		(SELECT `serie_id` FROM `tbl_serie` WHERE `serie_nom` = 'serie12')),
-('prod24',	'img/productos/',	'prod24',	'.jpg',	20,	'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed quis commodo lacus, vel molestie augue. Fusce a blandit sem, ac auctor enim. Nam ut augue tristique purus fringilla facilisis sit amet ac eros. Nulla sit amet tortor gravida, molestie nibh faucibus, interdum ex. Donec eget dui neque. Pellentesque eu libero dignissim, lobortis est ac, rhoncus lacus. Vivamus a turpis quis sapien maximus iaculis ac ac dui. In mollis lorem volutpat placerat egestas.',	NULL,	(SELECT `serie_id` FROM `tbl_serie` WHERE `serie_nom` = 'serie12')),
-('prod25',	'img/productos/',	'prod25',	'.jpg',	20,	'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed quis commodo lacus, vel molestie augue. Fusce a blandit sem, ac auctor enim. Nam ut augue tristique purus fringilla facilisis sit amet ac eros. Nulla sit amet tortor gravida, molestie nibh faucibus, interdum ex. Donec eget dui neque. Pellentesque eu libero dignissim, lobortis est ac, rhoncus lacus. Vivamus a turpis quis sapien maximus iaculis ac ac dui. In mollis lorem volutpat placerat egestas.',	NULL,	(SELECT `serie_id` FROM `tbl_serie` WHERE `serie_nom` = 'serie13')),
-('prod26',	'img/productos/',	'prod26',	'.jpg',	20,	'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed quis commodo lacus, vel molestie augue. Fusce a blandit sem, ac auctor enim. Nam ut augue tristique purus fringilla facilisis sit amet ac eros. Nulla sit amet tortor gravida, molestie nibh faucibus, interdum ex. Donec eget dui neque. Pellentesque eu libero dignissim, lobortis est ac, rhoncus lacus. Vivamus a turpis quis sapien maximus iaculis ac ac dui. In mollis lorem volutpat placerat egestas.',	20,		(SELECT `serie_id` FROM `tbl_serie` WHERE `serie_nom` = 'serie13')),
-('prod27',	'img/productos/',	'prod27',	'.jpg',	20,	'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed quis commodo lacus, vel molestie augue. Fusce a blandit sem, ac auctor enim. Nam ut augue tristique purus fringilla facilisis sit amet ac eros. Nulla sit amet tortor gravida, molestie nibh faucibus, interdum ex. Donec eget dui neque. Pellentesque eu libero dignissim, lobortis est ac, rhoncus lacus. Vivamus a turpis quis sapien maximus iaculis ac ac dui. In mollis lorem volutpat placerat egestas.',	NULL,	(SELECT `serie_id` FROM `tbl_serie` WHERE `serie_nom` = 'serie14')),
-('prod28',	'img/productos/',	'prod28',	'.jpg',	20,	'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed quis commodo lacus, vel molestie augue. Fusce a blandit sem, ac auctor enim. Nam ut augue tristique purus fringilla facilisis sit amet ac eros. Nulla sit amet tortor gravida, molestie nibh faucibus, interdum ex. Donec eget dui neque. Pellentesque eu libero dignissim, lobortis est ac, rhoncus lacus. Vivamus a turpis quis sapien maximus iaculis ac ac dui. In mollis lorem volutpat placerat egestas.',	NULL,	(SELECT `serie_id` FROM `tbl_serie` WHERE `serie_nom` = 'serie14')),
-('prod29',	'img/productos/',	'prod29',	'.jpg',	20,	'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed quis commodo lacus, vel molestie augue. Fusce a blandit sem, ac auctor enim. Nam ut augue tristique purus fringilla facilisis sit amet ac eros. Nulla sit amet tortor gravida, molestie nibh faucibus, interdum ex. Donec eget dui neque. Pellentesque eu libero dignissim, lobortis est ac, rhoncus lacus. Vivamus a turpis quis sapien maximus iaculis ac ac dui. In mollis lorem volutpat placerat egestas.',	20,		(SELECT `serie_id` FROM `tbl_serie` WHERE `serie_nom` = 'serie15')),
-('prod30',	'img/productos/',	'prod30',	'.jpg',	20,	'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed quis commodo lacus, vel molestie augue. Fusce a blandit sem, ac auctor enim. Nam ut augue tristique purus fringilla facilisis sit amet ac eros. Nulla sit amet tortor gravida, molestie nibh faucibus, interdum ex. Donec eget dui neque. Pellentesque eu libero dignissim, lobortis est ac, rhoncus lacus. Vivamus a turpis quis sapien maximus iaculis ac ac dui. In mollis lorem volutpat placerat egestas.',	NULL,	(SELECT `serie_id` FROM `tbl_serie` WHERE `serie_nom` = 'serie15')),
-('prod31',	'img/productos/',	'prod31',	'.jpg',	20,	'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed quis commodo lacus, vel molestie augue. Fusce a blandit sem, ac auctor enim. Nam ut augue tristique purus fringilla facilisis sit amet ac eros. Nulla sit amet tortor gravida, molestie nibh faucibus, interdum ex. Donec eget dui neque. Pellentesque eu libero dignissim, lobortis est ac, rhoncus lacus. Vivamus a turpis quis sapien maximus iaculis ac ac dui. In mollis lorem volutpat placerat egestas.',	NULL,	(SELECT `serie_id` FROM `tbl_serie` WHERE `serie_nom` = 'serie16')),
-('prod32',	'img/productos/',	'prod32',	'.jpg',	20,	'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed quis commodo lacus, vel molestie augue. Fusce a blandit sem, ac auctor enim. Nam ut augue tristique purus fringilla facilisis sit amet ac eros. Nulla sit amet tortor gravida, molestie nibh faucibus, interdum ex. Donec eget dui neque. Pellentesque eu libero dignissim, lobortis est ac, rhoncus lacus. Vivamus a turpis quis sapien maximus iaculis ac ac dui. In mollis lorem volutpat placerat egestas.',	20,		(SELECT `serie_id` FROM `tbl_serie` WHERE `serie_nom` = 'serie16')),
-('prod33',	'img/productos/',	'prod33',	'.jpg',	20,	'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed quis commodo lacus, vel molestie augue. Fusce a blandit sem, ac auctor enim. Nam ut augue tristique purus fringilla facilisis sit amet ac eros. Nulla sit amet tortor gravida, molestie nibh faucibus, interdum ex. Donec eget dui neque. Pellentesque eu libero dignissim, lobortis est ac, rhoncus lacus. Vivamus a turpis quis sapien maximus iaculis ac ac dui. In mollis lorem volutpat placerat egestas.',	NULL,	(SELECT `serie_id` FROM `tbl_serie` WHERE `serie_nom` = 'serie17')),
-('prod34',	'img/productos/',	'prod34',	'.jpg',	20,	'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed quis commodo lacus, vel molestie augue. Fusce a blandit sem, ac auctor enim. Nam ut augue tristique purus fringilla facilisis sit amet ac eros. Nulla sit amet tortor gravida, molestie nibh faucibus, interdum ex. Donec eget dui neque. Pellentesque eu libero dignissim, lobortis est ac, rhoncus lacus. Vivamus a turpis quis sapien maximus iaculis ac ac dui. In mollis lorem volutpat placerat egestas.',	20,		(SELECT `serie_id` FROM `tbl_serie` WHERE `serie_nom` = 'serie17')),
-('prod35',	'img/productos/',	'prod35',	'.jpg',	20,	'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed quis commodo lacus, vel molestie augue. Fusce a blandit sem, ac auctor enim. Nam ut augue tristique purus fringilla facilisis sit amet ac eros. Nulla sit amet tortor gravida, molestie nibh faucibus, interdum ex. Donec eget dui neque. Pellentesque eu libero dignissim, lobortis est ac, rhoncus lacus. Vivamus a turpis quis sapien maximus iaculis ac ac dui. In mollis lorem volutpat placerat egestas.',	NULL,	(SELECT `serie_id` FROM `tbl_serie` WHERE `serie_nom` = 'serie18')),
-('prod36',	'img/productos/',	'prod36',	'.jpg',	20,	'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed quis commodo lacus, vel molestie augue. Fusce a blandit sem, ac auctor enim. Nam ut augue tristique purus fringilla facilisis sit amet ac eros. Nulla sit amet tortor gravida, molestie nibh faucibus, interdum ex. Donec eget dui neque. Pellentesque eu libero dignissim, lobortis est ac, rhoncus lacus. Vivamus a turpis quis sapien maximus iaculis ac ac dui. In mollis lorem volutpat placerat egestas.',	NULL,	(SELECT `serie_id` FROM `tbl_serie` WHERE `serie_nom` = 'serie18')),
-('prod37',	'img/productos/',	'prod37',	'.jpg',	20,	'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed quis commodo lacus, vel molestie augue. Fusce a blandit sem, ac auctor enim. Nam ut augue tristique purus fringilla facilisis sit amet ac eros. Nulla sit amet tortor gravida, molestie nibh faucibus, interdum ex. Donec eget dui neque. Pellentesque eu libero dignissim, lobortis est ac, rhoncus lacus. Vivamus a turpis quis sapien maximus iaculis ac ac dui. In mollis lorem volutpat placerat egestas.',	NULL,	(SELECT `serie_id` FROM `tbl_serie` WHERE `serie_nom` = 'serie19')),
-('prod38',	'img/productos/',	'prod38',	'.jpg',	20,	'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed quis commodo lacus, vel molestie augue. Fusce a blandit sem, ac auctor enim. Nam ut augue tristique purus fringilla facilisis sit amet ac eros. Nulla sit amet tortor gravida, molestie nibh faucibus, interdum ex. Donec eget dui neque. Pellentesque eu libero dignissim, lobortis est ac, rhoncus lacus. Vivamus a turpis quis sapien maximus iaculis ac ac dui. In mollis lorem volutpat placerat egestas.',	20,		(SELECT `serie_id` FROM `tbl_serie` WHERE `serie_nom` = 'serie19')),
-('prod39',	'img/productos/',	'prod39',	'.jpg',	20,	'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed quis commodo lacus, vel molestie augue. Fusce a blandit sem, ac auctor enim. Nam ut augue tristique purus fringilla facilisis sit amet ac eros. Nulla sit amet tortor gravida, molestie nibh faucibus, interdum ex. Donec eget dui neque. Pellentesque eu libero dignissim, lobortis est ac, rhoncus lacus. Vivamus a turpis quis sapien maximus iaculis ac ac dui. In mollis lorem volutpat placerat egestas.',	NULL,	(SELECT `serie_id` FROM `tbl_serie` WHERE `serie_nom` = 'serie20')),
-('prod40',	'img/productos/',	'prod40',	'.jpg',	20,	'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed quis commodo lacus, vel molestie augue. Fusce a blandit sem, ac auctor enim. Nam ut augue tristique purus fringilla facilisis sit amet ac eros. Nulla sit amet tortor gravida, molestie nibh faucibus, interdum ex. Donec eget dui neque. Pellentesque eu libero dignissim, lobortis est ac, rhoncus lacus. Vivamus a turpis quis sapien maximus iaculis ac ac dui. In mollis lorem volutpat placerat egestas.',	NULL,	(SELECT `serie_id` FROM `tbl_serie` WHERE `serie_nom` = 'serie20'));
-*/
-
-INSERT INTO `tbl_producte` (`producte_nom`,`producte_fotoRuta`,`producte_fotoNom`,`producte_fotoExt`,`producte_preu`,`producte_descripcio`,`producte_descompte`,`serie_id`) VALUES
-('prod01',	'img/productos/',	'prod01',	'.jpg',	20,	'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed quis commodo lacus, vel molestie augue. Fusce a blandit sem, ac auctor enim. Nam ut augue tristique purus fringilla facilisis sit amet ac eros. Nulla sit amet tortor gravida, molestie nibh faucibus, interdum ex. Donec eget dui neque. Pellentesque eu libero dignissim, lobortis est ac, rhoncus lacus. Vivamus a turpis quis sapien maximus iaculis ac ac dui. In mollis lorem volutpat placerat egestas.',	NULL,	(SELECT `serie_id` FROM `tbl_serie` WHERE `serie_nom` = 'serie01')),
-('prod02',	'img/productos/',	'prod02',	'.jpg',	20,	'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed quis commodo lacus, vel molestie augue. Fusce a blandit sem, ac auctor enim. Nam ut augue tristique purus fringilla facilisis sit amet ac eros. Nulla sit amet tortor gravida, molestie nibh faucibus, interdum ex. Donec eget dui neque. Pellentesque eu libero dignissim, lobortis est ac, rhoncus lacus. Vivamus a turpis quis sapien maximus iaculis ac ac dui. In mollis lorem volutpat placerat egestas.',	NULL,	(SELECT `serie_id` FROM `tbl_serie` WHERE `serie_nom` = 'serie01')),
-('prod03',	'img/productos/',	'default',	'.png',	20,	'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed quis commodo lacus, vel molestie augue. Fusce a blandit sem, ac auctor enim. Nam ut augue tristique purus fringilla facilisis sit amet ac eros. Nulla sit amet tortor gravida, molestie nibh faucibus, interdum ex. Donec eget dui neque. Pellentesque eu libero dignissim, lobortis est ac, rhoncus lacus. Vivamus a turpis quis sapien maximus iaculis ac ac dui. In mollis lorem volutpat placerat egestas.',	20,		(SELECT `serie_id` FROM `tbl_serie` WHERE `serie_nom` = 'serie02')),
-('prod04',	'img/productos/',	'default',	'.png',	20,	'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed quis commodo lacus, vel molestie augue. Fusce a blandit sem, ac auctor enim. Nam ut augue tristique purus fringilla facilisis sit amet ac eros. Nulla sit amet tortor gravida, molestie nibh faucibus, interdum ex. Donec eget dui neque. Pellentesque eu libero dignissim, lobortis est ac, rhoncus lacus. Vivamus a turpis quis sapien maximus iaculis ac ac dui. In mollis lorem volutpat placerat egestas.',	20,		(SELECT `serie_id` FROM `tbl_serie` WHERE `serie_nom` = 'serie02')),
-('prod05',	'img/productos/',	'default',	'.png',	20,	'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed quis commodo lacus, vel molestie augue. Fusce a blandit sem, ac auctor enim. Nam ut augue tristique purus fringilla facilisis sit amet ac eros. Nulla sit amet tortor gravida, molestie nibh faucibus, interdum ex. Donec eget dui neque. Pellentesque eu libero dignissim, lobortis est ac, rhoncus lacus. Vivamus a turpis quis sapien maximus iaculis ac ac dui. In mollis lorem volutpat placerat egestas.',	NULL,	(SELECT `serie_id` FROM `tbl_serie` WHERE `serie_nom` = 'serie03')),
-('prod06',	'img/productos/',	'default',	'.png',	20,	'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed quis commodo lacus, vel molestie augue. Fusce a blandit sem, ac auctor enim. Nam ut augue tristique purus fringilla facilisis sit amet ac eros. Nulla sit amet tortor gravida, molestie nibh faucibus, interdum ex. Donec eget dui neque. Pellentesque eu libero dignissim, lobortis est ac, rhoncus lacus. Vivamus a turpis quis sapien maximus iaculis ac ac dui. In mollis lorem volutpat placerat egestas.',	NULL,	(SELECT `serie_id` FROM `tbl_serie` WHERE `serie_nom` = 'serie03')),
-('prod07',	'img/productos/',	'default',	'.png',	20,	'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed quis commodo lacus, vel molestie augue. Fusce a blandit sem, ac auctor enim. Nam ut augue tristique purus fringilla facilisis sit amet ac eros. Nulla sit amet tortor gravida, molestie nibh faucibus, interdum ex. Donec eget dui neque. Pellentesque eu libero dignissim, lobortis est ac, rhoncus lacus. Vivamus a turpis quis sapien maximus iaculis ac ac dui. In mollis lorem volutpat placerat egestas.',	20,		(SELECT `serie_id` FROM `tbl_serie` WHERE `serie_nom` = 'serie04')),
-('prod08',	'img/productos/',	'default',	'.png',	20,	'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed quis commodo lacus, vel molestie augue. Fusce a blandit sem, ac auctor enim. Nam ut augue tristique purus fringilla facilisis sit amet ac eros. Nulla sit amet tortor gravida, molestie nibh faucibus, interdum ex. Donec eget dui neque. Pellentesque eu libero dignissim, lobortis est ac, rhoncus lacus. Vivamus a turpis quis sapien maximus iaculis ac ac dui. In mollis lorem volutpat placerat egestas.',	NULL,	(SELECT `serie_id` FROM `tbl_serie` WHERE `serie_nom` = 'serie04')),
-('prod09',	'img/productos/',	'default',	'.png',	20,	'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed quis commodo lacus, vel molestie augue. Fusce a blandit sem, ac auctor enim. Nam ut augue tristique purus fringilla facilisis sit amet ac eros. Nulla sit amet tortor gravida, molestie nibh faucibus, interdum ex. Donec eget dui neque. Pellentesque eu libero dignissim, lobortis est ac, rhoncus lacus. Vivamus a turpis quis sapien maximus iaculis ac ac dui. In mollis lorem volutpat placerat egestas.',	NULL,	(SELECT `serie_id` FROM `tbl_serie` WHERE `serie_nom` = 'serie05')),
-('prod10',	'img/productos/',	'default',	'.png',	20,	'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed quis commodo lacus, vel molestie augue. Fusce a blandit sem, ac auctor enim. Nam ut augue tristique purus fringilla facilisis sit amet ac eros. Nulla sit amet tortor gravida, molestie nibh faucibus, interdum ex. Donec eget dui neque. Pellentesque eu libero dignissim, lobortis est ac, rhoncus lacus. Vivamus a turpis quis sapien maximus iaculis ac ac dui. In mollis lorem volutpat placerat egestas.',	20,		(SELECT `serie_id` FROM `tbl_serie` WHERE `serie_nom` = 'serie05')),
-('prod11',	'img/productos/',	'default',	'.png',	20,	'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed quis commodo lacus, vel molestie augue. Fusce a blandit sem, ac auctor enim. Nam ut augue tristique purus fringilla facilisis sit amet ac eros. Nulla sit amet tortor gravida, molestie nibh faucibus, interdum ex. Donec eget dui neque. Pellentesque eu libero dignissim, lobortis est ac, rhoncus lacus. Vivamus a turpis quis sapien maximus iaculis ac ac dui. In mollis lorem volutpat placerat egestas.',	NULL,	(SELECT `serie_id` FROM `tbl_serie` WHERE `serie_nom` = 'serie06')),
-('prod12',	'img/productos/',	'default',	'.png',	20,	'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed quis commodo lacus, vel molestie augue. Fusce a blandit sem, ac auctor enim. Nam ut augue tristique purus fringilla facilisis sit amet ac eros. Nulla sit amet tortor gravida, molestie nibh faucibus, interdum ex. Donec eget dui neque. Pellentesque eu libero dignissim, lobortis est ac, rhoncus lacus. Vivamus a turpis quis sapien maximus iaculis ac ac dui. In mollis lorem volutpat placerat egestas.',	20,		(SELECT `serie_id` FROM `tbl_serie` WHERE `serie_nom` = 'serie06')),
-('prod13',	'img/productos/',	'default',	'.png',	20,	'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed quis commodo lacus, vel molestie augue. Fusce a blandit sem, ac auctor enim. Nam ut augue tristique purus fringilla facilisis sit amet ac eros. Nulla sit amet tortor gravida, molestie nibh faucibus, interdum ex. Donec eget dui neque. Pellentesque eu libero dignissim, lobortis est ac, rhoncus lacus. Vivamus a turpis quis sapien maximus iaculis ac ac dui. In mollis lorem volutpat placerat egestas.',	NULL,	(SELECT `serie_id` FROM `tbl_serie` WHERE `serie_nom` = 'serie07')),
-('prod14',	'img/productos/',	'default',	'.png',	20,	'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed quis commodo lacus, vel molestie augue. Fusce a blandit sem, ac auctor enim. Nam ut augue tristique purus fringilla facilisis sit amet ac eros. Nulla sit amet tortor gravida, molestie nibh faucibus, interdum ex. Donec eget dui neque. Pellentesque eu libero dignissim, lobortis est ac, rhoncus lacus. Vivamus a turpis quis sapien maximus iaculis ac ac dui. In mollis lorem volutpat placerat egestas.',	NULL,	(SELECT `serie_id` FROM `tbl_serie` WHERE `serie_nom` = 'serie07')),
-('prod15',	'img/productos/',	'default',	'.png',	20,	'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed quis commodo lacus, vel molestie augue. Fusce a blandit sem, ac auctor enim. Nam ut augue tristique purus fringilla facilisis sit amet ac eros. Nulla sit amet tortor gravida, molestie nibh faucibus, interdum ex. Donec eget dui neque. Pellentesque eu libero dignissim, lobortis est ac, rhoncus lacus. Vivamus a turpis quis sapien maximus iaculis ac ac dui. In mollis lorem volutpat placerat egestas.',	20,		(SELECT `serie_id` FROM `tbl_serie` WHERE `serie_nom` = 'serie08')),
-('prod16',	'img/productos/',	'default',	'.png',	20,	'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed quis commodo lacus, vel molestie augue. Fusce a blandit sem, ac auctor enim. Nam ut augue tristique purus fringilla facilisis sit amet ac eros. Nulla sit amet tortor gravida, molestie nibh faucibus, interdum ex. Donec eget dui neque. Pellentesque eu libero dignissim, lobortis est ac, rhoncus lacus. Vivamus a turpis quis sapien maximus iaculis ac ac dui. In mollis lorem volutpat placerat egestas.',	NULL,	(SELECT `serie_id` FROM `tbl_serie` WHERE `serie_nom` = 'serie08')),
-('prod17',	'img/productos/',	'default',	'.png',	20,	'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed quis commodo lacus, vel molestie augue. Fusce a blandit sem, ac auctor enim. Nam ut augue tristique purus fringilla facilisis sit amet ac eros. Nulla sit amet tortor gravida, molestie nibh faucibus, interdum ex. Donec eget dui neque. Pellentesque eu libero dignissim, lobortis est ac, rhoncus lacus. Vivamus a turpis quis sapien maximus iaculis ac ac dui. In mollis lorem volutpat placerat egestas.',	NULL,	(SELECT `serie_id` FROM `tbl_serie` WHERE `serie_nom` = 'serie09')),
-('prod18',	'img/productos/',	'default',	'.png',	20,	'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed quis commodo lacus, vel molestie augue. Fusce a blandit sem, ac auctor enim. Nam ut augue tristique purus fringilla facilisis sit amet ac eros. Nulla sit amet tortor gravida, molestie nibh faucibus, interdum ex. Donec eget dui neque. Pellentesque eu libero dignissim, lobortis est ac, rhoncus lacus. Vivamus a turpis quis sapien maximus iaculis ac ac dui. In mollis lorem volutpat placerat egestas.',	20,		(SELECT `serie_id` FROM `tbl_serie` WHERE `serie_nom` = 'serie09')),
-('prod19',	'img/productos/',	'default',	'.png',	20,	'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed quis commodo lacus, vel molestie augue. Fusce a blandit sem, ac auctor enim. Nam ut augue tristique purus fringilla facilisis sit amet ac eros. Nulla sit amet tortor gravida, molestie nibh faucibus, interdum ex. Donec eget dui neque. Pellentesque eu libero dignissim, lobortis est ac, rhoncus lacus. Vivamus a turpis quis sapien maximus iaculis ac ac dui. In mollis lorem volutpat placerat egestas.',	NULL,	(SELECT `serie_id` FROM `tbl_serie` WHERE `serie_nom` = 'serie10')),
-('prod20',	'img/productos/',	'default',	'.png',	20,	'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed quis commodo lacus, vel molestie augue. Fusce a blandit sem, ac auctor enim. Nam ut augue tristique purus fringilla facilisis sit amet ac eros. Nulla sit amet tortor gravida, molestie nibh faucibus, interdum ex. Donec eget dui neque. Pellentesque eu libero dignissim, lobortis est ac, rhoncus lacus. Vivamus a turpis quis sapien maximus iaculis ac ac dui. In mollis lorem volutpat placerat egestas.',	NULL,	(SELECT `serie_id` FROM `tbl_serie` WHERE `serie_nom` = 'serie10')),
-('prod21',	'img/productos/',	'default',	'.png',	20,	'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed quis commodo lacus, vel molestie augue. Fusce a blandit sem, ac auctor enim. Nam ut augue tristique purus fringilla facilisis sit amet ac eros. Nulla sit amet tortor gravida, molestie nibh faucibus, interdum ex. Donec eget dui neque. Pellentesque eu libero dignissim, lobortis est ac, rhoncus lacus. Vivamus a turpis quis sapien maximus iaculis ac ac dui. In mollis lorem volutpat placerat egestas.',	20,		(SELECT `serie_id` FROM `tbl_serie` WHERE `serie_nom` = 'serie11')),
-('prod22',	'img/productos/',	'default',	'.png',	20,	'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed quis commodo lacus, vel molestie augue. Fusce a blandit sem, ac auctor enim. Nam ut augue tristique purus fringilla facilisis sit amet ac eros. Nulla sit amet tortor gravida, molestie nibh faucibus, interdum ex. Donec eget dui neque. Pellentesque eu libero dignissim, lobortis est ac, rhoncus lacus. Vivamus a turpis quis sapien maximus iaculis ac ac dui. In mollis lorem volutpat placerat egestas.',	NULL,	(SELECT `serie_id` FROM `tbl_serie` WHERE `serie_nom` = 'serie11')),
-('prod23',	'img/productos/',	'default',	'.png',	20,	'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed quis commodo lacus, vel molestie augue. Fusce a blandit sem, ac auctor enim. Nam ut augue tristique purus fringilla facilisis sit amet ac eros. Nulla sit amet tortor gravida, molestie nibh faucibus, interdum ex. Donec eget dui neque. Pellentesque eu libero dignissim, lobortis est ac, rhoncus lacus. Vivamus a turpis quis sapien maximus iaculis ac ac dui. In mollis lorem volutpat placerat egestas.',	20,		(SELECT `serie_id` FROM `tbl_serie` WHERE `serie_nom` = 'serie12')),
-('prod24',	'img/productos/',	'default',	'.png',	20,	'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed quis commodo lacus, vel molestie augue. Fusce a blandit sem, ac auctor enim. Nam ut augue tristique purus fringilla facilisis sit amet ac eros. Nulla sit amet tortor gravida, molestie nibh faucibus, interdum ex. Donec eget dui neque. Pellentesque eu libero dignissim, lobortis est ac, rhoncus lacus. Vivamus a turpis quis sapien maximus iaculis ac ac dui. In mollis lorem volutpat placerat egestas.',	NULL,	(SELECT `serie_id` FROM `tbl_serie` WHERE `serie_nom` = 'serie12')),
-('prod25',	'img/productos/',	'default',	'.png',	20,	'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed quis commodo lacus, vel molestie augue. Fusce a blandit sem, ac auctor enim. Nam ut augue tristique purus fringilla facilisis sit amet ac eros. Nulla sit amet tortor gravida, molestie nibh faucibus, interdum ex. Donec eget dui neque. Pellentesque eu libero dignissim, lobortis est ac, rhoncus lacus. Vivamus a turpis quis sapien maximus iaculis ac ac dui. In mollis lorem volutpat placerat egestas.',	NULL,	(SELECT `serie_id` FROM `tbl_serie` WHERE `serie_nom` = 'serie13')),
-('prod26',	'img/productos/',	'default',	'.png',	20,	'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed quis commodo lacus, vel molestie augue. Fusce a blandit sem, ac auctor enim. Nam ut augue tristique purus fringilla facilisis sit amet ac eros. Nulla sit amet tortor gravida, molestie nibh faucibus, interdum ex. Donec eget dui neque. Pellentesque eu libero dignissim, lobortis est ac, rhoncus lacus. Vivamus a turpis quis sapien maximus iaculis ac ac dui. In mollis lorem volutpat placerat egestas.',	20,		(SELECT `serie_id` FROM `tbl_serie` WHERE `serie_nom` = 'serie13')),
-('prod27',	'img/productos/',	'default',	'.png',	20,	'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed quis commodo lacus, vel molestie augue. Fusce a blandit sem, ac auctor enim. Nam ut augue tristique purus fringilla facilisis sit amet ac eros. Nulla sit amet tortor gravida, molestie nibh faucibus, interdum ex. Donec eget dui neque. Pellentesque eu libero dignissim, lobortis est ac, rhoncus lacus. Vivamus a turpis quis sapien maximus iaculis ac ac dui. In mollis lorem volutpat placerat egestas.',	NULL,	(SELECT `serie_id` FROM `tbl_serie` WHERE `serie_nom` = 'serie14')),
-('prod28',	'img/productos/',	'default',	'.png',	20,	'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed quis commodo lacus, vel molestie augue. Fusce a blandit sem, ac auctor enim. Nam ut augue tristique purus fringilla facilisis sit amet ac eros. Nulla sit amet tortor gravida, molestie nibh faucibus, interdum ex. Donec eget dui neque. Pellentesque eu libero dignissim, lobortis est ac, rhoncus lacus. Vivamus a turpis quis sapien maximus iaculis ac ac dui. In mollis lorem volutpat placerat egestas.',	NULL,	(SELECT `serie_id` FROM `tbl_serie` WHERE `serie_nom` = 'serie14')),
-('prod29',	'img/productos/',	'default',	'.png',	20,	'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed quis commodo lacus, vel molestie augue. Fusce a blandit sem, ac auctor enim. Nam ut augue tristique purus fringilla facilisis sit amet ac eros. Nulla sit amet tortor gravida, molestie nibh faucibus, interdum ex. Donec eget dui neque. Pellentesque eu libero dignissim, lobortis est ac, rhoncus lacus. Vivamus a turpis quis sapien maximus iaculis ac ac dui. In mollis lorem volutpat placerat egestas.',	20,		(SELECT `serie_id` FROM `tbl_serie` WHERE `serie_nom` = 'serie15')),
-('prod30',	'img/productos/',	'default',	'.png',	20,	'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed quis commodo lacus, vel molestie augue. Fusce a blandit sem, ac auctor enim. Nam ut augue tristique purus fringilla facilisis sit amet ac eros. Nulla sit amet tortor gravida, molestie nibh faucibus, interdum ex. Donec eget dui neque. Pellentesque eu libero dignissim, lobortis est ac, rhoncus lacus. Vivamus a turpis quis sapien maximus iaculis ac ac dui. In mollis lorem volutpat placerat egestas.',	NULL,	(SELECT `serie_id` FROM `tbl_serie` WHERE `serie_nom` = 'serie15')),
-('prod31',	'img/productos/',	'default',	'.png',	20,	'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed quis commodo lacus, vel molestie augue. Fusce a blandit sem, ac auctor enim. Nam ut augue tristique purus fringilla facilisis sit amet ac eros. Nulla sit amet tortor gravida, molestie nibh faucibus, interdum ex. Donec eget dui neque. Pellentesque eu libero dignissim, lobortis est ac, rhoncus lacus. Vivamus a turpis quis sapien maximus iaculis ac ac dui. In mollis lorem volutpat placerat egestas.',	NULL,	(SELECT `serie_id` FROM `tbl_serie` WHERE `serie_nom` = 'serie16')),
-('prod32',	'img/productos/',	'default',	'.png',	20,	'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed quis commodo lacus, vel molestie augue. Fusce a blandit sem, ac auctor enim. Nam ut augue tristique purus fringilla facilisis sit amet ac eros. Nulla sit amet tortor gravida, molestie nibh faucibus, interdum ex. Donec eget dui neque. Pellentesque eu libero dignissim, lobortis est ac, rhoncus lacus. Vivamus a turpis quis sapien maximus iaculis ac ac dui. In mollis lorem volutpat placerat egestas.',	20,		(SELECT `serie_id` FROM `tbl_serie` WHERE `serie_nom` = 'serie16')),
-('prod33',	'img/productos/',	'default',	'.png',	20,	'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed quis commodo lacus, vel molestie augue. Fusce a blandit sem, ac auctor enim. Nam ut augue tristique purus fringilla facilisis sit amet ac eros. Nulla sit amet tortor gravida, molestie nibh faucibus, interdum ex. Donec eget dui neque. Pellentesque eu libero dignissim, lobortis est ac, rhoncus lacus. Vivamus a turpis quis sapien maximus iaculis ac ac dui. In mollis lorem volutpat placerat egestas.',	NULL,	(SELECT `serie_id` FROM `tbl_serie` WHERE `serie_nom` = 'serie17')),
-('prod34',	'img/productos/',	'default',	'.png',	20,	'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed quis commodo lacus, vel molestie augue. Fusce a blandit sem, ac auctor enim. Nam ut augue tristique purus fringilla facilisis sit amet ac eros. Nulla sit amet tortor gravida, molestie nibh faucibus, interdum ex. Donec eget dui neque. Pellentesque eu libero dignissim, lobortis est ac, rhoncus lacus. Vivamus a turpis quis sapien maximus iaculis ac ac dui. In mollis lorem volutpat placerat egestas.',	20,		(SELECT `serie_id` FROM `tbl_serie` WHERE `serie_nom` = 'serie17')),
-('prod35',	'img/productos/',	'default',	'.png',	20,	'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed quis commodo lacus, vel molestie augue. Fusce a blandit sem, ac auctor enim. Nam ut augue tristique purus fringilla facilisis sit amet ac eros. Nulla sit amet tortor gravida, molestie nibh faucibus, interdum ex. Donec eget dui neque. Pellentesque eu libero dignissim, lobortis est ac, rhoncus lacus. Vivamus a turpis quis sapien maximus iaculis ac ac dui. In mollis lorem volutpat placerat egestas.',	NULL,	(SELECT `serie_id` FROM `tbl_serie` WHERE `serie_nom` = 'serie18')),
-('prod36',	'img/productos/',	'default',	'.png',	20,	'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed quis commodo lacus, vel molestie augue. Fusce a blandit sem, ac auctor enim. Nam ut augue tristique purus fringilla facilisis sit amet ac eros. Nulla sit amet tortor gravida, molestie nibh faucibus, interdum ex. Donec eget dui neque. Pellentesque eu libero dignissim, lobortis est ac, rhoncus lacus. Vivamus a turpis quis sapien maximus iaculis ac ac dui. In mollis lorem volutpat placerat egestas.',	NULL,	(SELECT `serie_id` FROM `tbl_serie` WHERE `serie_nom` = 'serie18')),
-('prod37',	'img/productos/',	'default',	'.png',	20,	'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed quis commodo lacus, vel molestie augue. Fusce a blandit sem, ac auctor enim. Nam ut augue tristique purus fringilla facilisis sit amet ac eros. Nulla sit amet tortor gravida, molestie nibh faucibus, interdum ex. Donec eget dui neque. Pellentesque eu libero dignissim, lobortis est ac, rhoncus lacus. Vivamus a turpis quis sapien maximus iaculis ac ac dui. In mollis lorem volutpat placerat egestas.',	NULL,	(SELECT `serie_id` FROM `tbl_serie` WHERE `serie_nom` = 'serie19')),
-('prod38',	'img/productos/',	'default',	'.png',	20,	'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed quis commodo lacus, vel molestie augue. Fusce a blandit sem, ac auctor enim. Nam ut augue tristique purus fringilla facilisis sit amet ac eros. Nulla sit amet tortor gravida, molestie nibh faucibus, interdum ex. Donec eget dui neque. Pellentesque eu libero dignissim, lobortis est ac, rhoncus lacus. Vivamus a turpis quis sapien maximus iaculis ac ac dui. In mollis lorem volutpat placerat egestas.',	20,		(SELECT `serie_id` FROM `tbl_serie` WHERE `serie_nom` = 'serie19')),
-('prod39',	'img/productos/',	'default',	'.png',	20,	'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed quis commodo lacus, vel molestie augue. Fusce a blandit sem, ac auctor enim. Nam ut augue tristique purus fringilla facilisis sit amet ac eros. Nulla sit amet tortor gravida, molestie nibh faucibus, interdum ex. Donec eget dui neque. Pellentesque eu libero dignissim, lobortis est ac, rhoncus lacus. Vivamus a turpis quis sapien maximus iaculis ac ac dui. In mollis lorem volutpat placerat egestas.',	NULL,	(SELECT `serie_id` FROM `tbl_serie` WHERE `serie_nom` = 'serie20')),
-('prod40',	'img/productos/',	'default',	'.png',	20,	'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed quis commodo lacus, vel molestie augue. Fusce a blandit sem, ac auctor enim. Nam ut augue tristique purus fringilla facilisis sit amet ac eros. Nulla sit amet tortor gravida, molestie nibh faucibus, interdum ex. Donec eget dui neque. Pellentesque eu libero dignissim, lobortis est ac, rhoncus lacus. Vivamus a turpis quis sapien maximus iaculis ac ac dui. In mollis lorem volutpat placerat egestas.',	NULL,	(SELECT `serie_id` FROM `tbl_serie` WHERE `serie_nom` = 'serie20'));
+-- TRUNCATE TABLE `tbl_producte`;
+INSERT INTO `tbl_producte` (`producte_nom`,`producte_fotoRuta`,`producte_fotoNom`,`producte_fotoExt`,`producte_preu`, `producte_descompte`,`serie_id`,`producte_descripcio`) VALUES
+('SP534P',				'img/productos/',	'1_SP534P',				'.jpg',	22.5,	5,		(SELECT `serie_id` FROM `tbl_serie` WHERE `serie_nom` = 'Suspendida'),			'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed quis commodo lacus, vel molestie augue. Fusce a blandit sem, ac auctor enim. Nam ut augue tristique purus fringilla facilisis sit amet ac eros. Nulla sit amet tortor gravida, molestie nibh faucibus, interdum ex. Donec eget dui neque. Pellentesque eu libero dignissim, lobortis est ac, rhoncus lacus. Vivamus a turpis quis sapien maximus iaculis ac ac dui. In mollis lorem volutpat placerat egestas.'),
+('PT570P',				'img/productos/',	'2_PT570P',				'.jpg',	17.24,	NULL,	(SELECT `serie_id` FROM `tbl_serie` WHERE `serie_nom` = 'Suspendida'),			'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed quis commodo lacus, vel molestie augue. Fusce a blandit sem, ac auctor enim. Nam ut augue tristique purus fringilla facilisis sit amet ac eros. Nulla sit amet tortor gravida, molestie nibh faucibus, interdum ex. Donec eget dui neque. Pellentesque eu libero dignissim, lobortis est ac, rhoncus lacus. Vivamus a turpis quis sapien maximus iaculis ac ac dui. In mollis lorem volutpat placerat egestas.'),
+('RC132V',				'img/productos/',	'3_RC132V',				'.jpg',	6.23,	5,		(SELECT `serie_id` FROM `tbl_serie` WHERE `serie_nom` = 'Empotrables'),			'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed quis commodo lacus, vel molestie augue. Fusce a blandit sem, ac auctor enim. Nam ut augue tristique purus fringilla facilisis sit amet ac eros. Nulla sit amet tortor gravida, molestie nibh faucibus, interdum ex. Donec eget dui neque. Pellentesque eu libero dignissim, lobortis est ac, rhoncus lacus. Vivamus a turpis quis sapien maximus iaculis ac ac dui. In mollis lorem volutpat placerat egestas.'),
+('RC464B',				'img/productos/',	'4_RC464B',				'.jpg',	23.05,	5,		(SELECT `serie_id` FROM `tbl_serie` WHERE `serie_nom` = 'Empotrables'),			'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed quis commodo lacus, vel molestie augue. Fusce a blandit sem, ac auctor enim. Nam ut augue tristique purus fringilla facilisis sit amet ac eros. Nulla sit amet tortor gravida, molestie nibh faucibus, interdum ex. Donec eget dui neque. Pellentesque eu libero dignissim, lobortis est ac, rhoncus lacus. Vivamus a turpis quis sapien maximus iaculis ac ac dui. In mollis lorem volutpat placerat egestas.'),
+('WL130V',				'img/productos/',	'5_WL130V',				'.jpg',	20.5,	NULL,	(SELECT `serie_id` FROM `tbl_serie` WHERE `serie_nom` = 'Apliques'),			'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed quis commodo lacus, vel molestie augue. Fusce a blandit sem, ac auctor enim. Nam ut augue tristique purus fringilla facilisis sit amet ac eros. Nulla sit amet tortor gravida, molestie nibh faucibus, interdum ex. Donec eget dui neque. Pellentesque eu libero dignissim, lobortis est ac, rhoncus lacus. Vivamus a turpis quis sapien maximus iaculis ac ac dui. In mollis lorem volutpat placerat egestas.'),
+('WL060V',				'img/productos/',	'6_WL060V',				'.jpg',	5.45,	5,		(SELECT `serie_id` FROM `tbl_serie` WHERE `serie_nom` = 'Apliques'),			'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed quis commodo lacus, vel molestie augue. Fusce a blandit sem, ac auctor enim. Nam ut augue tristique purus fringilla facilisis sit amet ac eros. Nulla sit amet tortor gravida, molestie nibh faucibus, interdum ex. Donec eget dui neque. Pellentesque eu libero dignissim, lobortis est ac, rhoncus lacus. Vivamus a turpis quis sapien maximus iaculis ac ac dui. In mollis lorem volutpat placerat egestas.'),
+('DN060B',				'img/productos/',	'7_DN060B',				'.jpg',	15.67,	5,		(SELECT `serie_id` FROM `tbl_serie` WHERE `serie_nom` = 'Downlights'),			'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed quis commodo lacus, vel molestie augue. Fusce a blandit sem, ac auctor enim. Nam ut augue tristique purus fringilla facilisis sit amet ac eros. Nulla sit amet tortor gravida, molestie nibh faucibus, interdum ex. Donec eget dui neque. Pellentesque eu libero dignissim, lobortis est ac, rhoncus lacus. Vivamus a turpis quis sapien maximus iaculis ac ac dui. In mollis lorem volutpat placerat egestas.'),
+('RS060B',				'img/productos/',	'8_RS060B',				'.jpg',	45.65,	5,		(SELECT `serie_id` FROM `tbl_serie` WHERE `serie_nom` = 'Downlights'),			'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed quis commodo lacus, vel molestie augue. Fusce a blandit sem, ac auctor enim. Nam ut augue tristique purus fringilla facilisis sit amet ac eros. Nulla sit amet tortor gravida, molestie nibh faucibus, interdum ex. Donec eget dui neque. Pellentesque eu libero dignissim, lobortis est ac, rhoncus lacus. Vivamus a turpis quis sapien maximus iaculis ac ac dui. In mollis lorem volutpat placerat egestas.'),
+('BSP791',				'img/productos/',	'9_BSP791',				'.jpg',	20,		NULL,	(SELECT `serie_id` FROM `tbl_serie` WHERE `serie_nom` = 'Alumbrado Público'),	'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed quis commodo lacus, vel molestie augue. Fusce a blandit sem, ac auctor enim. Nam ut augue tristique purus fringilla facilisis sit amet ac eros. Nulla sit amet tortor gravida, molestie nibh faucibus, interdum ex. Donec eget dui neque. Pellentesque eu libero dignissim, lobortis est ac, rhoncus lacus. Vivamus a turpis quis sapien maximus iaculis ac ac dui. In mollis lorem volutpat placerat egestas.'),
+('SGS253',				'img/productos/',	'10_SGS253',			'.jpg',	23.32,	75,		(SELECT `serie_id` FROM `tbl_serie` WHERE `serie_nom` = 'Alumbrado Público'),	'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed quis commodo lacus, vel molestie augue. Fusce a blandit sem, ac auctor enim. Nam ut augue tristique purus fringilla facilisis sit amet ac eros. Nulla sit amet tortor gravida, molestie nibh faucibus, interdum ex. Donec eget dui neque. Pellentesque eu libero dignissim, lobortis est ac, rhoncus lacus. Vivamus a turpis quis sapien maximus iaculis ac ac dui. In mollis lorem volutpat placerat egestas.'),
+('MVF404',				'img/productos/',	'11_MVF404',			'.jpg',	17.32,	3,		(SELECT `serie_id` FROM `tbl_serie` WHERE `serie_nom` = 'Proyectores'),			'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed quis commodo lacus, vel molestie augue. Fusce a blandit sem, ac auctor enim. Nam ut augue tristique purus fringilla facilisis sit amet ac eros. Nulla sit amet tortor gravida, molestie nibh faucibus, interdum ex. Donec eget dui neque. Pellentesque eu libero dignissim, lobortis est ac, rhoncus lacus. Vivamus a turpis quis sapien maximus iaculis ac ac dui. In mollis lorem volutpat placerat egestas.'),
+('BVP525',				'img/productos/',	'12_BVP525',			'.jpg',	5.25,	99,		(SELECT `serie_id` FROM `tbl_serie` WHERE `serie_nom` = 'Proyectores'),			'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed quis commodo lacus, vel molestie augue. Fusce a blandit sem, ac auctor enim. Nam ut augue tristique purus fringilla facilisis sit amet ac eros. Nulla sit amet tortor gravida, molestie nibh faucibus, interdum ex. Donec eget dui neque. Pellentesque eu libero dignissim, lobortis est ac, rhoncus lacus. Vivamus a turpis quis sapien maximus iaculis ac ac dui. In mollis lorem volutpat placerat egestas.'),
+('BGP360',				'img/productos/',	'13_BGP360',			'.jpg',	35,		15,		(SELECT `serie_id` FROM `tbl_serie` WHERE `serie_nom` = 'Túneles'),				'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed quis commodo lacus, vel molestie augue. Fusce a blandit sem, ac auctor enim. Nam ut augue tristique purus fringilla facilisis sit amet ac eros. Nulla sit amet tortor gravida, molestie nibh faucibus, interdum ex. Donec eget dui neque. Pellentesque eu libero dignissim, lobortis est ac, rhoncus lacus. Vivamus a turpis quis sapien maximus iaculis ac ac dui. In mollis lorem volutpat placerat egestas.'),
+('GX10MR6',				'img/productos/',	'14_GX10MR6',			'.jpg',	9.99,	NULL,	(SELECT `serie_id` FROM `tbl_serie` WHERE `serie_nom` = 'Túneles'),				'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed quis commodo lacus, vel molestie augue. Fusce a blandit sem, ac auctor enim. Nam ut augue tristique purus fringilla facilisis sit amet ac eros. Nulla sit amet tortor gravida, molestie nibh faucibus, interdum ex. Donec eget dui neque. Pellentesque eu libero dignissim, lobortis est ac, rhoncus lacus. Vivamus a turpis quis sapien maximus iaculis ac ac dui. In mollis lorem volutpat placerat egestas.'),
+('BVP425',				'img/productos/',	'15_BVP425',			'.jpg',	35.5,	20,		(SELECT `serie_id` FROM `tbl_serie` WHERE `serie_nom` = 'Grandes Superfícies'),	'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed quis commodo lacus, vel molestie augue. Fusce a blandit sem, ac auctor enim. Nam ut augue tristique purus fringilla facilisis sit amet ac eros. Nulla sit amet tortor gravida, molestie nibh faucibus, interdum ex. Donec eget dui neque. Pellentesque eu libero dignissim, lobortis est ac, rhoncus lacus. Vivamus a turpis quis sapien maximus iaculis ac ac dui. In mollis lorem volutpat placerat egestas.'),
+('BVP651',				'img/productos/',	'16_BVP651',			'.jpg',	45.99,	NULL,	(SELECT `serie_id` FROM `tbl_serie` WHERE `serie_nom` = 'Grandes Superfícies'),	'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed quis commodo lacus, vel molestie augue. Fusce a blandit sem, ac auctor enim. Nam ut augue tristique purus fringilla facilisis sit amet ac eros. Nulla sit amet tortor gravida, molestie nibh faucibus, interdum ex. Donec eget dui neque. Pellentesque eu libero dignissim, lobortis est ac, rhoncus lacus. Vivamus a turpis quis sapien maximus iaculis ac ac dui. In mollis lorem volutpat placerat egestas.'),
+('MASTERLINE111',		'img/productos/',	'17_MASTERLINE111',		'.jpg',	15,		25,		(SELECT `serie_id` FROM `tbl_serie` WHERE `serie_nom` = 'Halógenas'),			'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed quis commodo lacus, vel molestie augue. Fusce a blandit sem, ac auctor enim. Nam ut augue tristique purus fringilla facilisis sit amet ac eros. Nulla sit amet tortor gravida, molestie nibh faucibus, interdum ex. Donec eget dui neque. Pellentesque eu libero dignissim, lobortis est ac, rhoncus lacus. Vivamus a turpis quis sapien maximus iaculis ac ac dui. In mollis lorem volutpat placerat egestas.'),
+('MR16G60',				'img/productos/',	'18_MR16G60',			'.jpg',	12.99,	5,		(SELECT `serie_id` FROM `tbl_serie` WHERE `serie_nom` = 'Halógenas'),			'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed quis commodo lacus, vel molestie augue. Fusce a blandit sem, ac auctor enim. Nam ut augue tristique purus fringilla facilisis sit amet ac eros. Nulla sit amet tortor gravida, molestie nibh faucibus, interdum ex. Donec eget dui neque. Pellentesque eu libero dignissim, lobortis est ac, rhoncus lacus. Vivamus a turpis quis sapien maximus iaculis ac ac dui. In mollis lorem volutpat placerat egestas.'),
+('E27-230-240V',		'img/productos/',	'19_E27-230-240V',		'.jpg',	7.85,	NULL,	(SELECT `serie_id` FROM `tbl_serie` WHERE `serie_nom` = 'Fluorescentes'),		'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed quis commodo lacus, vel molestie augue. Fusce a blandit sem, ac auctor enim. Nam ut augue tristique purus fringilla facilisis sit amet ac eros. Nulla sit amet tortor gravida, molestie nibh faucibus, interdum ex. Donec eget dui neque. Pellentesque eu libero dignissim, lobortis est ac, rhoncus lacus. Vivamus a turpis quis sapien maximus iaculis ac ac dui. In mollis lorem volutpat placerat egestas.'),
+('Tornado-High-Lumen',	'img/productos/',	'20_Tornado-High-Lumen','.jpg',	12.25,	30,		(SELECT `serie_id` FROM `tbl_serie` WHERE `serie_nom` = 'Fluorescentes'),		'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed quis commodo lacus, vel molestie augue. Fusce a blandit sem, ac auctor enim. Nam ut augue tristique purus fringilla facilisis sit amet ac eros. Nulla sit amet tortor gravida, molestie nibh faucibus, interdum ex. Donec eget dui neque. Pellentesque eu libero dignissim, lobortis est ac, rhoncus lacus. Vivamus a turpis quis sapien maximus iaculis ac ac dui. In mollis lorem volutpat placerat egestas.'),
+('PL-R-Eco4',			'img/productos/',	'21_PL-R-Eco4',			'.jpg',	9.99,	5,		(SELECT `serie_id` FROM `tbl_serie` WHERE `serie_nom` = 'Compactas'),			'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed quis commodo lacus, vel molestie augue. Fusce a blandit sem, ac auctor enim. Nam ut augue tristique purus fringilla facilisis sit amet ac eros. Nulla sit amet tortor gravida, molestie nibh faucibus, interdum ex. Donec eget dui neque. Pellentesque eu libero dignissim, lobortis est ac, rhoncus lacus. Vivamus a turpis quis sapien maximus iaculis ac ac dui. In mollis lorem volutpat placerat egestas.'),
+('PL-L4',				'img/productos/',	'22_PL-L4',				'.jpg',	5.45,	NULL,	(SELECT `serie_id` FROM `tbl_serie` WHERE `serie_nom` = 'Compactas'),			'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed quis commodo lacus, vel molestie augue. Fusce a blandit sem, ac auctor enim. Nam ut augue tristique purus fringilla facilisis sit amet ac eros. Nulla sit amet tortor gravida, molestie nibh faucibus, interdum ex. Donec eget dui neque. Pellentesque eu libero dignissim, lobortis est ac, rhoncus lacus. Vivamus a turpis quis sapien maximus iaculis ac ac dui. In mollis lorem volutpat placerat egestas.'),
+('CDM-T-Elite',			'img/productos/',	'23_CDM-T-Elite',		'.jpg',	25.75,	10,		(SELECT `serie_id` FROM `tbl_serie` WHERE `serie_nom` = 'Incandescentes'),		'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed quis commodo lacus, vel molestie augue. Fusce a blandit sem, ac auctor enim. Nam ut augue tristique purus fringilla facilisis sit amet ac eros. Nulla sit amet tortor gravida, molestie nibh faucibus, interdum ex. Donec eget dui neque. Pellentesque eu libero dignissim, lobortis est ac, rhoncus lacus. Vivamus a turpis quis sapien maximus iaculis ac ac dui. In mollis lorem volutpat placerat egestas.'),
+('CDM-R-Elite',			'img/productos/',	'24_CDM-R-Elite',		'.jpg',	8.7,	NULL,	(SELECT `serie_id` FROM `tbl_serie` WHERE `serie_nom` = 'Incandescentes'),		'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed quis commodo lacus, vel molestie augue. Fusce a blandit sem, ac auctor enim. Nam ut augue tristique purus fringilla facilisis sit amet ac eros. Nulla sit amet tortor gravida, molestie nibh faucibus, interdum ex. Donec eget dui neque. Pellentesque eu libero dignissim, lobortis est ac, rhoncus lacus. Vivamus a turpis quis sapien maximus iaculis ac ac dui. In mollis lorem volutpat placerat egestas.'),
+('MASTER-LEDtube-T5',	'img/productos/',	'25_MASTER-LEDtube-T5',	'.jpg',	15.3,	80,		(SELECT `serie_id` FROM `tbl_serie` WHERE `serie_nom` = 'Tubos'),				'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed quis commodo lacus, vel molestie augue. Fusce a blandit sem, ac auctor enim. Nam ut augue tristique purus fringilla facilisis sit amet ac eros. Nulla sit amet tortor gravida, molestie nibh faucibus, interdum ex. Donec eget dui neque. Pellentesque eu libero dignissim, lobortis est ac, rhoncus lacus. Vivamus a turpis quis sapien maximus iaculis ac ac dui. In mollis lorem volutpat placerat egestas.'),
+('Tubulares-LED',		'img/productos/',	'26_Tubulares-LED',		'.jpg',	3.45,	5,		(SELECT `serie_id` FROM `tbl_serie` WHERE `serie_nom` = 'Tubos'),				'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed quis commodo lacus, vel molestie augue. Fusce a blandit sem, ac auctor enim. Nam ut augue tristique purus fringilla facilisis sit amet ac eros. Nulla sit amet tortor gravida, molestie nibh faucibus, interdum ex. Donec eget dui neque. Pellentesque eu libero dignissim, lobortis est ac, rhoncus lacus. Vivamus a turpis quis sapien maximus iaculis ac ac dui. In mollis lorem volutpat placerat egestas.'),
+('AR111',				'img/productos/',	'27_AR111',				'.jpg',	15.3,	15,		(SELECT `serie_id` FROM `tbl_serie` WHERE `serie_nom` = 'Focos'),				'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed quis commodo lacus, vel molestie augue. Fusce a blandit sem, ac auctor enim. Nam ut augue tristique purus fringilla facilisis sit amet ac eros. Nulla sit amet tortor gravida, molestie nibh faucibus, interdum ex. Donec eget dui neque. Pellentesque eu libero dignissim, lobortis est ac, rhoncus lacus. Vivamus a turpis quis sapien maximus iaculis ac ac dui. In mollis lorem volutpat placerat egestas.'),
+('LEDspotMV',			'img/productos/',	'28_LEDspotMV',			'.jpg',	7.25,	50,		(SELECT `serie_id` FROM `tbl_serie` WHERE `serie_nom` = 'Focos'),				'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed quis commodo lacus, vel molestie augue. Fusce a blandit sem, ac auctor enim. Nam ut augue tristique purus fringilla facilisis sit amet ac eros. Nulla sit amet tortor gravida, molestie nibh faucibus, interdum ex. Donec eget dui neque. Pellentesque eu libero dignissim, lobortis est ac, rhoncus lacus. Vivamus a turpis quis sapien maximus iaculis ac ac dui. In mollis lorem volutpat placerat egestas.'),
+('HPL-SON',				'img/productos/',	'29_HPL-SON',			'.jpg',	3.5,	20,		(SELECT `serie_id` FROM `tbl_serie` WHERE `serie_nom` = 'HID'),					'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed quis commodo lacus, vel molestie augue. Fusce a blandit sem, ac auctor enim. Nam ut augue tristique purus fringilla facilisis sit amet ac eros. Nulla sit amet tortor gravida, molestie nibh faucibus, interdum ex. Donec eget dui neque. Pellentesque eu libero dignissim, lobortis est ac, rhoncus lacus. Vivamus a turpis quis sapien maximus iaculis ac ac dui. In mollis lorem volutpat placerat egestas.'),
+('HPI-SON-HPL',			'img/productos/',	'30_HPI-SON-HPL',		'.jpg',	2.75,	75,		(SELECT `serie_id` FROM `tbl_serie` WHERE `serie_nom` = 'HID'),					'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed quis commodo lacus, vel molestie augue. Fusce a blandit sem, ac auctor enim. Nam ut augue tristique purus fringilla facilisis sit amet ac eros. Nulla sit amet tortor gravida, molestie nibh faucibus, interdum ex. Donec eget dui neque. Pellentesque eu libero dignissim, lobortis est ac, rhoncus lacus. Vivamus a turpis quis sapien maximus iaculis ac ac dui. In mollis lorem volutpat placerat egestas.'),
+('CLA-LUSTER34',		'img/productos/',	'31_CLA-LUSTER34',		'.jpg',	6.75,	50,		(SELECT `serie_id` FROM `tbl_serie` WHERE `serie_nom` = 'Velas y Reflejo'),		'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed quis commodo lacus, vel molestie augue. Fusce a blandit sem, ac auctor enim. Nam ut augue tristique purus fringilla facilisis sit amet ac eros. Nulla sit amet tortor gravida, molestie nibh faucibus, interdum ex. Donec eget dui neque. Pellentesque eu libero dignissim, lobortis est ac, rhoncus lacus. Vivamus a turpis quis sapien maximus iaculis ac ac dui. In mollis lorem volutpat placerat egestas.'),
+('5-32W-BA35',			'img/productos/',	'32_5-32W-BA35',		'.jpg',	5,		2,		(SELECT `serie_id` FROM `tbl_serie` WHERE `serie_nom` = 'Velas y Reflejo'),		'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed quis commodo lacus, vel molestie augue. Fusce a blandit sem, ac auctor enim. Nam ut augue tristique purus fringilla facilisis sit amet ac eros. Nulla sit amet tortor gravida, molestie nibh faucibus, interdum ex. Donec eget dui neque. Pellentesque eu libero dignissim, lobortis est ac, rhoncus lacus. Vivamus a turpis quis sapien maximus iaculis ac ac dui. In mollis lorem volutpat placerat egestas.'),
+('DACM-DyNet',			'img/productos/',	'33_DACM-DyNet',		'.jpg',	65.99,	1,		(SELECT `serie_id` FROM `tbl_serie` WHERE `serie_nom` = 'User Interface'),		'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed quis commodo lacus, vel molestie augue. Fusce a blandit sem, ac auctor enim. Nam ut augue tristique purus fringilla facilisis sit amet ac eros. Nulla sit amet tortor gravida, molestie nibh faucibus, interdum ex. Donec eget dui neque. Pellentesque eu libero dignissim, lobortis est ac, rhoncus lacus. Vivamus a turpis quis sapien maximus iaculis ac ac dui. In mollis lorem volutpat placerat egestas.'),
+('PABPE-MA-X',			'img/productos/',	'34_PABPE-MA-X',		'.jpg',	40.35,	20,		(SELECT `serie_id` FROM `tbl_serie` WHERE `serie_nom` = 'User Interface'),		'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed quis commodo lacus, vel molestie augue. Fusce a blandit sem, ac auctor enim. Nam ut augue tristique purus fringilla facilisis sit amet ac eros. Nulla sit amet tortor gravida, molestie nibh faucibus, interdum ex. Donec eget dui neque. Pellentesque eu libero dignissim, lobortis est ac, rhoncus lacus. Vivamus a turpis quis sapien maximus iaculis ac ac dui. In mollis lorem volutpat placerat egestas.'),
+('DUS90AHB-DALI',		'img/productos/',	'35_DUS90AHB-DALI',		'.jpg',	25.5,	NULL,	(SELECT `serie_id` FROM `tbl_serie` WHERE `serie_nom` = 'Sensors'),				'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed quis commodo lacus, vel molestie augue. Fusce a blandit sem, ac auctor enim. Nam ut augue tristique purus fringilla facilisis sit amet ac eros. Nulla sit amet tortor gravida, molestie nibh faucibus, interdum ex. Donec eget dui neque. Pellentesque eu libero dignissim, lobortis est ac, rhoncus lacus. Vivamus a turpis quis sapien maximus iaculis ac ac dui. In mollis lorem volutpat placerat egestas.'),
+('DUS90CS',				'img/productos/',	'36_DUS90CS',			'.jpg',	15.75,	NULL,	(SELECT `serie_id` FROM `tbl_serie` WHERE `serie_nom` = 'Sensors'),				'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed quis commodo lacus, vel molestie augue. Fusce a blandit sem, ac auctor enim. Nam ut augue tristique purus fringilla facilisis sit amet ac eros. Nulla sit amet tortor gravida, molestie nibh faucibus, interdum ex. Donec eget dui neque. Pellentesque eu libero dignissim, lobortis est ac, rhoncus lacus. Vivamus a turpis quis sapien maximus iaculis ac ac dui. In mollis lorem volutpat placerat egestas.'),
+('DDRC810DT-GL',		'img/productos/',	'37_DDRC810DT-GL',		'.jpg',	22.33,	20,		(SELECT `serie_id` FROM `tbl_serie` WHERE `serie_nom` = 'Relay Controllers'),	'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed quis commodo lacus, vel molestie augue. Fusce a blandit sem, ac auctor enim. Nam ut augue tristique purus fringilla facilisis sit amet ac eros. Nulla sit amet tortor gravida, molestie nibh faucibus, interdum ex. Donec eget dui neque. Pellentesque eu libero dignissim, lobortis est ac, rhoncus lacus. Vivamus a turpis quis sapien maximus iaculis ac ac dui. In mollis lorem volutpat placerat egestas.'),
+('DDRC420FR',			'img/productos/',	'38_DDRC420FR',			'.jpg',	65.8,	20,		(SELECT `serie_id` FROM `tbl_serie` WHERE `serie_nom` = 'Relay Controllers'),	'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed quis commodo lacus, vel molestie augue. Fusce a blandit sem, ac auctor enim. Nam ut augue tristique purus fringilla facilisis sit amet ac eros. Nulla sit amet tortor gravida, molestie nibh faucibus, interdum ex. Donec eget dui neque. Pellentesque eu libero dignissim, lobortis est ac, rhoncus lacus. Vivamus a turpis quis sapien maximus iaculis ac ac dui. In mollis lorem volutpat placerat egestas.'),
+('DMBC110',				'img/productos/',	'39_DMBC110',			'.jpg',	22.35,	NULL,	(SELECT `serie_id` FROM `tbl_serie` WHERE `serie_nom` = 'Reguladores'),			'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed quis commodo lacus, vel molestie augue. Fusce a blandit sem, ac auctor enim. Nam ut augue tristique purus fringilla facilisis sit amet ac eros. Nulla sit amet tortor gravida, molestie nibh faucibus, interdum ex. Donec eget dui neque. Pellentesque eu libero dignissim, lobortis est ac, rhoncus lacus. Vivamus a turpis quis sapien maximus iaculis ac ac dui. In mollis lorem volutpat placerat egestas.'),
+('DBC905W',				'img/productos/',	'40_DBC905W',			'.jpg',	20,		NULL,	(SELECT `serie_id` FROM `tbl_serie` WHERE `serie_nom` = 'Reguladores'),			'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed quis commodo lacus, vel molestie augue. Fusce a blandit sem, ac auctor enim. Nam ut augue tristique purus fringilla facilisis sit amet ac eros. Nulla sit amet tortor gravida, molestie nibh faucibus, interdum ex. Donec eget dui neque. Pellentesque eu libero dignissim, lobortis est ac, rhoncus lacus. Vivamus a turpis quis sapien maximus iaculis ac ac dui. In mollis lorem volutpat placerat egestas.'),
+('producto41',			'img/productos/',	'41_producto41',		'.jpg', 25,		4,		(SELECT `serie_id` FROM `tbl_serie` WHERE `serie_nom` = 'Suspendida'),			'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed quis commodo lacus, vel molestie augue. Fusce a blandit sem, ac auctor enim. Nam ut augue tristique purus fringilla facilisis sit amet ac eros. Nulla sit amet tortor gravida, molestie nibh faucibus, interdum ex. Donec eget dui neque. Pellentesque eu libero dignissim, lobortis est ac, rhoncus lacus. Vivamus a turpis quis sapien maximus iaculis ac ac dui. In mollis lorem volutpat placerat egestas.'),
+('producto42',			'img/productos/',	'42_producto42',		'.jpg', 123,	94,		(SELECT `serie_id` FROM `tbl_serie` WHERE `serie_nom` = 'Suspendida'), 			'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed quis commodo lacus, vel molestie augue. Fusce a blandit sem, ac auctor enim. Nam ut augue tristique purus fringilla facilisis sit amet ac eros. Nulla sit amet tortor gravida, molestie nibh faucibus, interdum ex. Donec eget dui neque. Pellentesque eu libero dignissim, lobortis est ac, rhoncus lacus. Vivamus a turpis quis sapien maximus iaculis ac ac dui. In mollis lorem volutpat placerat egestas.'),
+('producto43',			'img/productos/',	'43_producto43',		'.jpg', 23,		99,		(SELECT `serie_id` FROM `tbl_serie` WHERE `serie_nom` = 'Empotrables'), 		'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed quis commodo lacus, vel molestie augue. Fusce a blandit sem, ac auctor enim. Nam ut augue tristique purus fringilla facilisis sit amet ac eros. Nulla sit amet tortor gravida, molestie nibh faucibus, interdum ex. Donec eget dui neque. Pellentesque eu libero dignissim, lobortis est ac, rhoncus lacus. Vivamus a turpis quis sapien maximus iaculis ac ac dui. In mollis lorem volutpat placerat egestas.'),
+('producto44',			'img/productos/',	'44_producto44',		'.jpg', 33.43,	33,		(SELECT `serie_id` FROM `tbl_serie` WHERE `serie_nom` = 'Empotrables'), 		'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed quis commodo lacus, vel molestie augue. Fusce a blandit sem, ac auctor enim. Nam ut augue tristique purus fringilla facilisis sit amet ac eros. Nulla sit amet tortor gravida, molestie nibh faucibus, interdum ex. Donec eget dui neque. Pellentesque eu libero dignissim, lobortis est ac, rhoncus lacus. Vivamus a turpis quis sapien maximus iaculis ac ac dui. In mollis lorem volutpat placerat egestas.'),
+('producto45',			'img/productos/',	'45_producto45',		'.jpg', 155,	33,		(SELECT `serie_id` FROM `tbl_serie` WHERE `serie_nom` = 'Apliques'), 			'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed quis commodo lacus, vel molestie augue. Fusce a blandit sem, ac auctor enim. Nam ut augue tristique purus fringilla facilisis sit amet ac eros. Nulla sit amet tortor gravida, molestie nibh faucibus, interdum ex. Donec eget dui neque. Pellentesque eu libero dignissim, lobortis est ac, rhoncus lacus. Vivamus a turpis quis sapien maximus iaculis ac ac dui. In mollis lorem volutpat placerat egestas.'),
+('producto46',			'img/productos/',	'46_producto46',		'.jpg', 25.45,	NULL,	(SELECT `serie_id` FROM `tbl_serie` WHERE `serie_nom` = 'Apliques'), 			'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed quis commodo lacus, vel molestie augue. Fusce a blandit sem, ac auctor enim. Nam ut augue tristique purus fringilla facilisis sit amet ac eros. Nulla sit amet tortor gravida, molestie nibh faucibus, interdum ex. Donec eget dui neque. Pellentesque eu libero dignissim, lobortis est ac, rhoncus lacus. Vivamus a turpis quis sapien maximus iaculis ac ac dui. In mollis lorem volutpat placerat egestas.'),
+('producto47',			'img/productos/',	'47_producto47',		'.jpg', 35,		2,		(SELECT `serie_id` FROM `tbl_serie` WHERE `serie_nom` = 'Downlights'), 			'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed quis commodo lacus, vel molestie augue. Fusce a blandit sem, ac auctor enim. Nam ut augue tristique purus fringilla facilisis sit amet ac eros. Nulla sit amet tortor gravida, molestie nibh faucibus, interdum ex. Donec eget dui neque. Pellentesque eu libero dignissim, lobortis est ac, rhoncus lacus. Vivamus a turpis quis sapien maximus iaculis ac ac dui. In mollis lorem volutpat placerat egestas.'),
+('producto48',			'img/productos/',	'48_producto48',		'.jpg', 300,	10,		(SELECT `serie_id` FROM `tbl_serie` WHERE `serie_nom` = 'Downlights'), 			'Foco ultra led super iluminador');
 
 
+-- TRUNCATE TABLE `tbl_lloc`;
 INSERT INTO `tbl_lloc` (`lloc_bloc`,`lloc_passadis`,`lloc_lleixa`) VALUES
 ('Bloc 1',	'Passadis 1',	'Lleixa 1'),
 ('Bloc 1',	'Passadis 1',	'Lleixa 2'),
@@ -1184,45 +1187,56 @@ INSERT INTO `tbl_lloc` (`lloc_bloc`,`lloc_passadis`,`lloc_lleixa`) VALUES
 ('Bloc 8',	'Passadis 12',	'Lleixa 8');
 
 
+-- TRUNCATE TABLE `tbl_estoc`;
 INSERT INTO `tbl_estoc` (`estoc_quantitat`,`estoc_maxim`,`estoc_minim`,`producte_id`,`lloc_id`) VALUES
-(20,50,10,(SELECT `producte_id` FROM `tbl_producte` WHERE `producte_nom` = 'prod01'),1),
-/*(60,100,10,(SELECT `producte_id` FROM `tbl_producte` WHERE `producte_nom` = 'prod01'),41),*/
-(20,50,10,(SELECT `producte_id` FROM `tbl_producte` WHERE `producte_nom` = 'prod02'),2),
-(20,50,10,(SELECT `producte_id` FROM `tbl_producte` WHERE `producte_nom` = 'prod03'),3),
-(20,50,10,(SELECT `producte_id` FROM `tbl_producte` WHERE `producte_nom` = 'prod04'),4),
-(20,50,10,(SELECT `producte_id` FROM `tbl_producte` WHERE `producte_nom` = 'prod05'),5),
-(20,50,10,(SELECT `producte_id` FROM `tbl_producte` WHERE `producte_nom` = 'prod06'),6),
-(20,50,10,(SELECT `producte_id` FROM `tbl_producte` WHERE `producte_nom` = 'prod07'),7),
-(20,50,10,(SELECT `producte_id` FROM `tbl_producte` WHERE `producte_nom` = 'prod08'),8),
-(20,50,10,(SELECT `producte_id` FROM `tbl_producte` WHERE `producte_nom` = 'prod09'),9),
-(20,50,10,(SELECT `producte_id` FROM `tbl_producte` WHERE `producte_nom` = 'prod10'),10),
-(20,50,10,(SELECT `producte_id` FROM `tbl_producte` WHERE `producte_nom` = 'prod11'),11),
-(20,50,10,(SELECT `producte_id` FROM `tbl_producte` WHERE `producte_nom` = 'prod12'),12),
-(20,50,10,(SELECT `producte_id` FROM `tbl_producte` WHERE `producte_nom` = 'prod13'),13),
-(20,50,10,(SELECT `producte_id` FROM `tbl_producte` WHERE `producte_nom` = 'prod14'),14),
-(20,50,10,(SELECT `producte_id` FROM `tbl_producte` WHERE `producte_nom` = 'prod15'),15),
-(20,50,10,(SELECT `producte_id` FROM `tbl_producte` WHERE `producte_nom` = 'prod16'),16),
-(20,50,10,(SELECT `producte_id` FROM `tbl_producte` WHERE `producte_nom` = 'prod17'),17),
-(20,50,10,(SELECT `producte_id` FROM `tbl_producte` WHERE `producte_nom` = 'prod18'),18),
-(20,50,10,(SELECT `producte_id` FROM `tbl_producte` WHERE `producte_nom` = 'prod19'),19),
-(20,50,10,(SELECT `producte_id` FROM `tbl_producte` WHERE `producte_nom` = 'prod20'),20),
-(20,50,10,(SELECT `producte_id` FROM `tbl_producte` WHERE `producte_nom` = 'prod21'),21),
-(20,50,10,(SELECT `producte_id` FROM `tbl_producte` WHERE `producte_nom` = 'prod22'),22),
-(20,50,10,(SELECT `producte_id` FROM `tbl_producte` WHERE `producte_nom` = 'prod23'),23),
-(20,50,10,(SELECT `producte_id` FROM `tbl_producte` WHERE `producte_nom` = 'prod24'),24),
-(20,50,10,(SELECT `producte_id` FROM `tbl_producte` WHERE `producte_nom` = 'prod25'),25),
-(20,50,10,(SELECT `producte_id` FROM `tbl_producte` WHERE `producte_nom` = 'prod26'),26),
-(20,50,10,(SELECT `producte_id` FROM `tbl_producte` WHERE `producte_nom` = 'prod27'),27),
-(20,50,10,(SELECT `producte_id` FROM `tbl_producte` WHERE `producte_nom` = 'prod28'),28),
-(20,50,10,(SELECT `producte_id` FROM `tbl_producte` WHERE `producte_nom` = 'prod29'),29),
-(20,50,10,(SELECT `producte_id` FROM `tbl_producte` WHERE `producte_nom` = 'prod30'),30),
-(20,50,10,(SELECT `producte_id` FROM `tbl_producte` WHERE `producte_nom` = 'prod31'),31),
-(20,50,10,(SELECT `producte_id` FROM `tbl_producte` WHERE `producte_nom` = 'prod32'),32),
-(20,50,10,(SELECT `producte_id` FROM `tbl_producte` WHERE `producte_nom` = 'prod33'),33),
-(20,50,10,(SELECT `producte_id` FROM `tbl_producte` WHERE `producte_nom` = 'prod34'),34),
-(20,50,10,(SELECT `producte_id` FROM `tbl_producte` WHERE `producte_nom` = 'prod35'),35),
-(20,50,10,(SELECT `producte_id` FROM `tbl_producte` WHERE `producte_nom` = 'prod36'),36),
-(20,50,10,(SELECT `producte_id` FROM `tbl_producte` WHERE `producte_nom` = 'prod37'),37),
-(20,50,10,(SELECT `producte_id` FROM `tbl_producte` WHERE `producte_nom` = 'prod38'),38),
-(20,50,10,(SELECT `producte_id` FROM `tbl_producte` WHERE `producte_nom` = 'prod39'),39),
-(20,50,10,(SELECT `producte_id` FROM `tbl_producte` WHERE `producte_nom` = 'prod40'),40);
+(23,50,10,(SELECT `producte_id` FROM `tbl_producte` WHERE `producte_nom` = 'SP534P'),				1),
+/*(60,100,10,(SELECT `producte_id` FROM `tbl_producte` WHERE `producte_nom` = 'SP534P'),			41),*/
+(24,50,10,(SELECT `producte_id` FROM `tbl_producte` WHERE `producte_nom` = 'PT570P'),				2),
+(45,50,10,(SELECT `producte_id` FROM `tbl_producte` WHERE `producte_nom` = 'RC132V'),				3),
+(12,50,10,(SELECT `producte_id` FROM `tbl_producte` WHERE `producte_nom` = 'RC464B'),				4),
+(32,50,10,(SELECT `producte_id` FROM `tbl_producte` WHERE `producte_nom` = 'WL130V'),				5),
+(46,50,10,(SELECT `producte_id` FROM `tbl_producte` WHERE `producte_nom` = 'WL060V'),				6),
+(29,50,10,(SELECT `producte_id` FROM `tbl_producte` WHERE `producte_nom` = 'DN060B'),				7),
+(48,50,10,(SELECT `producte_id` FROM `tbl_producte` WHERE `producte_nom` = 'RS060B'),				8),
+(35,50,10,(SELECT `producte_id` FROM `tbl_producte` WHERE `producte_nom` = 'BSP791'),				9),
+(35,50,10,(SELECT `producte_id` FROM `tbl_producte` WHERE `producte_nom` = 'SGS253'),				10),
+(20,50,10,(SELECT `producte_id` FROM `tbl_producte` WHERE `producte_nom` = 'MVF404'),				11),
+(20,50,10,(SELECT `producte_id` FROM `tbl_producte` WHERE `producte_nom` = 'BVP525'),				12),
+(20,50,10,(SELECT `producte_id` FROM `tbl_producte` WHERE `producte_nom` = 'BGP360'),				13),
+(20,50,10,(SELECT `producte_id` FROM `tbl_producte` WHERE `producte_nom` = 'GX10MR6'),				14),
+(43,50,10,(SELECT `producte_id` FROM `tbl_producte` WHERE `producte_nom` = 'BVP425'),				15),
+(20,50,10,(SELECT `producte_id` FROM `tbl_producte` WHERE `producte_nom` = 'BVP651'),				16),
+(20,50,10,(SELECT `producte_id` FROM `tbl_producte` WHERE `producte_nom` = 'MASTERLINE111'),		17),
+(20,50,10,(SELECT `producte_id` FROM `tbl_producte` WHERE `producte_nom` = 'MR16G60'),				18),
+(20,50,10,(SELECT `producte_id` FROM `tbl_producte` WHERE `producte_nom` = 'E27-230-240V'),			19),
+(17,50,10,(SELECT `producte_id` FROM `tbl_producte` WHERE `producte_nom` = 'Tornado-High-Lumen'),	20),
+(28,50,10,(SELECT `producte_id` FROM `tbl_producte` WHERE `producte_nom` = 'PL-R-Eco4'),			21),
+(20,50,10,(SELECT `producte_id` FROM `tbl_producte` WHERE `producte_nom` = 'PL-L4'),				22),
+(20,50,10,(SELECT `producte_id` FROM `tbl_producte` WHERE `producte_nom` = 'CDM-T-Elite'),			23),
+(43,50,10,(SELECT `producte_id` FROM `tbl_producte` WHERE `producte_nom` = 'CDM-R-Elite'),			24),
+(20,50,10,(SELECT `producte_id` FROM `tbl_producte` WHERE `producte_nom` = 'MASTER-LEDtube-T5'),	25),
+(20,50,10,(SELECT `producte_id` FROM `tbl_producte` WHERE `producte_nom` = 'Tubulares-LED'),		26),
+(20,50,10,(SELECT `producte_id` FROM `tbl_producte` WHERE `producte_nom` = 'AR111'),				27),
+(20,50,10,(SELECT `producte_id` FROM `tbl_producte` WHERE `producte_nom` = 'LEDspotMV'),			28),
+(20,50,10,(SELECT `producte_id` FROM `tbl_producte` WHERE `producte_nom` = 'HPL-SON'),				29),
+(20,50,10,(SELECT `producte_id` FROM `tbl_producte` WHERE `producte_nom` = 'HPI-SON-HPL'),			30),
+(20,50,10,(SELECT `producte_id` FROM `tbl_producte` WHERE `producte_nom` = 'CLA-LUSTER34'),			31),
+(20,50,10,(SELECT `producte_id` FROM `tbl_producte` WHERE `producte_nom` = '5-32W-BA35'),			32),
+(20,50,10,(SELECT `producte_id` FROM `tbl_producte` WHERE `producte_nom` = 'DACM-DyNet'),			33),
+(20,50,10,(SELECT `producte_id` FROM `tbl_producte` WHERE `producte_nom` = 'PABPE-MA-X'),			34),
+(20,50,10,(SELECT `producte_id` FROM `tbl_producte` WHERE `producte_nom` = 'DUS90AHB-DALI'),		35),
+(20,50,10,(SELECT `producte_id` FROM `tbl_producte` WHERE `producte_nom` = 'DUS90CS'),				36),
+(20,50,10,(SELECT `producte_id` FROM `tbl_producte` WHERE `producte_nom` = 'DDRC810DT-GL'),			37),
+(20,50,10,(SELECT `producte_id` FROM `tbl_producte` WHERE `producte_nom` = 'DDRC420FR'),			38),
+(50,50,10,(SELECT `producte_id` FROM `tbl_producte` WHERE `producte_nom` = 'DMBC110'),				39),
+(20,50,10,(SELECT `producte_id` FROM `tbl_producte` WHERE `producte_nom` = 'DBC905W'),				40),
+(41,50,10,(SELECT `producte_id` FROM `tbl_producte` WHERE `producte_nom` = 'producto41'),			100),
+(40,50,10,(SELECT `producte_id` FROM `tbl_producte` WHERE `producte_nom` = 'producto42'),			101),
+(48,50,10,(SELECT `producte_id` FROM `tbl_producte` WHERE `producte_nom` = 'producto43'),			102),
+(30,50,10,(SELECT `producte_id` FROM `tbl_producte` WHERE `producte_nom` = 'producto44'),			103),
+(50,50,10,(SELECT `producte_id` FROM `tbl_producte` WHERE `producte_nom` = 'producto45'),			104),
+(50,50,10,(SELECT `producte_id` FROM `tbl_producte` WHERE `producte_nom` = 'producto46'),			105),
+(50,50,10,(SELECT `producte_id` FROM `tbl_producte` WHERE `producte_nom` = 'producto47'),			106),
+(50,50,10,(SELECT `producte_id` FROM `tbl_producte` WHERE `producte_nom` = 'producto48'),			107);
+
+

@@ -77,7 +77,7 @@
                     <div class="col-md-0">${per.producte_id}</div>
                     <div class="col-md-2">
                         <a href="detalleProducto?id=${per.producte_id}">
-                            <img class="img-lista-prod" src="${per.producte_fotoRuta}${per.producte_fotoNom}${per.producte_fotoExt}">
+                            <img class="img-lista-prod" alt="imagen: ${per.producte_nom}" src="${per.producte_fotoRuta}${per.producte_fotoNom}${per.producte_fotoExt}">
                         </a>
                     </div>
                     <div class="col-md-7">

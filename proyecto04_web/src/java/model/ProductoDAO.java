@@ -201,6 +201,9 @@ public class ProductoDAO {
             resultset.next();
             producto.setProducte_id(resultset.getInt("producte_id"));
             producto.setProducte_nom(resultset.getString("producte_nom"));
+            producto.setProducte_fotoNom(resultset.getString("producte_fotoNom"));
+            producto.setProducte_fotoRuta(resultset.getString("producte_fotoRuta"));
+            producto.setProducte_fotoExt(resultset.getString("producte_fotoExt"));
             producto.setProducte_preu(resultset.getDouble("producte_preu"));
             producto.setProducte_descripcio(resultset.getString("producte_descripcio"));
             producto.setProducte_descompte(resultset.getInt("producte_descompte"));

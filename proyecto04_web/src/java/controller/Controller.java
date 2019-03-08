@@ -236,7 +236,7 @@ public class Controller {
     // --------------------------------PRODUCTOS--------------------------------
     
     // ------funciones productos---------------
-    public void funcionListarProd(Model model, boolean filtrar) {
+    public void funcionListarProd(Model model) {
         // comprobamos si estamos filtrando
         if (filtrar == true) {
             // enviamos la lista de los productos filtrados
@@ -303,7 +303,7 @@ public class Controller {
     // Mostrar productos
     @RequestMapping(value = "listarProducto", method = RequestMethod.GET)
     public String listarProductoController(Model model) {
-        funcionListarProd(model, this.filtrar);
+        funcionListarProd(model);
         return "listarProducto";
     }
     
@@ -356,7 +356,7 @@ public class Controller {
             return "insertarProducto";
         } else {
             pdao.insertarProducto(producto);
-            funcionListarProd(model, filtrar);
+            funcionListarProd(model);
             return "listarProducto";
         }
 
@@ -378,7 +378,7 @@ public class Controller {
             return "modificarProducto";
         } else {
             pdao.modificarProducto(producto);
-            funcionListarProd(model, filtrar);
+            funcionListarProd(model);
             return "listarProducto";
         }
         

@@ -63,7 +63,7 @@
                 <input class="btn btn-info" type="submit" value="Filtrar" />
             </div>
             <div class="form-group col-sm-1">
-                <a href="listarProducto" class="btn btn-danger">Limpiar</a>
+                <a href="listarOferta" class="btn btn-danger">Limpiar</a>
             </div>
         </form:form>
         <!--        </div>-->

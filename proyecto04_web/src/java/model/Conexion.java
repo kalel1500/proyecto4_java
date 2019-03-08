@@ -17,7 +17,7 @@ import javax.swing.JOptionPane;
  */
 public class Conexion {
     public String basededatos = "bd_proyecto_4";
-    public String url = "jdbc:mysql://127.0.0.1/"+basededatos;
+    public String url = "jdbc:mysql://127.0.0.1/"+basededatos+"?useUnicode=true&characterEncoding=utf-8";
     public String usuario = "root";
     public String password = "";
 
