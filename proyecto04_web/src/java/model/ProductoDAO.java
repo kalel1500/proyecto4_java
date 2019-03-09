@@ -208,6 +208,7 @@ public class ProductoDAO {
             producto.setProducte_descripcio(resultset.getString("producte_descripcio"));
             producto.setProducte_descompte(resultset.getInt("producte_descompte"));
             producto.setSerie_nom(resultset.getString("serie_nom"));
+            producto.setCategoria_nom(resultset.getString("categoria_nom"));
             producto.setEstoc_quantitat(resultset.getInt("estoc_quantitat"));
             producto.setEstoc_maxim(resultset.getInt("estoc_maxim"));
             producto.setEstoc_minim(resultset.getInt("estoc_minim"));

@@ -13,11 +13,15 @@ body {
     margin-top: 51px
 }
 body.body-inicio {
-    background-color: #89b5dc;
+/*    background-color: #89b5dc;*/
+    background-color: #004786;
     margin-top: 0px
 }
 button a {
     color: white;
+}
+img.imgInicio {
+    border-radius: 10px;
 }
 .centrado-automatico {
     position: absolute;

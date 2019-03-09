@@ -19,67 +19,39 @@ import javax.swing.JOptionPane;
  * @author Usuario
  */
 public class LugarDAO {
+
     private Conexion con = new Conexion();
     private Connection cn = con.conectar(); // Tiene los objetos para conectarnos con la bd
     private String sql = "";
 
     public LugarDAO() {
     }
-    
-    // recupera la lista de bloques de lugares
-    public void getListaBloquesLugares(ArrayList<Lugar> listaBloqueLugar) {
-        sql = "SELECT * FROM `tbl_lloc` GROUP BY `lloc_bloc`";
-        try {
-            Statement st = cn.createStatement();
-            ResultSet rs = st.executeQuery(sql);
-            listaBloqueLugar.clear();
-            while (rs.next()) {
-                Lugar lugar = new Lugar();
-                lugar.setLloc_id(rs.getInt("lloc_id"));
-                lugar.setLloc_bloc(rs.getString("lloc_bloc"));
-                lugar.setLloc_passadis(rs.getString("lloc_passadis"));
-                lugar.setLloc_lleixa(rs.getString("lloc_lleixa"));
-                listaBloqueLugar.add(lugar);
-            }
-        } catch (SQLException ex) {
-            Logger.getLogger(LugarDAO.class.getName()).log(Level.SEVERE, null, ex);
+
+    // recupera las listas de los lugares
+    public void getListaLugares(ArrayList<Lugar> listaLugares, String cual) {
+        switch (cual) {
+            case "bloque":
+                sql = "SELECT * FROM `tbl_lloc` GROUP BY `lloc_bloc`";
+                break;
+            case "pasillo":
+                sql = "SELECT * FROM `tbl_lloc` GROUP BY `lloc_passadis`";
+                break;
+            case "estante":
+                sql = "SELECT * FROM `tbl_lloc` GROUP BY `lloc_lleixa`";
+                break;
         }
-    }
-    
-    // recupera la lista de passillos de lugares
-    public void getListaPasillosLugares(ArrayList<Lugar> listaPasilloLugar) {
-        sql = "SELECT * FROM `tbl_lloc` GROUP BY `lloc_passadis`";
+
         try {
             Statement st = cn.createStatement();
             ResultSet rs = st.executeQuery(sql);
-            listaPasilloLugar.clear();
+            listaLugares.clear();
             while (rs.next()) {
                 Lugar lugar = new Lugar();
                 lugar.setLloc_id(rs.getInt("lloc_id"));
                 lugar.setLloc_bloc(rs.getString("lloc_bloc"));
                 lugar.setLloc_passadis(rs.getString("lloc_passadis"));
                 lugar.setLloc_lleixa(rs.getString("lloc_lleixa"));
-                listaPasilloLugar.add(lugar);
-            }
-        } catch (SQLException ex) {
-            Logger.getLogger(LugarDAO.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
-    
-    // recupera la lista de estantes de lugares
-    public void getListaEstanteLugares(ArrayList<Lugar> listaEstanteLugar) {
-        sql = "SELECT * FROM `tbl_lloc` GROUP BY `lloc_lleixa`";
-        try {
-            Statement st = cn.createStatement();
-            ResultSet rs = st.executeQuery(sql);
-            listaEstanteLugar.clear();
-            while (rs.next()) {
-                Lugar lugar = new Lugar();
-                lugar.setLloc_id(rs.getInt("lloc_id"));
-                lugar.setLloc_bloc(rs.getString("lloc_bloc"));
-                lugar.setLloc_passadis(rs.getString("lloc_passadis"));
-                lugar.setLloc_lleixa(rs.getString("lloc_lleixa"));
-                listaEstanteLugar.add(lugar);
+                listaLugares.add(lugar);
             }
         } catch (SQLException ex) {
             Logger.getLogger(LugarDAO.class.getName()).log(Level.SEVERE, null, ex);

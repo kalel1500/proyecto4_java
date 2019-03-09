@@ -257,44 +257,24 @@ public class Controller {
         model.addAttribute("title", "Productos");
     }
     
-    public void funcionInsertarProd(Model model, Producto producto) {
-        //JOptionPane.showMessageDialog(null, "llega");
-        // enviamos un producto vacio para el formulario
+    public void funcionEnviarListasFroms(Model model, Producto producto) {
+        // enviamos el producto para el formulario
         model.addAttribute("producto", producto);
         // enviamos la lista de series para el desplegable
         sdao.getListaSeries(listaSerie);
         model.addAttribute("listaSerie", listaSerie);
         // enviamos la lista de bloques para el desplegable
-        ldao.getListaBloquesLugares(listaBloqueLugar);
+        ldao.getListaLugares(listaBloqueLugar, "bloque");
         model.addAttribute("listaBloqueLugar", listaBloqueLugar);
         // enviamos la lista de passillos para el desplegable
-        ldao.getListaPasillosLugares(listaPasilloLugar);
+        ldao.getListaLugares(listaPasilloLugar, "pasillo");
         model.addAttribute("listaPasilloLugar", listaPasilloLugar);
         // enviamos la lista de estantes para el desplegable
-        ldao.getListaEstanteLugares(listaEstanteLugar);
+        ldao.getListaLugares(listaEstanteLugar, "estante");
         model.addAttribute("listaEstanteLugar", listaEstanteLugar);
-        // enviamos el titulo para el head
-        model.addAttribute("title", "Insertar producto");
     }
     
-    public void funcionModificarProd(Model model, Producto producto) {
-        // enviamos el producto para el form
-        model.addAttribute("producto", producto);
-        // enviamos la lista de series para el desplegable
-        sdao.getListaSeries(listaSerie);
-        model.addAttribute("listaSerie", listaSerie);
-        // enviamos la lista de bloques para el desplegable
-        ldao.getListaBloquesLugares(listaBloqueLugar);
-        model.addAttribute("listaBloqueLugar", listaBloqueLugar);
-        // enviamos la lista de passillos para el desplegable
-        ldao.getListaPasillosLugares(listaPasilloLugar);
-        model.addAttribute("listaPasilloLugar", listaPasilloLugar);
-        // enviamos la lista de estantes para el desplegable
-        ldao.getListaEstanteLugares(listaEstanteLugar);
-        model.addAttribute("listaEstanteLugar", listaEstanteLugar);
-        // enviamos el titulo para el head
-        model.addAttribute("title", "Modificar producto");
-    }
+    
     // -----fin-funciones---------------
     
     // Mostrar productos
@@ -340,7 +320,8 @@ public class Controller {
     @RequestMapping(value = "insertarProducto", method = RequestMethod.GET)
     public String insertarProductoController(Model model) {
         producto = new Producto();
-        funcionInsertarProd(model, producto);
+        funcionEnviarListasFroms(model, producto);
+        model.addAttribute("title", "Insertar producto");
         return "insertarProducto";
     }
 
@@ -349,7 +330,8 @@ public class Controller {
     public String insertarProductoController(@Valid @ModelAttribute("producto") Producto producto, BindingResult resultado, Model model) {
         if (resultado.hasErrors()) {
             // llamamos a la funcion que hemos creado (seria el codigo que iria en insertarProductoController)
-            funcionInsertarProd(model, producto);
+            funcionEnviarListasFroms(model, producto);
+            model.addAttribute("title", "Insertar producto");
             return "insertarProducto";
         } else {
             pdao.insertarProducto(producto);
@@ -363,7 +345,8 @@ public class Controller {
     @RequestMapping(value = "modificarProducto", method = RequestMethod.GET)
     public String modificarProductoController(@RequestParam("id") int id, Model model) {
         producto = pdao.recuperarProducto(id);
-        funcionModificarProd(model, producto);
+        funcionEnviarListasFroms(model, producto);
+        model.addAttribute("title", "Modificar producto");
         return "modificarProducto";
     }
 
@@ -371,7 +354,8 @@ public class Controller {
     @RequestMapping(value = "modificarProducto", method = RequestMethod.POST)
     public String modificarProductoController(@Valid @ModelAttribute("producto") Producto producto, BindingResult resultado, Model model) {
         if (resultado.hasErrors()) {
-            funcionModificarProd(model, producto);
+            funcionEnviarListasFroms(model, producto);
+            model.addAttribute("title", "Modificar producto");
             return "modificarProducto";
         } else {
             pdao.modificarProducto(producto);

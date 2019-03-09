@@ -105,8 +105,8 @@
                         <div class="col-md-12">
 <!--                            <span class="negrita">ESTOC:</span>-->
                             <div class=""><span class="negrita">Estoc actual:</span> ${per.estoc_quantitat}</div>
-                            <div class=""><span class="negrita">Estoc minimo:</span> ${per.estoc_maxim}</div>
-                            <div class=""><span class="negrita">Estoc maximo:</span> ${per.estoc_minim}</div>
+                            <div class=""><span class="negrita">Estoc minimo:</span> ${per.estoc_minim}</div>
+                            <div class=""><span class="negrita">Estoc maximo:</span> ${per.estoc_maxim}</div>
                         </div>
 <!--                        <div class="col-md-7">
                             <span class="negrita">LUGAR:</span>

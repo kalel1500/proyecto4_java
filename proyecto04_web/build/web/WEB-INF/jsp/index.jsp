@@ -13,7 +13,7 @@
 
 <div class="container">
     <div class="centrado-automatico">
-        <a href="login"><img src="img/otros/logo.jpeg"></a>
+        <a href="login"><img class="imgInicio" src="img/otros/logo.jpeg"></a>
     </div>
 </div>
 
