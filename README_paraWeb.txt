@@ -1,6 +1,6 @@
 
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!IMPORTANTE !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-Es posible que al iniciar la pagina, aparezca un mensage de error diciendo que la conexion ha fallado, la mayoria de las veces esperando un poco arranca igualmente. Si no, le damos otra vez y si que irá.
+No siempre pasa, pero es posible que al iniciar la pagina, aparezca un mensage de error diciendo que la conexion ha fallado, la mayoria de las veces esperando un poco arranca igualmente. Si no, le damos otra vez y si que irá.
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!IMPORTANTE !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 

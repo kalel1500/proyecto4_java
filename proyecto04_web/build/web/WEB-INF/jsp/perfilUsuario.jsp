@@ -18,11 +18,29 @@
     <c:choose>
         <c:when test="${sessionScope.us != null}">
             <h2>Bienvenido/a ${us.nombre_usuario}</h2>
-            Id: ${us.id_usuario} <br>
-            Nombre: ${us.nombre_usuario} <br>
-            Apellido: ${us.apellido_usuario} <br>
-            Correo: ${us.email_usuario} <br>
-            Contraseña: ${us.password_usuario} <br>
+            <table>
+                <tr>
+                    <th>Id:</th>
+                    <td>${us.id_usuario}</td>
+                </tr>
+                <tr>
+                    <th>Nombre:</th>
+                    <td>${us.nombre_usuario}</td>
+                </tr>
+                <tr>
+                    <th>Apellido:</th>
+                    <td>${us.apellido_usuario}</td>
+                </tr>
+                <tr>
+                    <th>Correo:</th>
+                    <td>${us.email_usuario}</td>
+                </tr>
+                <tr>
+                    <th>Contraseña:</th>
+                    <td>${us.password_usuario}</td>
+                </tr>
+            </table>
+            
         </c:when>
         <c:when test="${sessionScope.us == null}">
             Aun no te has registrado.
