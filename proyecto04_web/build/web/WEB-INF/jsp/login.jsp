@@ -14,7 +14,12 @@
 <jsp:include page="/WEB-INF/jsp/proc/head.jsp" />
 
 <div class="container">
-    <h1>Login</h1>
+    <div class="row">
+        <div class="col-md-12 text-center">
+            <h1>Login</h1>
+        </div>
+    </div>
+
     <form:form class="form-horizontal form-con-fondo" modelAttribute="usu" action="login" method="POST">
         <div class="form-group">
             <label class="control-label col-sm-2" for="email_usuario">Email:</label>
@@ -33,6 +38,15 @@
                 <span id="err_password_usuario" style="color: red;"></span>
             </div>
         </div>
+
+        <c:if test="${msgLogin eq 'incorrecto'}">
+            <div class="col-md-12 text-center alert alert-danger">
+            <span style="color: red;"> El usuario o la contraseña son incorrectos</span>
+            </div>
+        </c:if>
+
+        <form:input path="nombre_usuario" type="hidden" value="r" />
+        <form:input path="apellido_usuario" type="hidden" value="r" />
 
         <div class="form-group">        
             <div class="col-sm-offset-2 col-sm-10">

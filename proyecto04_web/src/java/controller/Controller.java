@@ -89,28 +89,25 @@ public class Controller {
     }
     
     // --------------------------------LOGIN--------------------------------
-    // ------funciones login---------------
-    public void funcionLogin(Model model, Usuario usu) {
-        model.addAttribute("usu", usu);
-        model.addAttribute("title", "Login");
-    }
+    
 
     // login
     @RequestMapping(value = "login", method = RequestMethod.GET)
     public String loginController(Model model) {
         usu = new Usuario();
-        funcionLogin(model, usu);
+        model.addAttribute("usu", usu);
+        model.addAttribute("title", "Login");
         return "login";
     }
 
     // login
-    // aquei falla ya que la validacion no permite el registro aunque no muestra erroes en rojo
     @RequestMapping(value = "login", method = RequestMethod.POST)
     public String loginController(@Valid @ModelAttribute("usu") Usuario usu, BindingResult resultado, Model model) {
-        //if (resultado.hasErrors()) {
-            //funcionLogin(model, usu);
-            //return "login";
-        //} else {
+        if (resultado.hasErrors()) {
+            model.addAttribute("usu", usu);
+            model.addAttribute("title", "Login");
+            return "login";
+        } else {
             String pasa = udao.loginUsuario(usu);
             if (pasa.equals("correcto")) {
                 model.addAttribute("us", usu);
@@ -118,7 +115,7 @@ public class Controller {
                 model.addAttribute("title", "Inicio");
                 return "index";
             } else if (pasa.equals("incorrecto")) {
-                JOptionPane.showMessageDialog(null, "Usuario o contraseña incorrecos");
+                model.addAttribute("msgLogin", "incorrecto");
                 model.addAttribute("title", "Login");
                 return "login";
             } else {
@@ -126,7 +123,7 @@ public class Controller {
                 model.addAttribute("title", "Login");
                 return "login";
             }
-        //}
+        }
             
     }
 

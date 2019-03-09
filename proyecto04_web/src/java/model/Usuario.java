@@ -27,7 +27,7 @@ public class Usuario {
     @NotBlank(message = "Nombre requerido")
     private String nombre_usuario;
     
-    @NotBlank(message = "Nombre requerido")
+    @NotBlank(message = "Apellido requerido")
     private String apellido_usuario;
 
     public Usuario() {

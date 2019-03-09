@@ -5,6 +5,7 @@
  */
 package model;
 
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import org.hibernate.validator.constraints.NotBlank;
 import org.hibernate.validator.constraints.NotEmpty;
@@ -23,6 +24,7 @@ public class Producto {
     private String producte_fotoExt;
     //--
     @NotNull(message = "Precio requerido")
+    @Min(value=1, message = "Precio minimo 1")
     private double producte_preu;
     private String producte_descripcio;
     //--
@@ -30,18 +32,18 @@ public class Producto {
     private int producte_descompte;
     private int serie_id;
     //--
-    @NotEmpty(message = "Nombre requerido")
+    @NotEmpty(message = "Serie requerido")
     private String serie_nom;
     private int categoria_id;
     private String categoria_nom;
     
     private int estoc_id;
     //--
-    @NotNull(message = "Estoc requerido")
+    @Min(value=1, message = "Estoc requerido (minimo 1)")
     private int estoc_quantitat;
-    @NotNull(message = "Maximo requerido")
+    @Min(value=1, message = "Maximo requerido (minimo 1)")
     private int estoc_maxim;
-    @NotNull(message = "Minimo requerido")
+    @Min(value=1, message = "Minimo requerido (minimo 1)")
     private int estoc_minim;
     
     private int lloc_id;

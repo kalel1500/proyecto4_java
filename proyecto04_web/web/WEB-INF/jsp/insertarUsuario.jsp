@@ -14,7 +14,12 @@
 <jsp:include page="/WEB-INF/jsp/proc/head.jsp" />
 
 <div class="container">
-    <h1>Insertar usuario</h1>
+    <div class="row">
+        <div class="col-md-12 text-center">
+            <h1>Insertar usuario</h1>
+        </div>
+    </div>
+    
    
     <form:form method="POST" modelAttribute="usuario" action="insertarUsuario" class="form-horizontal form-con-fondo">
         <div class="form-group">

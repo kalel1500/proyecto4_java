@@ -48,33 +48,33 @@ function escucharURL() {
 }
 window.addEventListener("load", escucharURL);
 
-$(document).ready(function () {
-    $("#boton").click(function () {
-        //alert("hola");
-        var pasar = true
-        if ($("#nombre").val() === "") {
-            $("#error_nombre").html("Ingrese username desde cliente");
-            pasar = false;
-        } else {
-            $("#error_nombre").html("");
-        }
-
-        if ($("#password").val() === "") {
-            $("#error_password").html("Ingrese password desde cliente");
-            pasar = false;
-        } else {
-            $("#error_password").html("");
-        }
-
-        if ($("#email").val() === "") {
-            $("#error_email").html("Ingrese email desde cliente");
-            pasar = false;
-        } else {
-            $("#error_email").html("");
-        }
-        return pasar;
-    });
-});
+//$(document).ready(function () {
+//    $("#boton").click(function () {
+//        //alert("hola");
+//        var pasar = true
+//        if ($("#nombre").val() === "") {
+//            $("#error_nombre").html("Ingrese username desde cliente");
+//            pasar = false;
+//        } else {
+//            $("#error_nombre").html("");
+//        }
+//
+//        if ($("#password").val() === "") {
+//            $("#error_password").html("Ingrese password desde cliente");
+//            pasar = false;
+//        } else {
+//            $("#error_password").html("");
+//        }
+//
+//        if ($("#email").val() === "") {
+//            $("#error_email").html("Ingrese email desde cliente");
+//            pasar = false;
+//        } else {
+//            $("#error_email").html("");
+//        }
+//        return pasar;
+//    });
+//});
 
 
 
@@ -91,7 +91,7 @@ $(document).ready(function () {
 
 var namePattern = "^[a-z A-Z]{4,30}$";
 var emailPattern = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+.[a-zA-Z]{2,4}$";
-var passPattern = "^[1-9]{4,30}$";
+var passPattern = "^[a-z A-Z 0-9]{4,30}$";
 
 function checkInput(idInput, pattern) {
     return $(idInput).val().match(pattern) ? true : false;
@@ -106,7 +106,7 @@ function checkRadioBox(nameRadioBox) {
 }
 
 function checkSelect(idSelect) {
-    return $(idSelect).val() ? true : false;
+    return $(idSelect).val() != "0" ? true : false;
 }
 
 function ocultarError(idDiv) {
@@ -137,7 +137,7 @@ function mostrarError(idDiv, error) {
 //}
 
 // categoria -------------------------------------------------------
-function checkFormCat(idForm) {
+function checkFormCategoria(idForm) {
     $(idForm).on("submit", function () {
         //alert('a');
         if (checkInput("#categoria_nom", namePattern)) {
@@ -149,26 +149,36 @@ function checkFormCat(idForm) {
     });
 }
 
-//$(function () {
-//    checkFormCat("#categoria");
-//});
+$(function () {
+    checkFormCategoria("#categoria");
+});
 
 // serie -------------------------------------------------------
 function checkFormSerie(idForm) {
     $(idForm).on("submit", function () {
         //alert('a');
+        var res = true;
         if (checkInput("#serie_nom", namePattern)) {
             ocultarError("#err_serie_nom");
         } else {
             mostrarError("#err_serie_nom", "Requiere minimo 4 caracteres");
-            return false;
+            res = false;
         }
+        
+        if (checkSelect("#categoria_id")) {
+            ocultarError("#err_categoria_id");
+        } else {
+            mostrarError("#err_categoria_id", "Requiere seleccionar 1");
+            res = false;
+        }
+        
+        return res;
     });
 }
 
-//$(function () {
-//    checkFormSerie("#serie");
-//});
+$(function () {
+    checkFormSerie("#serie");
+});
 
 // login -------------------------------------------------------
 function checkFormLogin(idForm) {
@@ -185,7 +195,7 @@ function checkFormLogin(idForm) {
         if (checkInput("#password_usuario", passPattern)) {
             ocultarError("#err_password_usuario");
         } else {
-            mostrarError("#err_password_usuario", "Minimo 4 caracteres numericos");
+            mostrarError("#err_password_usuario", "Minimo 4 caracteres");
             res =  false;
         }
         
@@ -193,51 +203,51 @@ function checkFormLogin(idForm) {
     });
 }
 
-//$(function () {
-//    checkFormLogin("#usu");
-//});
+$(function () {
+    checkFormLogin("#usu");
+});
 
 
-// usuario (lo deshabilitamos para ver la validacion de servidor)-------------------------------------------------------
-//function checkFormUsu(idForm) {
-//    $(idForm).on("submit", function () {
-//        //alert('a');
-//        var res = true;
-//        if (checkInput("#nombre_usuario", emailPattern)) {
-//            ocultarError("#err_nombre_usuario");
-//        } else {
-//            mostrarError("#err_nombre_usuario", "Minimo 4 letras");
-//            res = false;
-//        }
-//        
-//        if (checkInput("#apellido_usuario", emailPattern)) {
-//            ocultarError("#err_apellido_usuario");
-//        } else {
-//            mostrarError("#err_nombre_usuario", "Minimo 4 letras");
-//            res = false;
-//        }
-//        
-//        if (checkInput("#email_usuario", emailPattern)) {
-//            ocultarError("#err_email_usuario");
-//        } else {
-//            mostrarError("#err_email_usuario", "Introduce un correo valido");
-//            res = false;
-//        }
-//        
-//        if (checkInput("#password_usuario", passPattern)) {
-//            ocultarError("#err_password_usuario");
-//        } else {
-//            mostrarError("#err_password_usuario", "Minimo 4 caracteres numericos");
-//            res =  false;
-//        }
-//        
-//        return res;
-//    });
-//}
+ //usuario (lo deshabilitamos para ver la validacion de servidor)-------------------------------------------------------
+function checkFormUsu(idForm) {
+    $(idForm).on("submit", function () {
+        //alert('a');
+        var res = true;
+        if (checkInput("#nombre_usuario", namePattern)) {
+            ocultarError("#err_nombre_usuario");
+        } else {
+            mostrarError("#err_nombre_usuario", "Minimo 4 letras");
+            res = false;
+        }
+        
+        if (checkInput("#apellido_usuario", namePattern)) {
+            ocultarError("#err_apellido_usuario");
+        } else {
+            mostrarError("#err_apellido_usuario", "Minimo 4 letras");
+            res = false;
+        }
+        
+        if (checkInput("#email_usuario", emailPattern)) {
+            ocultarError("#err_email_usuario");
+        } else {
+            mostrarError("#err_email_usuario", "Introduce un correo valido");
+            res = false;
+        }
+        
+        if (checkInput("#password_usuario", passPattern)) {
+            ocultarError("#err_password_usuario");
+        } else {
+            mostrarError("#err_password_usuario", "Minimo 4 caracteres");
+            res =  false;
+        }
+        
+        return res;
+    });
+}
 
-//$(function () {
-//    checkFormUsu("#usuario");
-//});
+$(function () {
+    checkFormUsu("#usuario");
+});
 
 
 
